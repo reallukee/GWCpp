@@ -55,9 +55,15 @@ namespace GWCpp
 			Form::Icon = nullptr;
 			Form::Location = System::Drawing::Point(X, Y);
 			Form::BackColor = Color::Gainsboro;
+			Form::BackgroundImage = nullptr;
 			Form::Size = System::Drawing::Size(W, H);
 			Form::MinimumSize = System::Drawing::Size(0, 0);
 			Form::MaximumSize = System::Drawing::Size(0, 0);
+			Form::Opacity = 1.00;
+			Form::TopMost = false;
+			Form::ShowInTaskbar = true;
+			Form::MinimizeBox = true;
+			Form::MaximizeBox = true;
 
 			// Proprietà disegno.
 			this->DefaultPenColor();
@@ -68,8 +74,8 @@ namespace GWCpp
 
 			// Eventi finestra.
 			this->MouseDown += gcnew MouseEventHandler(this, &GWC::GWC_MouseDown);
-			this->KeyDown += gcnew KeyEventHandler(this, &GWC::GWC_KeyDown);
 			this->MouseUp += gcnew MouseEventHandler(this, &GWC::GWC_MouseUp);
+			this->KeyDown += gcnew KeyEventHandler(this, &GWC::GWC_KeyDown);
 			this->KeyUp += gcnew KeyEventHandler(this, &GWC::GWC_KeyUp);
 
 			// Imposto 'CalledByMe' su 'false'.
@@ -119,11 +125,7 @@ namespace GWCpp
 	private:
 
 		delegate void ShowWindowD();
-
-		void ShowWindowT()
-		{
-			this->Show();
-		}
+		void ShowWindowT() { this->Show(); }
 
 	public:
 
@@ -157,11 +159,7 @@ namespace GWCpp
 	private:
 
 		delegate void HideWindowD();
-
-		void HideWindowT()
-		{
-			this->Hide();
-		}
+		void HideWindowT() { this->Hide(); }
 
 	public:
 
@@ -193,41 +191,26 @@ namespace GWCpp
 
 	private:
 
-		delegate void ChangeWindowTitleD(String^ Value);
-
-		void ChangeWindowTitleT(String^ Value)
-		{
-			this->Text = Value;
-		}
-
+		delegate void WindowTitleD(String^ Value);
+		void WindowTitleT(String^ Value) { this->Text = Value; }
 		String^ WindowTitle_;
 
 	public:
 
 		virtual property String^ Text
 		{
-			String^ get() override
-			{
-				return Form::Text;
-			}
-
-			void set(String^ Value) override
-			{
-				Form::Text = Value;
-			}
+			String^ get() override { return Form::Text; }
+			void set(String^ Value) override { Form::Text = Value; }
 		}
 
 		property String^ WindowTitle
 		{
-			String^ get()
-			{
-				return WindowTitle_;
-			}
+			String^ get() { return WindowTitle_; }
 
 			void set(String^ Value)
 			{
-				ChangeWindowTitleD^ D;
-				D = gcnew ChangeWindowTitleD(this, &GWC::ChangeWindowTitleT);
+				WindowTitleD^ D;
+				D = gcnew WindowTitleD(this, &GWC::WindowTitleT);
 				this->Invoke(D, Value);
 				this->WindowTitle_ = Value;
 				delete D;
@@ -242,42 +225,26 @@ namespace GWCpp
 
 	private:
 
-		delegate void ChangeWindowIconD(System::Drawing::Icon^ Value);
-
-		// Funzione reale.
-		void ChangeWindowIconT(System::Drawing::Icon^ Value)
-		{
-			Form::Icon = Value;
-		}
-
+		delegate void WindowIconD(System::Drawing::Icon^ Value);
+		void WindowIconT(System::Drawing::Icon^ Value) { Form::Icon = Value; }
 		System::Drawing::Icon^ WindowIcon_;
 
 	public:
 
 		property System::Drawing::Icon^ Icon
 		{
-			virtual System::Drawing::Icon^ get() sealed
-			{
-				return nullptr;
-			};
-
-			virtual void set(System::Drawing::Icon^ Value) sealed
-			{
-				return;
-			}
+			virtual System::Drawing::Icon^ get() sealed { return nullptr; };
+			virtual void set(System::Drawing::Icon^ Value) sealed { return; }
 		}
 
 		property System::Drawing::Icon^ WindowIcon
 		{
-			System::Drawing::Icon^ get()
-			{
-				return WindowIcon_;
-			};
+			System::Drawing::Icon^ get() { return WindowIcon_; };
 
 			void set(System::Drawing::Icon^ Value)
 			{
-				ChangeWindowIconD^ D;
-				D = gcnew ChangeWindowIconD(this, &GWC::ChangeWindowIconT);
+				WindowIconD^ D;
+				D = gcnew WindowIconD(this, &GWC::WindowIconT);
 				this->Invoke(D, Value);
 				this->WindowIcon_ = Value;
 				delete D;
@@ -292,47 +259,31 @@ namespace GWCpp
 
 	private:
 
-		delegate void ChangeWindowLocationD(Point Value);
-
-		void ChangeWindowLocationT(Point Value)
-		{
-			Form::Location = Value;
-		}
-
+		delegate void WindowLocationD(Point Value);
+		void WindowLocationT(Point Value) { Form::Location = Value; }
 		Point WindowLocation_;
 
 	public:
 
 		property Point Location
 		{
-			virtual Point get() sealed
-			{
-				return Point(0, 0);
-			};
-
-			virtual void set(Point Value) sealed
-			{
-				return;
-			}
+			virtual Point get() sealed { return Point(0, 0); };
+			virtual void set(Point Value) sealed { return; }
 		}
 
 		property Point WindowLocation
 		{
-			Point get()
-			{
-				return WindowLocation_;
-			}
+			Point get() { return WindowLocation_; }
 
 			void set(Point Value)
 			{
-				ChangeWindowLocationD^ D;
-				D = gcnew ChangeWindowLocationD(this, &GWC::ChangeWindowLocationT);
+				WindowLocationD^ D;
+				D = gcnew WindowLocationD(this, &GWC::WindowLocationT);
 				this->Invoke(D, Value);
 				this->WindowLocation_ = Value;
 				delete D;
 			}
 		}
-
 
 
 
@@ -342,45 +293,64 @@ namespace GWCpp
 
 	private:
 
-		delegate void ChangeWindowColorD(Color Value);
-
-		void ChangeWindowColorT(Color Value)
-		{
-			 Form::BackColor = Value;
-		}
-
+		delegate void WindowColorD(Color Value);
+		void WindowColorT(Color Value) { Form::BackColor = Value; }
 		Color WindowColor_;
 
 	public:
 
 		virtual property Color BackColor
 		{
-			Color get() override
-			{
-				return Form::BackColor;
-			}
-
-			void set(Color Value) override
-			{
-				Form::BackColor = Value;
-			}
+			Color get() override { return Form::BackColor; }
+			void set(Color Value) override { Form::BackColor = Value; }
 		}
 
 	public:
 		property Color WindowColor
 		{
-			Color get()
-			{
-				return WindowColor_;
-			}
+			Color get() { return WindowColor_; }
 
 			void set(Color Value)
 			{
-				ChangeWindowColorD^ D;
-				D = gcnew ChangeWindowColorD(this, &GWC::ChangeWindowColorT);
+				WindowColorD^ D;
+				D = gcnew WindowColorD(this, &GWC::WindowColorT);
 				CalledByMe = true;
 				this->Invoke(D, Value);
 				this->WindowColor_ = Value;
+				delete D;
+			}
+		}
+
+
+
+		/*
+			Window Image
+		*/
+
+	private:
+
+		delegate void WindowImageD(Image^ Value);
+		void WindowImageT(Image^ Value) { Form::BackgroundImage = Value; }
+		Image^ WindowImage_;
+
+	public:
+
+		virtual property Image^ BackgroundImage
+		{
+			Image^ get() override { return Form::BackgroundImage; }
+			void set(Image^ Value) override { Form::BackgroundImage = Value; }
+		}
+
+		property Image^ WindowImage
+		{
+			Image^ get() { return WindowImage_; }
+
+			void set(Image^ Value)
+			{
+				WindowImageD^ D;
+				D = gcnew WindowImageD(this, &GWC::WindowImageT);
+				this->Invoke(D, Value);
+				this->WindowImage_ = Value;
 				delete D;
 			}
 		}
@@ -393,41 +363,26 @@ namespace GWCpp
 
 	private:
 
-		delegate void ChangeWindowSizeD(System::Drawing::Size Value);
-
-		void ChangeWindowSizeT(System::Drawing::Size Value)
-		{
-			Form::Size = Value;
-		}
-
+		delegate void WindowSizeD(System::Drawing::Size Value);
+		void WindowSizeT(System::Drawing::Size Value) { Form::Size = Value; }
 		System::Drawing::Size WindowSize_;
 
 	public:
 
 		property System::Drawing::Size Size
 		{
-			virtual System::Drawing::Size get() sealed
-			{
-				return System::Drawing::Size(0, 0);
-			};
-
-			virtual void set(System::Drawing::Size Value) sealed
-			{
-				return;
-			}
+			virtual System::Drawing::Size get() sealed { return System::Drawing::Size(0, 0); };
+			virtual void set(System::Drawing::Size Value) sealed { return; }
 		}
 
 		property System::Drawing::Size WindowSize
 		{
-			System::Drawing::Size get()
-			{
-				return WindowSize_;
-			}
+			System::Drawing::Size get() { return WindowSize_; }
 
 			void set(System::Drawing::Size Value)
 			{
-				ChangeWindowSizeD^ D;
-				D = gcnew ChangeWindowSizeD(this, &GWC::ChangeWindowSizeT);
+				WindowSizeD^ D;
+				D = gcnew WindowSizeD(this, &GWC::WindowSizeT);
 				this->Invoke(D, Value);
 				this->WindowSize_ = Value;
 				delete D;
@@ -442,41 +397,26 @@ namespace GWCpp
 
 	private:
 
-		delegate void ChangeWindowMinimumSizeD(System::Drawing::Size Value);
-
-		void ChangeWindowMinimumSizeT(System::Drawing::Size Value)
-		{
-			Form::MinimumSize = Value;
-		}
-
+		delegate void WindowMinimumSizeD(System::Drawing::Size Value);
+		void WindowMinimumSizeT(System::Drawing::Size Value) { Form::MinimumSize = Value; }
 		System::Drawing::Size WindowMinimumSize_;
 
 	public:
 
 		virtual property System::Drawing::Size MinimumSize
 		{
-			System::Drawing::Size get() override
-			{
-				return Form::MinimumSize;
-			}
-
-			void set(System::Drawing::Size Value) override
-			{
-				Form::MinimumSize = Value;
-			}
+			System::Drawing::Size get() override { return Form::MinimumSize; }
+			void set(System::Drawing::Size Value) override { Form::MinimumSize = Value; }
 		}
 
 		property System::Drawing::Size WindowMinimumSize
 		{
-			System::Drawing::Size get()
-			{
-				return WindowMinimumSize_;
-			}
+			System::Drawing::Size get() { return WindowMinimumSize_; }
 
 			void set(System::Drawing::Size Value)
 			{
-				ChangeWindowMinimumSizeD^ D;
-				D = gcnew ChangeWindowMinimumSizeD(this, &GWC::ChangeWindowMinimumSizeT);
+				WindowMinimumSizeD^ D;
+				D = gcnew WindowMinimumSizeD(this, &GWC::WindowMinimumSizeT);
 				this->Invoke(D, Value);
 				this->WindowMinimumSize_ = Value;
 				delete D;
@@ -491,43 +431,197 @@ namespace GWCpp
 
 	private:
 
-		delegate void ChangeWindowMaximumSizeD(System::Drawing::Size Value);
-
-		void ChangeWindowMaximumSizeT(System::Drawing::Size Value)
-		{
-			Form::MaximumSize = Value;
-		}
-
+		delegate void WindowMaximumSizeD(System::Drawing::Size Value);
+		void WindowMaximumSizeT(System::Drawing::Size Value) { Form::MaximumSize = Value; }
 		System::Drawing::Size WindowMaximumSize_;
 
 	public:
 
 		virtual property System::Drawing::Size MaximumSize
 		{
-			System::Drawing::Size get() override
-			{
-				return Form::MaximumSize;
-			}
-
-			void set(System::Drawing::Size Value) override
-			{
-				Form::MaximumSize = Value;
-			}
+			System::Drawing::Size get() override { return Form::MaximumSize; }
+			void set(System::Drawing::Size Value) override { Form::MaximumSize = Value; }
 		}
 
 		property System::Drawing::Size WindowMaximumSize
 		{
-			System::Drawing::Size get()
-			{
-				return WindowMaximumSize_;
-			}
+			System::Drawing::Size get() { return WindowMaximumSize_; }
 
 			void set(System::Drawing::Size Value)
 			{
-				ChangeWindowMaximumSizeD^ D;
-				D = gcnew ChangeWindowMaximumSizeD(this, &GWC::ChangeWindowMaximumSizeT);
+				WindowMaximumSizeD^ D;
+				D = gcnew WindowMaximumSizeD(this, &GWC::WindowMaximumSizeT);
 				this->Invoke(D, Value);
 				this->WindowMaximumSize_ = Value;
+				delete D;
+			}
+		}
+
+
+
+		/*
+			Window Opacity
+		*/
+
+	private:
+
+		delegate void WindowOpacityD(double Value);
+		void WindowOpacityT(double Value) { Form::Opacity = Value; }
+		float WindowOpacity_;
+
+	public:
+
+		property double Opacity
+		{
+			virtual double get() sealed { return 1.00; };
+			virtual void set(double Value) sealed { return; }
+		}
+
+		property double WindowOpacity
+		{
+			double get() { return WindowOpacity_; }
+
+			void set(double Value)
+			{
+				WindowOpacityD^ D;
+				D = gcnew WindowOpacityD(this, &GWC::WindowOpacityT);
+				this->Invoke(D, Value);
+				this->WindowOpacity = Value;
+				delete D;
+			}
+		}
+
+
+
+		/*
+			Window Always On Top
+		*/
+
+	private:
+
+		delegate void WindowAlwaysOnTopD(bool Value);
+		void WindowAlwaysOnTopT(bool Value) { Form::TopMost = Value; }
+		bool WindowAlwaysOnTop_;
+
+	public:
+
+		property bool TopMost
+		{
+			virtual bool get() sealed { return false; };
+			virtual void set(bool Value) sealed { return; }
+		}
+
+		property bool WindowAlwaysOnTop
+		{
+			bool get() { return WindowAlwaysOnTop_; }
+
+			void set(bool Value)
+			{
+				WindowAlwaysOnTopD^ D;
+				D = gcnew WindowAlwaysOnTopD(this, &GWC::WindowAlwaysOnTopT);
+				this->Invoke(D, Value);
+				this->WindowAlwaysOnTop_ = Value;
+				delete D;
+			}
+		}
+
+
+		/*
+			Window In Taskbar
+		*/
+
+	private:
+
+		delegate void WindowInTaskbarD(bool Value);
+		void WindowInTaskbarT(bool Value) { Form::ShowInTaskbar; }
+		bool WindowInTaskbar_;
+
+	public:
+
+		property bool ShowInTaskbar
+		{
+			virtual bool get() sealed { return false; };
+			virtual void set(bool Value) sealed { return; }
+		}
+
+		property bool WindowInTaskbar
+		{
+			bool get() { return WindowInTaskbar_; }
+
+			void set(bool Value)
+			{
+				WindowInTaskbarD^ D;
+				D = gcnew WindowInTaskbarD(this, &GWC::WindowInTaskbarT);
+				this->Invoke(D, Value);
+				this->WindowInTaskbar_ = Value;
+				delete D;
+			}
+		}
+
+
+
+		/*
+			Window Minimize Button
+		*/
+
+	private:
+
+		delegate void WindowMinimizeButtonD(bool Value);
+		void WindowMinimizeButtonT(bool Value) { Form::MinimizeBox = Value; }
+		bool WindowMinimizeButton_;
+
+	public:
+
+		property bool MinimizeBox
+		{
+			virtual bool get() sealed { return false; };
+			virtual void set(bool Value) sealed { return; }
+		}
+
+		property bool WindowMinimizeButton
+		{
+			bool get() { return WindowMinimizeButton_; }
+
+			void set(bool Value)
+			{
+				WindowMinimizeButtonD^ D;
+				D = gcnew WindowMinimizeButtonD(this, &GWC::WindowMinimizeButtonT);
+				this->Invoke(D, Value);
+				this->WindowMinimizeButton_ = Value;
+				delete D;
+			}
+		}
+
+
+
+		/*
+			Window Maximize Button
+		*/
+
+	private:
+
+		delegate void WindowMaximizeButtonD(bool Value);
+		void WindowMaximizeButtonT(bool Value) {Form::MaximizeBox = Value; }
+		bool WindowMaximizeButton_;
+
+	public:
+
+		property bool MaximizeBox
+		{
+			virtual bool get() sealed { return false; };
+			virtual void set(bool Value) sealed { return; }
+		}
+
+		property bool WindowMaximizeButton
+		{
+			bool get() { return WindowMaximizeButton_; }
+
+			void set(bool Value)
+			{
+				WindowMaximizeButtonD^ D;
+				D = gcnew WindowMaximizeButtonD(this, &GWC::WindowMaximizeButtonT);
+				this->Invoke(D, Value);
+				this->WindowMaximizeButton_ = Value;
 				delete D;
 			}
 		}
@@ -544,22 +638,12 @@ namespace GWCpp
 
 	public:
 
-		void DefaultPenColor()
-		{
-			PenColor_ = Color::Black;
-		}
+		void DefaultPenColor() { PenColor_ = Color::Black; }
 
 		property Color PenColor
 		{
-			Color get()
-			{
-				return PenColor_;
-			}
-
-			void set(Color Value)
-			{
-				PenColor_ = Value;
-			}
+			Color get() { return PenColor_; }
+			void set(Color Value) {	PenColor_ = Value; }
 		}
 
 
@@ -574,22 +658,11 @@ namespace GWCpp
 
 	public:
 
-		void DefaultPenWidth()
-		{
-			PenWidth = 2.5F;
-		}
-
+		void DefaultPenWidth() { PenWidth = 2.5F; }
 		property float PenWidth
-		{
-			float get()
-			{
-				return PenWidth_;
-			}
-
-			void set(float Value)
-			{
-				PenWidth_ = Value;
-			}
+		{ 
+			float get() { return PenWidth_;	}
+			void set(float Value) { PenWidth_ = Value; }
 		}
 
 
@@ -604,22 +677,12 @@ namespace GWCpp
 
 	public:
 
-		void DefaultFillColor()
-		{	
-			FillColor = Color::Black;
-		}
+		void DefaultFillColor() { FillColor = Color::Black; }
 
 		property Color FillColor
 		{
-			Color get()
-			{
-				return FillColor_;
-			}
-
-			void set(Color Value)
-			{
-				FillColor_ = Value;
-			}
+			Color get() { return FillColor_; }
+			void set(Color Value) { FillColor_ = Value; }
 		}
 
 
@@ -634,22 +697,12 @@ namespace GWCpp
 
 	public:
 
-		void DefaultFontName()
-		{
-			FontName = "Comic Sans";
-		}
+		void DefaultFontName() { FontName = "Comic Sans"; }
 
 		property String^ FontName
 		{
-			String^ get()
-			{
-				return FontName_;
-			}
-
-			void set(String^ Value)
-			{
-				FontName_ = Value;
-			}
+			String^ get() { return FontName_; }
+			void set(String^ Value) { FontName_ = Value; }
 		}
 
 
@@ -664,22 +717,12 @@ namespace GWCpp
 
 	public:
 
-		void DefaultFontSize()
-		{
-			FontSize = 15.0F;
-		}
+		void DefaultFontSize() { FontSize = 15.0F; }
 
 		property float FontSize
 		{
-			float get()
-			{
-				return FontSize_;
-			}
-
-			void set(float Value)
-			{
-				FontSize_ = Value;
-			}
+			float get() { return FontSize_; }
+			void set(float Value) { FontSize_ = Value; }
 		}
 
 
@@ -770,22 +813,6 @@ namespace GWCpp
 		}
 
 
-		void DrawCircle(int X, int Y, int R)
-		{
-			Graphics^ G = this->CreateGraphics();
-			G->DrawEllipse(gcnew Pen(PenColor, PenWidth), Rectangle(X - R, Y - R, X + R, Y + R));
-			delete G;
-		}
-
-
-		void DrawFillCircle(int X, int Y, int R)
-		{
-			Graphics^ G = this->CreateGraphics();
-			G->FillEllipse(gcnew SolidBrush(FillColor), Rectangle(X - R, Y - R, X + R, Y + R));
-			delete G;
-		}
-
-
 		void DrawPolygon(array<Point>^ P)
 		{
 			Graphics^ G = this->CreateGraphics();
@@ -827,14 +854,35 @@ namespace GWCpp
 
 		bool MouseDownPending;
 		Point MouseDownPoint;
+		int MouseDownButton;
 
 		void GWC_MouseDown(Object^ Sender, MouseEventArgs^ E)
 		{
 			if (E->Button != System::Windows::Forms::MouseButtons::None)
 			{
-				if (MouseDownPending)
+				if (MouseDownPending == false)
+				{
+					return;
+				}
+
+				if (MouseDownButton == 0 && E->Button == System::Windows::Forms::MouseButtons::Left)
 				{
 					MouseDownPoint = Point(E->X, E->Y);
+					MouseDownButton = -1;
+					MouseDownPending = false;
+				}
+
+				if (MouseDownButton == 1 && E->Button == System::Windows::Forms::MouseButtons::Right)
+				{
+					MouseDownPoint = Point(E->X, E->Y);
+					MouseDownButton = -1;
+					MouseDownPending = false;
+				}
+
+				if (MouseDownButton == 2 && E->Button == System::Windows::Forms::MouseButtons::Middle)
+				{
+					MouseDownPoint = Point(E->X, E->Y);
+					MouseDownButton = -1;
 					MouseDownPending = false;
 				}
 			}
@@ -842,9 +890,10 @@ namespace GWCpp
 
 	public:
 
-		Point RequestMouseDown()
+		Point RequestMouseDown(int B)
 		{
 			MouseDownPending = true;
+			MouseDownButton = B;
 
 			while (MouseDownPending)
 			{
@@ -857,47 +906,6 @@ namespace GWCpp
 
 
 		/*
-			Key Down
-		*/
-
-	private:
-
-		bool KeyDownPending;
-		int KeyDownChar;
-
-		void GWC_KeyDown(Object^ Sender, KeyEventArgs^ E)
-		{
-			if (E != nullptr && KeyDownPending)
-			{
-				try
-				{
-					KeyDownChar = Convert::ToInt32(E->KeyCode);
-					KeyDownPending = false;
-				}
-				catch (Exception^ Ex)
-				{
-					return;
-				}
-			}
-		}
-
-	public:
-
-		int RequestKeyDown()
-		{
-			KeyDownPending = true;
-
-			while (KeyDownPending)
-			{
-				GWCThread->Sleep(10);
-			}
-
-			return KeyDownChar;
-		}
-
-
-
-		/*
 			Mouse Up
 		*/
 
@@ -905,14 +913,35 @@ namespace GWCpp
 
 		bool MouseUpPending;
 		Point MouseUpPoint;
+		int MouseUpButton;
 
 		void GWC_MouseUp(Object^ Sender, MouseEventArgs^ E)
 		{
 			if (E->Button != System::Windows::Forms::MouseButtons::None)
 			{
-				if (MouseUpPending)
+				if (MouseUpPending == false)
+				{
+					return;
+				}
+
+				if (MouseUpButton == 0 && E->Button == System::Windows::Forms::MouseButtons::Left)
 				{
 					MouseUpPoint = Point(E->X, E->Y);
+					MouseUpButton = -1;
+					MouseUpPending = false;
+				}
+
+				if (MouseUpButton == 1 && E->Button == System::Windows::Forms::MouseButtons::Right)
+				{
+					MouseUpPoint = Point(E->X, E->Y);
+					MouseUpButton = -1;
+					MouseUpPending = false;
+				}
+
+				if (MouseUpButton == 2 && E->Button == System::Windows::Forms::MouseButtons::Middle)
+				{
+					MouseUpPoint = Point(E->X, E->Y);
+					MouseUpButton = -1;
 					MouseUpPending = false;
 				}
 			}
@@ -920,9 +949,10 @@ namespace GWCpp
 
 	public:
 
-		Point RequestMouseUp()
+		Point RequestMouseUp(int B)
 		{
 			MouseUpPending = true;
+			MouseUpButton = B;
 
 			while (MouseUpPending)
 			{
@@ -961,7 +991,19 @@ namespace GWCpp
 
 	public:
 
-		int RequestKeyUp()
+		Char RequestKeyUp(Char C)
+		{
+			Char R;
+
+			do
+			{
+				R = RequestKeyUp();
+			} while (R != C);
+
+			return R;
+		}
+
+		Char RequestKeyUp()
 		{
 			KeyUpPending = true;
 
@@ -970,7 +1012,60 @@ namespace GWCpp
 				GWCThread->Sleep(10);
 			}
 
-			return KeyUpChar;
+			return (Char)KeyUpChar;
+		}
+
+
+
+		/*
+			Key Down
+		*/
+
+	private:
+
+		bool KeyDownPending;
+		int KeyDownChar;
+
+		void GWC_KeyDown(Object^ Sender, KeyEventArgs^ E)
+		{
+			if (E != nullptr && KeyDownPending)
+			{
+				try
+				{
+					KeyDownChar = Convert::ToInt32(E->KeyCode);
+					KeyDownPending = false;
+				}
+				catch (Exception^ Ex)
+				{
+					return;
+				}
+			}
+		}
+
+	public:
+
+		Char RequestKeyDown(Char C)
+		{
+			Char R;
+
+			do
+			{
+				R = RequestKeyDown();
+			} while (R != C);
+
+			return R;
+		}
+
+		Char RequestKeyDown()
+		{
+			KeyDownPending = true;
+
+			while (KeyDownPending)
+			{
+				GWCThread->Sleep(10);
+			}
+
+			return (Char)KeyDownChar;
 		}
 
 
@@ -981,25 +1076,10 @@ namespace GWCpp
 
 	public:
 			
-		int GetScreenMaxX()
-		{
-			return System::Windows::Forms::Screen::PrimaryScreen->Bounds.Width - 1;
-		}
-
-		int GetScreenMaxY()
-		{
-			return System::Windows::Forms::Screen::PrimaryScreen->Bounds.Height - 1;
-		}
-
-		int GetWindowMaxX()
-		{
-			return Form::Size.Width - 20;
-		}
-
-		int GetWindowMaxY()
-		{
-			return Form::Size.Height - 48;
-		}
+		int GetScreenMaxX() { return System::Windows::Forms::Screen::PrimaryScreen->Bounds.Width - 1; }
+		int GetScreenMaxY() { return System::Windows::Forms::Screen::PrimaryScreen->Bounds.Height - 1; }
+		int GetWindowMaxX() { return Form::ClientSize.Width - 1; }
+		int GetWindowMaxY() { return Form::ClientSize.Height - 1; }
 
 	};
 }
