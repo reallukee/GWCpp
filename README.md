@@ -1,22 +1,37 @@
 # GWC++
-![Alt TExt](./assets/banner.png "GWC++")
 
-GWC++ è una libreria scritta in C++/CLI che mette a disposizione dei Form personalizzati da utilizzare come tela da dipinto per applicazioni Console .NET. GWC++ è utilizza [.NET Framework 4.8]().
+![Oh no! Anyway...](./assets/banner.png "GWC++")
+
+GWC++ o Graphic Window for .NET Console Application è una libreria scritta in C++/CLI che mette a disposizione dei Form personalizzati da utilizzare come tela da dipinto per applicazioni Console .NET.
 
 > ⚠ GWC++ è **SOLO** un esperimento, ne sconsiglio quindi l'utilizzo.
 
 
 
 # Indice
-- [Esempi]() 🧭
-- [Documentazione]() 📚
-- [Licenza]() 📃
+
+- [Rilasci](#rilasci)
+- [Utilizzo](#utilizzo)
+- [Documentazione](#documentazione)
+- [Strumenti](#strumenti)
+- [Autore](#autore)
+- [Licenza](#licenza)
 
 
 
-## Esempi 🧭
+# Rilasci
+> ⚠ Una versione di GWC++ verrà presto rilasciata.
 
-### C#
+| Architettura<br /> versione | Ultima versione<br/> (Stabile) | Ultima versione<br/> (Anteprima) |
+| :-------------------------: | :----------------------------: | :------------------------------: |
+| x64                         | -                              | -                                |
+| x86                         | -                              | -                                |
+
+
+
+# Utilizzo
+
+## Applicazione C#
 ```csharp
 // main.cs
 
@@ -47,7 +62,7 @@ Form.CloseWindow();
 // Codice ...
 ```
 
-### VB .NET
+## Applicazione VB .NET
 ```vb
 ' main.vb
 
@@ -59,7 +74,7 @@ Import GWCpp;
 ' Istanza di GWC.
 Dim Form As New GWC(850, 505, "GWC++ Test", 50, 50)
 
-// Creo la finestra.
+' Creo la finestra.
 Form.StartWindow()
 
 ' Cambio le impostazioni di disegno.
@@ -78,7 +93,7 @@ Form.CloseWindow()
 ' Codice ...
 ```
 
-### C++/CLI
+## Applicazione C++/CLI
 ```cpp
 // main.cpp
 
@@ -111,7 +126,7 @@ Form->CloseWindow();
 
 
 
-# Documentazione 📚
+# Documentazione
 
 ## Funzioni
 ### Finestra
@@ -153,6 +168,7 @@ Form->CloseWindow();
 - `GetMaxWindowX` Ottiene la massima ascissa della finestra.
 - `GetMaxWindowY` Ottiene la massima ordimata della finestra.
 
+
 ## Proprietà
 ### Finestra
 - `WindowTitle` Ottiene o imposta il titolo della finestra.
@@ -168,9 +184,31 @@ Form->CloseWindow();
 - `PenWidth` Ottiene o imposta lo spessore della penna.
 - `FillColor` Ottiene o imposta il colore di riempimento.
 - `FontName` Ottiene o imposta il nome del font.
-- `FontSize` Ottiene o imposta la dimensione del
+- `FontSize` Ottiene o imposta la dimensione del font.
 
 
 
-# Licenza 📃
-[MIT]()
+# Strumenti
+
+- GWC++
+    - [Visual Studio 2022](https://visualstudio.microsoft.com/it/vs/).
+    - [MSVC v143](https://docs.microsoft.com/it-it/cpp/build/reference/compiling-a-c-cpp-program?view=msvc-170).
+    - [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48).
+- CSTest
+    - [Visual Studio 2022](https://visualstudio.microsoft.com/it/vs/).
+    - [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48).
+- VBText
+    - [Visual Studio 2022](https://visualstudio.microsoft.com/it/vs/).
+    - [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48).
+
+
+
+# Autore
+
+- [@reallukee](https://github.com/reallukee)
+
+
+
+# Licenza
+
+GWC++ è sotto licenza [MIT](https://mit-license.org/).
