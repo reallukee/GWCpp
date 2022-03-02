@@ -209,6 +209,20 @@ Form->CloseWindow();
 
 
 
+
+# Strumenti
+
+- GWC++
+    - [Visual Studio 2022](https://visualstudio.microsoft.com/it/vs/).
+    - [MSVC v143](https://docs.microsoft.com/it-it/cpp/build/reference/compiling-a-c-cpp-program?view=msvc-170).
+    - [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48).
+- CSTest
+    - [Visual Studio 2022](https://visualstudio.microsoft.com/it/vs/).
+    - [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48).
+- VBText
+    - [Visual Studio 2022](https://visualstudio.microsoft.com/it/vs/).
+    - [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48).
+
 # Licenza
 
 GWC++ è sotto licenza [MIT](https://mit-license.org/).
