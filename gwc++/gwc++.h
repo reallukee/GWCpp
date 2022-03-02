@@ -486,7 +486,7 @@ namespace GWCpp
 				WindowOpacityD^ D;
 				D = gcnew WindowOpacityD(this, &GWC::WindowOpacityT);
 				this->Invoke(D, Value);
-				this->WindowOpacity = Value;
+				this->WindowOpacity_ = Value;
 				delete D;
 			}
 		}
