@@ -4,7 +4,7 @@
 
 GWC++ o Graphic Window for .NET Console Application è una libreria scritta in C++/CLI che mette a disposizione dei Form personalizzati da utilizzare come tela da dipinto per applicazioni Console .NET.
 
-> ⚠ GWC++ è **SOLO** un esperimento, ne sconsiglio quindi l'utilizzo.
+> ⚠ GWC++ è **SOLO** un esperimento. Il suo utilizzo all'interno di un programma complesso è sconsigliato.
 
 
 
@@ -20,18 +20,20 @@ GWC++ o Graphic Window for .NET Console Application è una libreria scritta in C
 
 
 # Rilasci
-> ⚠ Una versione di GWC++ verrà presto rilasciata.
 
-| Architettura<br /> versione | Ultima versione<br/> (Stabile) | Ultima versione<br/> (Anteprima) |
-| :-------------------------: | :----------------------------: | :------------------------------: |
-| x64                         | -                              | -                                |
-| x86                         | -                              | -                                |
+> ⚠ Una versione stabile di GWC++ verrà presto rilasciata.
+
+| Architettura<br /> versione | Ultima versione<br/> (Stabile) | Ultima versione<br/> (Anteprima)                                           |
+| :-------------------------: | :----------------------------: | :------------------------------------------------------------------------: |
+| x64                         | -                              | [Download](https://github.com/reallukee/GWCpp/releases/tag/v0.0.1-preview) |
+| x86                         | -                              | [Download](https://github.com/reallukee/GWCpp/releases/tag/v0.0.1-preview) |
 
 
 
 # Utilizzo
 
 ## Applicazione C#
+
 ```csharp
 // main.cs
 
@@ -63,6 +65,7 @@ Form.CloseWindow();
 ```
 
 ## Applicazione VB .NET
+
 ```vb
 ' main.vb
 
@@ -94,6 +97,7 @@ Form.CloseWindow()
 ```
 
 ## Applicazione C++/CLI
+
 ```cpp
 // main.cpp
 
@@ -129,48 +133,54 @@ Form->CloseWindow();
 # Documentazione
 
 ## Funzioni
+
 ### Finestra
-- `StartWindow` Crea la finestra.
-- `CloseWindow` Chiude la finastra.
-- `ShowWindow` Mostra la finestra.
-- `HideWindow` Nasconde la finestra.
-- `RequestMouseDown` Richiede la pressione del mouse.
-- `RequestMouseUp` Richiede il rilascio del mouse.
-- `RequestKeyDown` Richiede la pressione di un tasto.
-- `RequestKeyUp` Richiede il rilascio di un tasto.
+
+- `StartWindow()` Crea la finestra.
+- `CloseWindow()` Chiude la finastra.
+- `ShowWindow()` Mostra la finestra.
+- `HideWindow()` Nasconde la finestra.
+- `RequestMouseDown(int B)` Richiede la pressione di un tasto del mouse.
+- `RequestMouseUp(int B)` Richiede il rilascio di un tasto del mouse.
+- `RequestKeyDown(char C)` Richiede la pressione di un tasto preciso.
+- `RequestKeyDown()` Richiede la pressione di un tasto.
+- `RequestKeyUp(char C)` Richiede il rilascio di un tasto preciso.
+- `RequestKeyUp()` Richiede il rilascio di un tasto.
 
 ### Disegno
-- `DefaultPenColor` Imposta il colore della penna al suo valore di base.
-- `DefaultPenWidth` Imposta la dimensione della penna al suo valore di base.
-- `DefaultFillColor` Imposta il colore di riempimento al suo valore di base.
-- `DefaultFontName` Imposta il nome del font al suo valore di base.
-- `DefaultFontSize` Imposta la dimensione del font al suo valore di base.
-- `ClearWindow` Rimuove tutti i disegni.
-- `DrawLine` Esegue la scrittura di una linea.
-- `DrawArc` Esegue la scrittura di un arco.
-- `DrawText` Esegue la scrittura di un testo.
-- `DrawImage` Esegue la scrittura di un'immagine.
-- `DrawIcon` Esegue la scruttura di un'icona.
-- `DrawRectangle` Esegue la scruttura di un rettangolo.
-- `DrawFillRectangle` Esegue la scruttura di un rettangolo pieno.
-- `DrawEllipse` Esegue la scruttura di un ellisse.
-- `DrawFillEllipse` Esegue la scruttura di un ellisse pieno.
-- `DrawCircle` Esegue la scruttura di un cerchio.
-- `DrawFillCircle` Esegue la scruttura di un cerchio pieno.
-- `DrawPolygon` Esegue la scruttura di un poligono.
-- `DrawFillPolygon` Esegue la scruttura di un poligono pieno.
-- `DrawPie` Esegue la scruttura di una torta.
-- `DrawFillPie` Esegue la scruttura di una torta piena.
+
+- `DefaultPenColor()` Imposta il colore della penna al suo valore di base.
+- `DefaultPenWidth()` Imposta la dimensione della penna al suo valore di base.
+- `DefaultFillColor()` Imposta il colore di riempimento al suo valore di base.
+- `DefaultFontName()` Imposta il nome del font al suo valore di base.
+- `DefaultFontSize()` Imposta la dimensione del font al suo valore di base.
+- `ClearWindow()` Rimuove tutti i disegni.
+- `DrawLine(int X1, int Y1, int X2, int Y2)` Esegue la scrittura di una linea.
+- `DrawArc(int X, int Y, int W, int H, int A, int B)` Esegue la scrittura di un arco.
+- `DrawText(string S, int X, int Y)` Esegue la scrittura di un testo.
+- `DrawImage(Image I, int X, int Y)` Esegue la scrittura di un'immagine.
+- `DrawIcon(Icon I, int X, int Y)` Esegue la scruttura di un'icona.
+- `DrawRectangle(int X, int Y, int W, int H)` Esegue la scruttura di un rettangolo.
+- `DrawFillRectangle(int X, int Y, int W, int H)` Esegue la scruttura di un rettangolo pieno.
+- `DrawEllipse(int X, int Y, int W, int H)` Esegue la scruttura di un ellisse.
+- `DrawFillEllipse(int X, int Y, int W, int H)` Esegue la scruttura di un ellisse pieno.
+- `DrawPolygon(Point[] P)` Esegue la scruttura di un poligono.
+- `DrawFillPolygon(Point[] P)` Esegue la scruttura di un poligono pieno.
+- `DrawPie(int X, int Y, int W, int H, int A, int B)` Esegue la scruttura di una torta.
+- `DrawFillPie(int X, int Y, int W, int H, int A, int B)` Esegue la scruttura di una torta piena.
 
 ### Varie
-- `GetMaxScreenX` Ottiene la massima ascissa dello schermo.
-- `GetMaxScreenY` Ottiene la massima ordinata dello schermo.
-- `GetMaxWindowX` Ottiene la massima ascissa della finestra.
-- `GetMaxWindowY` Ottiene la massima ordimata della finestra.
+
+- `GetMaxScreenX()` Ottiene la massima ascissa dello schermo.
+- `GetMaxScreenY()` Ottiene la massima ordinata dello schermo.
+- `GetMaxWindowX()` Ottiene la massima ascissa della finestra.
+- `GetMaxWindowY()` Ottiene la massima ordimata della finestra.
 
 
 ## Proprietà
+
 ### Finestra
+
 - `WindowTitle` Ottiene o imposta il titolo della finestra.
 - `WindowIcon` Ottiene o imposta l'icona della finestra.
 - `WindowLocation` Ottiene o imposta la località della finestra.
@@ -180,6 +190,7 @@ Form->CloseWindow();
 - `WindowMaximumSize` Ottiene o imposta le dimensioni massime della finestra.
 
 ### Disegno
+
 - `PenColor` Ottiene o imposta il colore della penna.
 - `PenWidth` Ottiene o imposta lo spessore della penna.
 - `FillColor` Ottiene o imposta il colore di riempimento.
@@ -191,13 +202,18 @@ Form->CloseWindow();
 # Strumenti
 
 - GWC++
+
     - [Visual Studio 2022](https://visualstudio.microsoft.com/it/vs/).
     - [MSVC v143](https://docs.microsoft.com/it-it/cpp/build/reference/compiling-a-c-cpp-program?view=msvc-170).
     - [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48).
+
 - CSTest
+
     - [Visual Studio 2022](https://visualstudio.microsoft.com/it/vs/).
     - [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48).
+
 - VBText
+
     - [Visual Studio 2022](https://visualstudio.microsoft.com/it/vs/).
     - [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48).
 
@@ -208,20 +224,6 @@ Form->CloseWindow();
 - [@reallukee](https://github.com/reallukee)
 
 
-
-
-# Strumenti
-
-- GWC++
-    - [Visual Studio 2022](https://visualstudio.microsoft.com/it/vs/).
-    - [MSVC v143](https://docs.microsoft.com/it-it/cpp/build/reference/compiling-a-c-cpp-program?view=msvc-170).
-    - [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48).
-- CSTest
-    - [Visual Studio 2022](https://visualstudio.microsoft.com/it/vs/).
-    - [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48).
-- VBText
-    - [Visual Studio 2022](https://visualstudio.microsoft.com/it/vs/).
-    - [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48).
 
 # Licenza
 
