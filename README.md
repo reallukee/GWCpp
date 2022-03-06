@@ -25,10 +25,14 @@ GWC++ o Graphic Window for Console Application è una libreria scritta in C++/CL
 
 | Architettura<br /> versione | Ultima versione<br/> (Stabile) | Ultima versione<br/> (Anteprima)                                           |
 | :-------------------------: | :----------------------------: | :------------------------------------------------------------------------: |
-| x64                         | -                              | [Download](https://github.com/reallukee/GWCpp/releases/tag/v0.0.2-preview) |
-| x86                         | -                              | [Download](https://github.com/reallukee/GWCpp/releases/tag/v0.0.2-preview) |
+| x64                         | -                              | [Download](https://github.com/reallukee/GWCpp/releases/tag/v0.0.1-preview) |
+| x86                         | -                              | [Download](https://github.com/reallukee/GWCpp/releases/tag/v0.0.1-preview) |
 
 
+
+# Utilizzo
+
+GWC++ mette a disposizione la classe `GWC` per le applicazioni .NET e `NGWC` per le applicazioni c++ native. Utilizzare la classe adatta con la tipologia di applicazione che si sta sviluppando. Vedi la [documentazione](#documentazione) per la compatibilità di metodi e funzioni.
 
 ## Applicazione console C#
 
