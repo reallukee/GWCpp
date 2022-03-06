@@ -25,8 +25,8 @@ GWC++ o Graphic Window for Console Application è una libreria scritta in C++/CL
 
 | Architettura<br /> versione | Ultima versione<br/> (Stabile) | Ultima versione<br/> (Anteprima)                                           |
 | :-------------------------: | :----------------------------: | :------------------------------------------------------------------------: |
-| x64                         | -                              | [Download](https://github.com/reallukee/GWCpp/releases/tag/v0.0.1-preview) |
-| x86                         | -                              | [Download](https://github.com/reallukee/GWCpp/releases/tag/v0.0.1-preview) |
+| x64                         | -                              | [Download](https://github.com/reallukee/GWCpp/releases/tag/v0.0.2-preview) |
+| x86                         | -                              | [Download](https://github.com/reallukee/GWCpp/releases/tag/v0.0.2-preview) |
 
 
 
