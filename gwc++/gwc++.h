@@ -9,6 +9,7 @@
 #using <System.Data.dll>
 #using <System.Drawing.dll>
 #using <System.Threading.dll>
+#using <System.Runtime.InteropServices.dll>
 #using <Microsoft.VisualBasic.dll>
 
 
@@ -21,27 +22,44 @@ namespace GWCpp
 	using namespace System::Data;
 	using namespace System::Drawing;
 	using namespace System::Threading;
+	using namespace System::Runtime::InteropServices;
 	using namespace Microsoft::VisualBasic;
+
 
 	public ref class GWC : public Form
 	{
 
+		/*
+			Costruttori e distruttori.
+		*/
+
 	public:
 
+		// Costruttore.
 		GWC(int W, int H, String^ Title, int X, int Y) : Form()
 		{
 			InitializeComponent(W, H, Title, X, Y);
-			GWCThread = gcnew Thread(gcnew ThreadStart(this, &GWC::Initialize));
+			GWCThread = gcnew Thread(gcnew ThreadStart(this, &GWC::InitializeWindow));
 			GWCThread->SetApartmentState(ApartmentState::STA);
+		}
+
+		// Distruttore.
+		~GWC()
+		{
+			
 		}
 
 
 
 	private:
 
+		// Thread finestra.
 		Thread^ GWCThread;
+
+		// Indicatore chiamata.
 		bool CalledByMe = false;
 
+		// Inizializzatore componenti.
 		void InitializeComponent(int W, int H, String^ Title, int X, int Y)
 		{
 			// Sospensione layout.
@@ -85,7 +103,8 @@ namespace GWCpp
 			this->ResumeLayout(false);
 		}
 
-		void Initialize()
+		// Inizializzatore finestra.
+		void InitializeWindow()
 		{
 			Application::EnableVisualStyles();
 			Application::SetCompatibleTextRenderingDefault(false);
@@ -94,33 +113,43 @@ namespace GWCpp
 
 
 
-	public:
-
 		/*
-			Start Window
+			Metodi finestra.
 		*/
 
+	public:
+
+		// Start Window.
 		void StartWindow()
 		{
 			GWCThread->Start();
 			GWCThread->Sleep(50);
 		}
 
-		/*
-			Close Window
-		*/
-
+		// Close Window.
 		void CloseWindow()
 		{
 			GWCThread->Sleep(50);
 			GWCThread->Abort();
 		}
 
+		// Suspend Window.
+		void SuspendWindow()
+		{
+			GWCThread->Sleep(10);
+			GWCThread->Suspend();
+		}
+
+		// Resume Window.
+		void ResumeWindow()
+		{
+			GWCThread->Sleep(10);
+			GWCThread->Resume();
+		}
 
 
-		/*
-			Show Window
-		*/
+
+		// Show Window.
 
 	private:
 
@@ -140,7 +169,6 @@ namespace GWCpp
 			CalledByMe = false;
 		}
 
-
 		void ShowWindow()
 		{
 			ShowWindowD^ D;
@@ -152,9 +180,7 @@ namespace GWCpp
 
 
 
-		/*
-			Hide Window
-		*/
+		// Hide Window.
 
 	private:
 
@@ -185,9 +211,7 @@ namespace GWCpp
 
 
 
-		/*
-			Window Title
-		*/
+		// Window Title.
 
 	private:
 
@@ -219,9 +243,7 @@ namespace GWCpp
 
 
 
-		/*
-			Window Icon
-		*/
+		// Window Icon.
 
 	private:
 
@@ -253,9 +275,7 @@ namespace GWCpp
 
 
 
-		/*
-			Window Location
-		*/
+		// Window Location.
 
 	private:
 
@@ -287,9 +307,7 @@ namespace GWCpp
 
 
 
-		/*
-			Window Color
-		*/
+		// Window Color.
 
 	private:
 
@@ -323,9 +341,7 @@ namespace GWCpp
 
 
 
-		/*
-			Window Image
-		*/
+		// Window Image.
 
 	private:
 
@@ -357,9 +373,7 @@ namespace GWCpp
 
 
 
-		/*
-			Window Size
-		*/
+		// Window Size.
 
 	private:
 
@@ -391,9 +405,7 @@ namespace GWCpp
 
 
 
-		/*
-			Minimum Size
-		*/
+		// Minimum Size.
 
 	private:
 
@@ -425,9 +437,7 @@ namespace GWCpp
 
 
 
-		/*
-			Maximum Size
-		*/
+		// Maximum Size.
 
 	private:
 
@@ -459,15 +469,13 @@ namespace GWCpp
 
 
 
-		/*
-			Window Opacity
-		*/
+		// Window Opacity.
 
 	private:
 
 		delegate void WindowOpacityD(double Value);
 		void WindowOpacityT(double Value) { Form::Opacity = Value; }
-		float WindowOpacity_;
+		double WindowOpacity_;
 
 	public:
 
@@ -493,9 +501,7 @@ namespace GWCpp
 
 
 
-		/*
-			Window Always On Top
-		*/
+		// Window Always On Top.
 
 	private:
 
@@ -526,9 +532,8 @@ namespace GWCpp
 		}
 
 
-		/*
-			Window In Taskbar
-		*/
+
+		// Window In Taskbar.
 
 	private:
 
@@ -560,9 +565,7 @@ namespace GWCpp
 
 
 
-		/*
-			Window Minimize Button
-		*/
+		// Window Minimize Button.
 
 	private:
 
@@ -594,10 +597,8 @@ namespace GWCpp
 
 
 
-		/*
-			Window Maximize Button
-		*/
-
+		// Window Maximize Button.
+		
 	private:
 
 		delegate void WindowMaximizeButtonD(bool Value);
@@ -629,8 +630,10 @@ namespace GWCpp
 
 
 		/*
-			Pen Color
+			Proprietà disegno.
 		*/
+
+		// Pen Color.
 
 	private:
 
@@ -648,9 +651,7 @@ namespace GWCpp
 
 
 
-		/*
-			Pen Width
-		*/
+		// Pen Width.
 
 	private:
 		
@@ -667,9 +668,7 @@ namespace GWCpp
 
 
 
-		/*
-			Fill Color
-		*/
+		// Fill Color.
 
 	private:
 
@@ -687,9 +686,7 @@ namespace GWCpp
 
 
 
-		/*
-			Font Name
-		*/
+		// Font Name.
 
 	private:
 
@@ -707,9 +704,7 @@ namespace GWCpp
 
 
 
-		/*
-			Font Size
-		*/
+		// Font Size.
 
 	private:
 
@@ -728,7 +723,7 @@ namespace GWCpp
 
 
 		/*
-			Disegno
+			Metodi disegno.
 		*/
 
 	public:
@@ -847,8 +842,10 @@ namespace GWCpp
 
 
 		/*
-			Mouse Down
+			Metodi evento.
 		*/
+
+		// Mouse Down.
 
 	private:
 
@@ -905,9 +902,7 @@ namespace GWCpp
 
 
 
-		/*
-			Mouse Up
-		*/
+		// Mouse Up.
 
 	private:
 
@@ -964,9 +959,58 @@ namespace GWCpp
 
 
 
-		/*
-			Key Up
-		*/
+		// Key Down.
+
+	private:
+
+		bool KeyDownPending;
+		int KeyDownChar;
+
+		void GWC_KeyDown(Object^ Sender, KeyEventArgs^ E)
+		{
+			if (E != nullptr && KeyDownPending)
+			{
+				try
+				{
+					KeyDownChar = Convert::ToInt32(E->KeyCode);
+					KeyDownPending = false;
+				}
+				catch (Exception^ Ex)
+				{
+					return;
+				}
+			}
+		}
+
+	public:
+
+		Char RequestKeyDown(Char C)
+		{
+			Char R;
+
+			do
+			{
+				R = RequestKeyDown();
+			} while (R != C);
+
+			return R;
+		}
+
+		Char RequestKeyDown()
+		{
+			KeyDownPending = true;
+
+			while (KeyDownPending)
+			{
+				GWCThread->Sleep(10);
+			}
+
+			return (Char)KeyDownChar;
+		}
+
+
+
+		// Key Up.
 
 	private:
 
@@ -1018,60 +1062,7 @@ namespace GWCpp
 
 
 		/*
-			Key Down
-		*/
-
-	private:
-
-		bool KeyDownPending;
-		int KeyDownChar;
-
-		void GWC_KeyDown(Object^ Sender, KeyEventArgs^ E)
-		{
-			if (E != nullptr && KeyDownPending)
-			{
-				try
-				{
-					KeyDownChar = Convert::ToInt32(E->KeyCode);
-					KeyDownPending = false;
-				}
-				catch (Exception^ Ex)
-				{
-					return;
-				}
-			}
-		}
-
-	public:
-
-		Char RequestKeyDown(Char C)
-		{
-			Char R;
-
-			do
-			{
-				R = RequestKeyDown();
-			} while (R != C);
-
-			return R;
-		}
-
-		Char RequestKeyDown()
-		{
-			KeyDownPending = true;
-
-			while (KeyDownPending)
-			{
-				GWCThread->Sleep(10);
-			}
-
-			return (Char)KeyDownChar;
-		}
-
-
-
-		/*
-			Funzioni Varie.
+			Metodi vari.
 		*/
 
 	public:
