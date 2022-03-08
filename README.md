@@ -2,9 +2,9 @@
 
 ![Oh no! Anyway...](./assets/banner.png "GWC++")
 
-GWC++ o Graphic Window for Console Application è una libreria scritta in C++/CLI che mette a disposizione dei form personalizzati da utilizzare come tela da dipinto per applicazioni console C++ native e .NET.
+GWC++ o Graphic Window for Console Application è una libreria scritta in C++/CLI che mette a disposizione dei form personalizzati da utilizzare come tela da dipinto per applicazioni console .NET e C++ native per Windows.
 
-> ⚠ GWC++ è **SOLO** un esperimento, ne sconsiglio quindi l'utilizzo.
+> ⚠ GWC++ è **SOLO** un esperimento, ne sconsiglio quindi l'utilizzo. 
 
 
 
@@ -32,7 +32,7 @@ GWC++ o Graphic Window for Console Application è una libreria scritta in C++/CL
 
 # Utilizzo
 
-GWC++ mette a disposizione la classe `GWC` per le applicazioni .NET e `NGWC` per le applicazioni c++ native. Utilizzare la classe adatta con la tipologia di applicazione che si sta sviluppando. Vedi la [documentazione](#documentazione) per la compatibilità di metodi e funzioni.
+GWC++ mette a disposizione la classe `GWC` per le applicazioni console .NET e `NGWC` per le applicazioni console c++ native per Windows. Utilizzare la classe adatta alla tipologia di applicazione che si sta sviluppando. Vedi la [documentazione](#documentazione) per la disponibilità di metodi e funzioni.
 
 ## Applicazione console C#
 
@@ -72,7 +72,7 @@ Form.CloseWindow();
 ' main.vb
 
 ' Importo lo spazio dei nomi.
-Import GWCpp;
+Imports GWCpp
 
 ' Codice ...
 
@@ -127,7 +127,7 @@ Console::ReadKey();
 // Chiudo la finestra.
 Form->CloseWindow();
 
-...
+// Codice ...
 ```
 
 ## Applicazione console C++
@@ -141,25 +141,24 @@ Form->CloseWindow();
 // Codice ...
 
 // Istanza di GWC.
-NGWCpp::NGWC *Form = new NGWCpp::NGWC(850, 505, "GWC++ Test", 50, 50);
+NGWCpp::NGWC* Form = new NGWCpp::NGWC(850, 505, "GWC++ Test", 50, 50);
 
 // Creo la finestra.
 Form->StartWindow();
 
 // Cambio le impostazioni di disegno.
-Form->PenColor = Color::Red;
-Form->FontName = "Comic Sans";
-Form->FontSize = 25.0F;
+Form->SetPenColor(COLORN{ 255, 0, 0 });
+Form->SetPenWidth(5.0F);
 
 // Scrivo del testo.
-Form->DrawText("GWC++", 250, 100);
+Form->DrawRectangle(10, 10, 100, 100);
 
 system("pause");
 
 // Chiudo la finestra.
 Form->CloseWindow();
 
-...
+// Codice ...
 ```
 
 
@@ -168,7 +167,7 @@ Form->CloseWindow();
 
 ## Funzioni
 
-> ⚠ Non tutti i metodi elencati qui sono presenti nella classe `NGWC` e quindi utilizzabili in applicazioni C++ native. I metodi e compatibili con applicazioni C++ native sono indicati con '✅' mentre quelli non compatibili con '❎'. La disponibilità verrà estesa in futuro.
+> ⚠ Non tutti i metodi elencati qui sotto sono presenti nella classe `NGWC` e quindi utilizzabili in applicazioni console C++ native per Windows. I metodi compatibili con applicazioni console C++ native Windows per sono indicati con il simbolo '✅' mentre quelli non compatibili con il simbolo '❎'. La disponibilità verrà estesa in futuro.
 
 ### Finestra
 
@@ -217,6 +216,7 @@ Form->CloseWindow();
 
 ### Varie
 
+- ✅ `Default()` Imposta le proprietà della finestra al loro valore predefinito.
 - ✅ `GetMaxScreenX()` Ottiene la massima ascissa dello schermo.
 - ✅ `GetMaxScreenY()` Ottiene la massima ordinata dello schermo.
 - ✅ `GetMaxWindowX()` Ottiene la massima ascissa della finestra.
@@ -227,9 +227,23 @@ Form->CloseWindow();
 
 ## Proprietà
 
-> ⚠ Non tutte le proprietà elencate qui sono presenti nella classe `NGWC` e quindi utilizzabili in applicazioni C++ native. Le proprietà compatibili con applicazioni C++ native sono indicati con '✅' mentre quelle non compatibili con '❎'. La disponibilità verrà estesa in futuro.
+> ⚠ Non tutti i metodi elencati qui sotto sono presenti nella classe `NGWC` e quindi utilizzabili in applicazioni console C++ native per Windows. I metodi compatibili con applicazioni console C++ native Windows per sono indicati con il simbolo '✅' mentre quelli non compatibili con il simbolo '❎'. La disponibilità verrà estesa in futuro.
 
 > ⚠ In C++ non esisteno le proprietà per questo motivo all'interno di `NGWC` è necessario chiamare le funzioni `Get<Nome proprietà>` per ottenere il valore della proprietà e `Set<Nome Proprietà>` per impostare il valore della proprietà.
+
+**Esempio**
+
+```cpp
+// C++/CLI
+System::String^ Title = Form->WindowTitle;
+Form->WindowTitle = "New Title";
+
+// C++
+std::string Title = Form->GetWindowTitle();
+Form->SetWindowTitle("New Title");
+```
+
+
 
 ### Finestra
 
@@ -260,7 +274,7 @@ Form->CloseWindow();
 
 ## Strutture
 
-> ⚠ Le strutture qui elencate sono non gestite.
+> ⚠ Queste strutture sono non gestite.
 
 - `POINTN` Rappresenta un punto intero.
 - `SIZEN` Rappresenta una dimensione bidimensionale.
@@ -271,17 +285,21 @@ Form->CloseWindow();
 # Strumenti
 
 - GWC++
-    - [Visual Studio 2022](https://visualstudio.microsoft.com/it/vs/).
-    - [MSVC v143](https://docs.microsoft.com/it-it/cpp/build/reference/compiling-a-c-cpp-program?view=msvc-170).
-    - [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48).
+    - [Visual Studio 2022](https://visualstudio.microsoft.com/it/vs/)
+    - [MSVC v143](https://docs.microsoft.com/it-it/cpp/build/reference/compiling-a-c-cpp-program?view=msvc-170)
+    - [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48)
+
+- CPPTest
+    - [Visual Studio 2022](https://visualstudio.microsoft.com/it/vs/)
+    - [MSVC v143](https://docs.microsoft.com/it-it/cpp/build/reference/compiling-a-c-cpp-program?view=msvc-170)
 
 - CSTest
-    - [Visual Studio 2022](https://visualstudio.microsoft.com/it/vs/).
-    - [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48).
+    - [Visual Studio 2022](https://visualstudio.microsoft.com/it/vs/)
+    - [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48)
 
 - VBText
-    - [Visual Studio 2022](https://visualstudio.microsoft.com/it/vs/).
-    - [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48).
+    - [Visual Studio 2022](https://visualstudio.microsoft.com/it/vs/)
+    - [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48)
 
 
 
