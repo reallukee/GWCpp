@@ -46,12 +46,18 @@ namespace GWCpp
 		// Distruttore.
 		~GWC()
 		{
-			
+			if (Components)
+			{
+				delete Components;
+			}
 		}
 
 
 
 	private:
+
+		// Designer.
+		System::ComponentModel::Container^ Components;
 
 		// Thread finestra.
 		Thread^ GWCThread;
@@ -59,9 +65,15 @@ namespace GWCpp
 		// Indicatore chiamata.
 		bool CalledByMe = false;
 
+		// Canvas.
+		System::Drawing::Drawing2D::GraphicsState^ Canvas;
+
 		// Inizializzatore componenti.
 		void InitializeComponent(int W, int H, String^ Title, int X, int Y)
 		{
+			// Designer.
+			this->Components = gcnew System::ComponentModel::Container();
+
 			// Sospensione layout.
 			this->SuspendLayout();
 
@@ -71,6 +83,7 @@ namespace GWCpp
 			// Proprietà finestra.
 			Form::Text = Title;
 			Form::Icon = nullptr;
+			Form::ShowIcon = false;
 			Form::Location = System::Drawing::Point(X, Y);
 			Form::BackColor = Color::Gainsboro;
 			Form::BackgroundImage = nullptr;
@@ -269,6 +282,38 @@ namespace GWCpp
 				D = gcnew WindowIconD(this, &GWC::WindowIconT);
 				this->Invoke(D, Value);
 				this->WindowIcon_ = Value;
+				delete D;
+			}
+		}
+
+
+
+		// Window Icon Visible.
+
+	private:
+
+		delegate void WindowIconVisibleD(bool Value);
+		void WindowIconVisibleT(bool Value) { Form::ShowIcon = Value; }
+		bool WindowIconVisible_;
+
+	public:
+
+		property bool ShowIcon
+		{
+			virtual bool get() { return false; }
+			virtual void set(bool value) { return; }
+		}
+
+		property bool WindowIconVisible
+		{
+			bool get() { return WindowIconVisible_; }
+
+			void set(bool Value)
+			{
+				WindowIconVisibleD^ D;
+				D = gcnew WindowIconVisibleD(this, &GWC::WindowIconVisibleT);
+				this->Invoke(D, Value);
+				this->WindowIconVisible_ = Value;
 				delete D;
 			}
 		}
@@ -736,6 +781,30 @@ namespace GWCpp
 		}
 
 
+		void DrawFromScreen(int X1, int Y1, int X2, int Y2, int W, int H)
+		{
+			Graphics^ G = this->CreateGraphics();
+			G->CopyFromScreen(Point(X1, Y1), Point(X2, Y2), System::Drawing::Size(W, H));
+			delete G;
+		}
+
+
+		void SaveCanvas()
+		{
+			Graphics^ G = this->CreateGraphics();
+			this->Canvas = G->Save();
+			delete G;
+		}
+
+
+		void RestoreCanvas()
+		{
+			Graphics^ G = this->CreateGraphics();
+			G->Restore(this->Canvas);
+			delete G;
+		}
+
+
 		void DrawLine(int X1, int Y1, int X2, int Y2)
 		{
 			Graphics^ G = this->CreateGraphics();
@@ -748,6 +817,14 @@ namespace GWCpp
 		{
 			Graphics^ G = this->CreateGraphics();
 			G->DrawArc(gcnew Pen(PenColor, PenWidth), X, Y, W, H, A, B);
+			delete G;
+		}
+
+
+		void DrawBezier(int X1, int Y1, int X2, int Y2, int X3, int Y3, int X4, int Y4)
+		{
+			Graphics^ G = this->CreateGraphics();
+			G->DrawBezier(gcnew Pen(PenColor, PenWidth), X1, Y1, X2, Y2, X3, Y3, X4, Y4);
 			delete G;
 		}
 
@@ -768,10 +845,46 @@ namespace GWCpp
 		}
 
 
+		void DrawImageFromFile(String^ F, int X, int Y)
+		{
+			Graphics^ G = this->CreateGraphics();
+
+			try
+			{
+				Image^ I = Image::FromFile(F);
+				G->DrawImage(I, X, Y);
+			}
+			catch (Exception^ Ex)
+			{
+				throw Ex;
+			}
+			
+			delete G;
+		}
+
+
 		void DrawIcon(System::Drawing::Icon^ I, int X, int Y)
 		{
 			Graphics^ G = this->CreateGraphics();
 			G->DrawIcon(I, X, Y);
+			delete G;
+		}
+
+
+		void DrawIconFromFile(String^ F, int X, int Y)
+		{
+			Graphics^ G = this->CreateGraphics();
+
+			try
+			{
+				System::Drawing::Icon^ I = gcnew System::Drawing::Icon(F);
+				G->DrawIcon(I, X, Y);
+			}
+			catch (Exception^ Ex)
+			{
+				throw Ex;
+			}
+
 			delete G;
 		}
 
@@ -804,6 +917,22 @@ namespace GWCpp
 		{
 			Graphics^ G = this->CreateGraphics();
 			G->FillEllipse(gcnew SolidBrush(FillColor), X, Y, W, H);
+			delete G;
+		}
+
+
+		void DrawCurve(array<Point>^ P)
+		{
+			Graphics^ G = this->CreateGraphics();
+			G->DrawCurve(gcnew Pen(PenColor, PenWidth), P);
+			delete G;
+		}
+
+
+		void DrawClosedCurve(array<Point>^ P)
+		{
+			Graphics^ G = this->CreateGraphics();
+			G->DrawClosedCurve(gcnew Pen(PenColor, PenWidth), P);
 			delete G;
 		}
 
@@ -1066,7 +1195,25 @@ namespace GWCpp
 		*/
 
 	public:
-			
+		
+		void Default()
+		{
+			WindowTitle = "GWC++ Window";
+			WindowIcon = nullptr;
+			WindowIconVisible = false;
+			WindowLocation = Point(0, 0);
+			WindowColor = Color::Gainsboro;
+			WindowImage = nullptr;
+			WindowSize = System::Drawing::Size(805, 550);
+			WindowMinimumSize = System::Drawing::Size(0, 0);
+			WindowMaximumSize = System::Drawing::Size(0, 0);
+			WindowOpacity = 1.00;
+			WindowAlwaysOnTop = false;
+			WindowInTaskbar = true;
+			WindowMinimizeButton = true;
+			WindowMaximizeButton = true;
+		}
+
 		int GetScreenMaxX() { return System::Windows::Forms::Screen::PrimaryScreen->Bounds.Width - 1; }
 		int GetScreenMaxY() { return System::Windows::Forms::Screen::PrimaryScreen->Bounds.Height - 1; }
 		int GetWindowMaxX() { return Form::ClientSize.Width - 1; }

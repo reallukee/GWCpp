@@ -9,6 +9,7 @@ Namespace VBTest
     Module VBTest
 
         Sub Main()
+            ' Istanza di GWC.
             Dim Form As New GWC(850, 505, "GWC++ Test", 50, 50)
 
             ' Creo la finestra.

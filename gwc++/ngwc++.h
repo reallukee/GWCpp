@@ -4,7 +4,6 @@
 
 #include <string>
 #include "windows.h"
-#include "gwc++.h"
 
 
 #ifdef TONATIVE
@@ -64,7 +63,7 @@ namespace NGWCpp
 			Costruttori e distruttori.
 		*/
 
-		NGWC(int W, int H, std::wstring Title, int X, int Y);
+		NGWC(int W, int H, std::string Title, int X, int Y);
 		~NGWC();
 
 
@@ -77,6 +76,8 @@ namespace NGWCpp
 		void CloseWindow();
 		void ShowWindow();
 		void HideWindow();
+		void SuspendWindow();
+		void ResumeWindow();
 
 
 
@@ -88,6 +89,8 @@ namespace NGWCpp
 		// void SetWindowTitle(std::string value);
 		// Icon^ GetWindowIcon();
 		// void SetWindowIcon(Icon^ Value);
+		bool GetWindowIconVisible();
+		void SetWindowIconVisible(bool Value);
 		POINTN GetWindowLocation();
 		void SetWindowLocation(POINTN Value);
 		COLORN GetWindowColor();
@@ -112,6 +115,7 @@ namespace NGWCpp
 		void SetWindowMaximizeButton(bool Value);
 
 
+
 		/*
 			Proprietà disegno.
 		*/
@@ -126,8 +130,8 @@ namespace NGWCpp
 		COLORN GetFillColor();
 		void SetFillColor(COLORN Value);
 		// void DefaultFontName();
-		// std::wstring GetFontName();
-		// void SetFontName(std::wstring Value);
+		// std::string GetFontName();
+		// void SetFontName(std::string Value);
 		void DefaultFontSize();
 		float GetFontSize();
 		void SetFontSize(float Value);
@@ -139,17 +143,25 @@ namespace NGWCpp
 		*/
 
 		void ClearWindow();
+		void DrawFromScreen(int X1, int Y1, int X2, int Y2, int W, int H);
+		void SaveCanvas();
+		void RestoreCanvas();
 		void DrawLine(int X1, int Y1, int X2, int Y2);
 		void DrawArc(int X, int Y, int W, int H, int A, int B);
-		void DrawText(std::wstring S, int X, int Y);
+		void DrawBezier(int X1, int Y1, int X2, int Y2, int X3, int Y3, int X4, int Y4);
+		void DrawText(std::string S, int X, int Y);
 		// void DrawImage(Image^ I, int X, int Y);
+		void DrawImageFromFile(std::string F, int X, int Y);
 		// void DrawIcon(Icon^ I, int X, int Y);
+		void DrawIconFromFile(std::string F, int X, int Y);
 		void DrawRectangle(int X, int Y, int W, int H);
 		void DrawFillRectangle(int X, int Y, int W, int H);
 		void DrawEllipse(int X, int Y, int W, int H);
 		void DrawFillEllipse(int X, int Y, int W, int H);
-		// void DrawPolygon(array<Point>^ P)
-		// void DrawFillPolygon(array<Point>^ P)
+		// void DrawCurve(array<Point>^ P);
+		// DrawClosedCurve(array<Point>^ P);
+		// void DrawPolygon(array<Point>^ P);
+		// void DrawFillPolygon(array<Point>^ P);
 		void DrawPie(int X, int Y, int W, int H, int A, int B);
 		void DrawFillPie(int X, int Y, int W, int H, int A, int B);
 
@@ -172,6 +184,7 @@ namespace NGWCpp
 			Metodi vari.
 		*/
 
+		void Default();
 		int GetScreenMaxX();
 		int GetScreenMaxY();
 		int GetWindowMaxX();

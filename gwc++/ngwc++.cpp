@@ -1,8 +1,9 @@
 #include "pch.h"
-#pragma unmanaged
-
-
 #include "ngwc++.h"
+#include "gwc++.h"
+
+
+#pragma managed
 
 
 using namespace System;
@@ -24,7 +25,7 @@ namespace NGWCpp
     */
 
     // Costruttore.
-    NGWC::NGWC(int W, int H, std::wstring Title, int X, int Y)
+    NGWC::NGWC(int W, int H, std::string Title, int X, int Y)
     {
         GWCpp::GWC^ T = gcnew GWCpp::GWC(W, H, gcnew String(Title.c_str()), X, Y);
         NGWCAdress = GCHandle::ToIntPtr(GCHandle::Alloc(T)).ToPointer();
@@ -57,6 +58,22 @@ namespace NGWCpp
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->CloseWindow();
+    }
+
+    // Suspend Window.
+    void NGWC::SuspendWindow()
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->SuspendWindow();
+    }
+    
+    // Resume Window.
+    void NGWC::ResumeWindow()
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->ResumeWindow();
     }
 
     // Show Window.
@@ -174,6 +191,21 @@ namespace NGWCpp
     /*
         Proprietà finestra.
     */
+
+    // Window Icon Visible.
+    bool NGWC::GetWindowIconVisible()
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        return T->WindowIconVisible;
+    }
+
+    void NGWC::SetWindowIconVisible(bool Value)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->WindowIconVisible = Value;
+    }
 
     // Window Location.
     POINTN NGWC::GetWindowLocation()
@@ -338,6 +370,27 @@ namespace NGWCpp
         T->ClearWindow();
     }
 
+    void NGWC::DrawFromScreen(int X1, int Y1, int X2, int Y2, int W, int H)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->DrawFromScreen(X1, Y1, X2, Y2, W, H);
+    }
+
+    void NGWC::SaveCanvas()
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->SaveCanvas();
+    }
+
+    void NGWC::RestoreCanvas()
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->RestoreCanvas();
+    }
+
     void NGWC::DrawLine(int X1, int Y1, int X2, int Y2)
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -352,11 +405,32 @@ namespace NGWCpp
         T->DrawArc(X, Y, W, H, A, B);
     }
 
-    void NGWC::DrawText(std::wstring S, int X, int Y)
+    void NGWC::DrawBezier(int X1, int Y1, int X2, int Y2, int X3, int Y3, int X4, int Y4)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->DrawBezier(X1, Y1, X2, Y2, X3, Y3, X4, Y4);
+    }
+
+    void NGWC::DrawText(std::string S, int X, int Y)
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DrawText(gcnew String(S.c_str()), X, Y);
+    }
+
+    void NGWC::DrawImageFromFile(std::string F, int X, int Y)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->DrawImageFromFile(gcnew String(F.c_str()), X, Y);
+    }
+
+    void NGWC::DrawIconFromFile(std::string F, int X, int Y)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->DrawIconFromFile(gcnew String(F.c_str()), X, Y);
     }
 
     void NGWC::DrawRectangle(int X, int Y, int W, int H)
@@ -458,6 +532,13 @@ namespace NGWCpp
     /*
         Metodi vari.
     */
+
+    void NGWC::Default()
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->Default();
+    }
 
     int NGWC::GetScreenMaxX()
     {

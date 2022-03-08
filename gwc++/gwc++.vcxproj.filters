@@ -46,7 +46,7 @@
     <ClCompile Include="ngwc++.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
-    <ClCompile Include="test.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
   </ItemGroup>
@@ -54,5 +54,10 @@
     <Image Include="app.ico">
       <Filter>File di risorse</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="gwc++.resx">
+      <Filter>File di risorse</Filter>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

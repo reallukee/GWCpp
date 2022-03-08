@@ -2,7 +2,7 @@
 
 ![Oh no! Anyway...](./assets/banner.png "GWC++")
 
-GWC++ o Graphic Window for Console Application è una libreria scritta in C++/CLI che mette a disposizione dei Form personalizzati da utilizzare come tela da dipinto per applicazioni console C++ native e .NET.
+GWC++ o Graphic Window for Console Application è una libreria scritta in C++/CLI che mette a disposizione dei form personalizzati da utilizzare come tela da dipinto per applicazioni console C++ native e .NET.
 
 > ⚠ GWC++ è **SOLO** un esperimento, ne sconsiglio quindi l'utilizzo.
 
@@ -29,6 +29,10 @@ GWC++ o Graphic Window for Console Application è una libreria scritta in C++/CL
 | x86                         | -                              | [Download](https://github.com/reallukee/GWCpp/releases/tag/v0.0.1-preview) |
 
 
+
+# Utilizzo
+
+GWC++ mette a disposizione la classe `GWC` per le applicazioni .NET e `NGWC` per le applicazioni c++ native. Utilizzare la classe adatta con la tipologia di applicazione che si sta sviluppando. Vedi la [documentazione](#documentazione) per la compatibilità di metodi e funzioni.
 
 ## Applicazione console C#
 
@@ -189,19 +193,27 @@ Form->CloseWindow();
 - ❎ `DefaultFontName()` Imposta il nome del font al suo valore di base.
 - ✅ `DefaultFontSize()` Imposta la dimensione del font al suo valore di base.
 - ✅ `ClearWindow()` Rimuove tutti i disegni.
+- ✅ `DrawFromScreen(int X1, int Y1, int X2, int Y2, int W, int H)` Disegna un rettangolo di pixel dallo schermo.
+- ✅ `SaveCanvas()` Salva gli oggetti grafici presenti nella finestra.
+- ✅ `RestoreCanvas()` Ripristina gli oggetti grafici presenti nella finestra.
 - ✅ `DrawLine(int X1, int Y1, int X2, int Y2)` Esegue la scrittura di una linea.
 - ✅ `DrawArc(int X, int Y, int W, int H, int A, int B)` Esegue la scrittura di un arco.
-- ✅ `DrawText(string S, int X, int Y)` Esegue la scrittura di un testo.
-- ❎ `DrawImage(Image I, int X, int Y)` Esegue la scrittura di un'immagine.
-- ❎ `DrawIcon(Icon I, int X, int Y)` Esegue la scruttura di un'icona.
-- ✅ `DrawRectangle(int X, int Y, int W, int H)` Esegue la scruttura di un rettangolo.
-- ✅ `DrawFillRectangle(int X, int Y, int W, int H)` Esegue la scruttura di un rettangolo pieno.
-- ✅ `DrawEllipse(int X, int Y, int W, int H)` Esegue la scruttura di un ellisse.
-- ✅ `DrawFillEllipse(int X, int Y, int W, int H)` Esegue la scruttura di un ellisse pieno.
-- ❎ `DrawPolygon(Point[] P)` Esegue la scruttura di un poligono.
-- ❎ `DrawFillPolygon(Point[] P)` Esegue la scruttura di un poligono pieno.
-- ✅ `DrawPie(int X, int Y, int W, int H, int A, int B)` Esegue la scruttura di una torta.
-- ✅ `DrawFillPie(int X, int Y, int W, int H, int A, int B)` Esegue la scruttura di una torta piena.
+- ✅ `DrawBezier(int X1, int Y1, int X2, int Y2, int X3, int Y3, int X4, int Y4)` Disegna un bezier.
+- ✅ `DrawText(string S, int X, int Y)` Disegna del testo.
+- ❎ `DrawImage(Image I, int X, int Y)` Disegna un immagine.
+- ❎ `DrawImageFromFile(String^ F, int X, int Y)` Disegna un immagine da un file.
+- ❎ `DrawIcon(Icon I, int X, int Y)` Disegna un'icona.
+- ❎ `DrawIconFromFile(String^ F, int X, int Y)` Disegna un'icona da un file.
+- ✅ `DrawRectangle(int X, int Y, int W, int H)` Disegna un rettangolo.
+- ✅ `DrawFillRectangle(int X, int Y, int W, int H)` Disegna un rettangolo pieno.
+- ✅ `DrawEllipse(int X, int Y, int W, int H)` Disegna un ellisse.
+- ✅ `DrawFillEllipse(int X, int Y, int W, int H)` Disegna un ellisse pieno.
+- ❎ `DrawCurve(array<Point>^ P)` Disegna una curva.
+- ❎ `DrawClosedCurve(array<Point>^ P)` Disegna una curva chiusa.
+- ❎ `DrawPolygon(Point[] P)` Disegna un poligono.
+- ❎ `DrawFillPolygon(Point[] P)` Disegna un poligono pieno.
+- ✅ `DrawPie(int X, int Y, int W, int H, int A, int B)` Disegna una torta.
+- ✅ `DrawFillPie(int X, int Y, int W, int H, int A, int B)` Disegna una torta piena.
 
 ### Varie
 
@@ -209,6 +221,7 @@ Form->CloseWindow();
 - ✅ `GetMaxScreenY()` Ottiene la massima ordinata dello schermo.
 - ✅ `GetMaxWindowX()` Ottiene la massima ascissa della finestra.
 - ✅ `GetMaxWindowY()` Ottiene la massima ordimata della finestra.
+- ✅ `Default()` Imposta le proprietà della finestra al loro valore predefinito.
 
 
 
@@ -222,6 +235,7 @@ Form->CloseWindow();
 
 - ❎ `WindowTitle` Ottiene o imposta il titolo della finestra.
 - ❎ `WindowIcon` Ottiene o imposta l'icona della finestra.
+- ✅ `WindowIconVisible` Ottiene o imposta la visibilità dell'icona della finestra.
 - ✅ `WindowLocation` Ottiene o imposta la località della finestra.
 - ✅ `WindowColor` Ottiene o imposta il colore di sfondo della finestra.
 - ❎ `WindowImage` Ottiene o imposta l'immagine di sfondo della finestra.

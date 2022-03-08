@@ -15,6 +15,7 @@ using namespace Microsoft::VisualBasic;
 
 int Main()
 {
+    // Nuova istanza di GWC.
     GWCpp::GWC^ Form = gcnew GWCpp::GWC(850, 505, "GWC++ Test", 50, 50);
 
     // Creo la finestra.
@@ -23,6 +24,7 @@ int Main()
     // Cambio le impostazioni della finestra.
     Form->WindowTitle = "GWC++ Window";
     Form->WindowIcon = gcnew Icon("app.ico");
+    Form->WindowIconVisible = true;
     Form->WindowLocation = Point(50, 50);
     Form->WindowColor = Color::Gainsboro;
     Form->WindowImage = nullptr;
