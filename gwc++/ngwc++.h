@@ -1,3 +1,16 @@
+/*
+	GWC++ (Graphic Window for Console Application)
+
+	- Questo progetto è sotto lincenza MIT (https://mit-license.org)
+	- Questo progetto è disponibile su GitHub (https://github.com/reallukee/GWCpp)
+	- Maggiori informazioni sono diponibili nel file README.md
+
+	ATUORE:			Realluke
+	DESCRIZIONE:	Classe non gestita NGWC
+	DATA:			09/03/22
+*/
+
+
 #pragma once
 #pragma unmanaged
 
@@ -15,10 +28,10 @@
 #endif
 
 
-#ifndef POINT_S
-#define POINT_S
+#ifndef NPOINTS
+#define NPOINTS
 
-struct POINTN
+struct NPOINT
 {
 	int X;
 	int Y;
@@ -27,10 +40,10 @@ struct POINTN
 #endif
 
 
-#ifndef SIZE_S
-#define SIZE_S
+#ifndef NSIZES
+#define NSIZES
 
-struct SIZEN
+struct NSIZE
 {
 	int W;
 	int H;
@@ -39,10 +52,10 @@ struct SIZEN
 #endif
 
 
-#ifndef COLOR_S
-#define COLOR_S
+#ifndef NCOLORS
+#define NCOLORS
 
-struct COLORN
+struct NCOLOR
 {
 	int R;
 	int G;
@@ -63,6 +76,9 @@ namespace NGWCpp
 			Costruttori e distruttori.
 		*/
 
+		NGWC();
+		NGWC(int W, int H);
+		NGWC(int W, int H, std::string);
 		NGWC(int W, int H, std::string Title, int X, int Y);
 		~NGWC();
 
@@ -85,30 +101,34 @@ namespace NGWCpp
 			Proprietà finestra.
 		*/
 
-		// std::string GetWindowTitle();
-		// void SetWindowTitle(std::string value);
+		std::string GetWindowTitle();
+		void SetWindowTitle(std::string value);
 		// Icon^ GetWindowIcon();
 		// void SetWindowIcon(Icon^ Value);
 		bool GetWindowIconVisible();
 		void SetWindowIconVisible(bool Value);
-		POINTN GetWindowLocation();
-		void SetWindowLocation(POINTN Value);
-		COLORN GetWindowColor();
-		void SetWindowColor(COLORN Value);
+		NPOINT GetWindowLocation();
+		void SetWindowLocation(NPOINT Value);
+		NCOLOR GetWindowColor();
+		void SetWindowColor(NCOLOR Value);
 		// Image^ GetWindowImage();
 		// void SetWindowImage(Image^ Value);
-		SIZEN GetWindowSize();
-		void SetWindowSize(SIZEN Value);
-		SIZEN GetWindowMinimumSize();
-		void SetWindowMinimumSize(SIZEN Value);
-		SIZEN GetWindowMaximumSize();
-		void SetWindowMaximumSize(SIZEN Value);
+		NSIZE GetWindowSize();
+		void SetWindowSize(NSIZE Value);
+		int GetWindowSizeState();
+		void SetWindowSizeState(int Value);
+		NSIZE GetWindowMinimumSize();
+		void SetWindowMinimumSize(NSIZE Value);
+		NSIZE GetWindowMaximumSize();
+		void SetWindowMaximumSize(NSIZE Value);
 		double GetWindowOpacity();
 		void SetWindowOpacity(double Value);
 		bool GetWindowAlwaysOnTop();
 		void SetWindowAlwaysOnTop(bool Value);
 		bool GetWindowInTaskbar();
 		void SetWindowInTaskbar(bool Value);
+		bool GetWindowButtons();
+		void SetWindowButtons(bool Value);
 		bool GetWindowMinimizeButton();
 		void SetWindowMinimizeButton(bool Value);
 		bool GetWindowMaximizeButton();
@@ -121,17 +141,17 @@ namespace NGWCpp
 		*/
 
 		void DefaultPenColor();
-		COLORN GetPenColor();
-		void SetPenColor(COLORN Value);
+		NCOLOR GetPenColor();
+		void SetPenColor(NCOLOR Value);
 		void DefaultPenWidth();
 		float GetPenWidth();
 		void SetPenWidth(float Value);
 		void DefaultFillColor();
-		COLORN GetFillColor();
-		void SetFillColor(COLORN Value);
-		// void DefaultFontName();
-		// std::string GetFontName();
-		// void SetFontName(std::string Value);
+		NCOLOR GetFillColor();
+		void SetFillColor(NCOLOR Value);
+		void DefaultFontName();
+		std::string GetFontName();
+		void SetFontName(std::string Value);
 		void DefaultFontSize();
 		float GetFontSize();
 		void SetFontSize(float Value);
@@ -148,16 +168,20 @@ namespace NGWCpp
 		void RestoreCanvas();
 		void DrawLine(int X1, int Y1, int X2, int Y2);
 		void DrawArc(int X, int Y, int W, int H, int A, int B);
-		void DrawBezier(int X1, int Y1, int X2, int Y2, int X3, int Y3, int X4, int Y4);
+		void DrawBezier(float X1, float Y1, float X2, float Y2, float X3, float Y3, float X4, float Y4);
 		void DrawText(std::string S, int X, int Y);
 		// void DrawImage(Image^ I, int X, int Y);
 		void DrawImageFromFile(std::string F, int X, int Y);
 		// void DrawIcon(Icon^ I, int X, int Y);
 		void DrawIconFromFile(std::string F, int X, int Y);
 		void DrawRectangle(int X, int Y, int W, int H);
+		void DrawSquare(int X, int Y, int L);
+		void DrawFillSquare(int X, int Y, int L);
 		void DrawFillRectangle(int X, int Y, int W, int H);
 		void DrawEllipse(int X, int Y, int W, int H);
 		void DrawFillEllipse(int X, int Y, int W, int H);
+		void DrawCircle(int X, int Y, int R);
+		void DrawFillCirlce(int X, int Y, int R);
 		// void DrawCurve(array<Point>^ P);
 		// DrawClosedCurve(array<Point>^ P);
 		// void DrawPolygon(array<Point>^ P);
@@ -171,8 +195,10 @@ namespace NGWCpp
 			Metodi evento.
 		*/
 
-		POINT RequestMouseDown(int B);
-		POINT RequestMouseUp(int B);
+		// NPOINT RequestMouseDown(int B);
+		NPOINT RequestMoudeDown();
+		// NPOINT RequestMouseUp(int B);
+		NPOINT RequestMouseUp();
 		char RequestKeyDown(char C);
 		char RequestKeyDown();
 		char RequestKeyUp(char C);
@@ -184,7 +210,6 @@ namespace NGWCpp
 			Metodi vari.
 		*/
 
-		void Default();
 		int GetScreenMaxX();
 		int GetScreenMaxY();
 		int GetWindowMaxX();

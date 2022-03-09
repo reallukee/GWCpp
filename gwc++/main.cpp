@@ -1,3 +1,16 @@
+/*
+    GWC++ (Graphic Window for Console Application)
+
+    - Questo progetto è sotto lincenza MIT (https://mit-license.org)
+    - Questo progetto è disponibile su GitHub (https://github.com/reallukee/GWCpp)
+    - Maggiori informazioni sono diponibili nel file README.md
+
+    ATUORE:			Realluke
+    DESCRIZIONE:	File di test
+    DATA:			09/03/22
+*/
+
+
 #include "pch.h"
 #include "gwc++.h"
 
@@ -16,26 +29,28 @@ using namespace Microsoft::VisualBasic;
 int Main()
 {
     // Nuova istanza di GWC.
-    GWCpp::GWC^ Form = gcnew GWCpp::GWC(850, 505, "GWC++ Test", 50, 50);
+    GWCpp::GWC^ Form = gcnew GWCpp::GWC();
 
     // Creo la finestra.
     Form->StartWindow();
 
     // Cambio le impostazioni della finestra.
-    Form->WindowTitle = "GWC++ Window";
-    Form->WindowIcon = gcnew Icon("app.ico");
-    Form->WindowIconVisible = true;
-    Form->WindowLocation = Point(50, 50);
-    Form->WindowColor = Color::Gainsboro;
+    Form->WindowTitle = "GWC++ Test";
+    Form->WindowIcon = nullptr;
+    Form->WindowIconVisible = false;
+    Form->WindowLocation = System::Drawing::Point(50, 50);
+    Form->WindowColor = Color::FromArgb(240, 240, 240);
     Form->WindowImage = nullptr;
-    Form->WindowSize = Size(850, 505);
-    Form->WindowMinimumSize = Size(850, 505);
-    Form->WindowMaximumSize = Size(0, 0);
-    Form->Opacity = 1.00;
-    Form->TopMost = false;
-    Form->ShowInTaskbar = true;
-    Form->MinimizeBox = true;
-    Form->MaximizeBox = true;
+    Form->WindowSize = System::Drawing::Size(850, 505);
+    Form->WindowSizeState = FormWindowState::Normal;
+    Form->WindowMinimumSize = System::Drawing::Size(0, 0);
+    Form->WindowMaximumSize = System::Drawing::Size(0, 0);
+    Form->WindowOpacity = 1.00;
+    Form->WindowAlwaysOnTop = false;
+    Form->WindowInTaskbar = true;
+    Form->WindowButtons = true;
+    Form->WindowMinimizeButton = true;
+    Form->WindowMaximizeButton = true;
 
     // Cambio le impostazioni di disegno.
     Form->PenColor = Color::Red;
@@ -45,7 +60,7 @@ int Main()
     Form->FontSize = 25.0F;
 
     // Scrivo del testo.
-    Form->DrawText("GWC++", 250, 100);
+    Form->DrawText("GWC++", 100, 100);
 
     Console::ReadKey();
 
