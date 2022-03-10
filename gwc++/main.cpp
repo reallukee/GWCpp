@@ -6,66 +6,51 @@
     - Maggiori informazioni sono diponibili nel file README.md
 
     ATUORE:			Realluke
-    DESCRIZIONE:	File di test
+    DESCRIZIONE:	Test
     DATA:			09/03/22
 */
 
 
 #include "pch.h"
-#include "gwc++.h"
+#pragma unmanaged
 
 
-using namespace System;
-using namespace System::ComponentModel;
-using namespace System::Collections;
-using namespace System::Windows::Forms;
-using namespace System::Data;
-using namespace System::Drawing;
-using namespace System::Threading;
-using namespace System::Runtime::InteropServices;
-using namespace Microsoft::VisualBasic;
+#include <iostream>
+#include <time.h>
+#include <stdlib.h>
+#include <math.h>
+
+
+// Includo NGWC++
+#include "ngwc++.h"
+
+// Dichiarazione di un puntatore NGWC
+NGWCpp::NGWC* Form;
 
 
 int Main()
 {
-    // Nuova istanza di GWC.
-    GWCpp::GWC^ Form = gcnew GWCpp::GWC();
+    // Istanza di NGWC
+    NGWCpp::NGWC* Form = new NGWCpp::NGWC(850, 505, "NGWC++ Test", 50, 50);
 
-    // Creo la finestra.
+    // Creo la finestra
     Form->StartWindow();
 
-    // Cambio le impostazioni della finestra.
-    Form->WindowTitle = "GWC++ Test";
-    Form->WindowIcon = nullptr;
-    Form->WindowIconVisible = false;
-    Form->WindowLocation = System::Drawing::Point(50, 50);
-    Form->WindowColor = Color::FromArgb(240, 240, 240);
-    Form->WindowImage = nullptr;
-    Form->WindowSize = System::Drawing::Size(850, 505);
-    Form->WindowSizeState = FormWindowState::Normal;
-    Form->WindowMinimumSize = System::Drawing::Size(0, 0);
-    Form->WindowMaximumSize = System::Drawing::Size(0, 0);
-    Form->WindowOpacity = 1.00;
-    Form->WindowAlwaysOnTop = false;
-    Form->WindowInTaskbar = true;
-    Form->WindowButtons = true;
-    Form->WindowMinimizeButton = true;
-    Form->WindowMaximizeButton = true;
+    // Cambio le impostazioni di disegno
+    Form->SetPenColor(NCOLOR{ 255, 0, 0 });
+    Form->SetFontName("Comic Sans");
+    Form->SetPenWidth(25.0F);
 
-    // Cambio le impostazioni di disegno.
-    Form->PenColor = Color::Red;
-    Form->PenWidth = 10.0F;
-    Form->FillColor = Color::Red;
-    Form->FontName = "Comic Sans";
-    Form->FontSize = 25.0F;
+    // Scrivo del testo
+    Form->DrawString("GWC++", 250, 100);
 
-    // Scrivo del testo.
-    Form->DrawText("GWC++", 100, 100);
+    system("pause");
 
-    Console::ReadKey();
-
-    // Chiudo la finestra.
+    // Chiudo la finestra
     Form->CloseWindow();
+
+    // Elimino l'istanza
+    delete Form;
 
     return 0;
 }

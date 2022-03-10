@@ -1,4 +1,5 @@
 #include "pch.h"
+#pragma managed
 
 
 using namespace System;
@@ -16,5 +17,7 @@ using namespace System::Security::Permissions;
 [assembly:AssemblyCopyrightAttribute(L"Realluke")];
 [assembly:AssemblyTrademarkAttribute(L"")];
 [assembly:AssemblyCultureAttribute(L"")];
-[assembly:AssemblyVersionAttribute(L"0.0.1")];
+[assembly:AssemblyVersionAttribute(L"0.0.4")];
+
+
 [assembly:ComVisible(false)];

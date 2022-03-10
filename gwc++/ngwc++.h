@@ -73,7 +73,7 @@ namespace NGWCpp
 	public:
 
 		/*
-			Costruttori e distruttori.
+			Costruttori e distruttori
 		*/
 
 		NGWC();
@@ -85,7 +85,7 @@ namespace NGWCpp
 
 
 		/*
-			Metodi finestra.
+			Metodi finestra
 		*/
 
 		void StartWindow();
@@ -98,7 +98,7 @@ namespace NGWCpp
 
 
 		/*
-			Proprietà finestra.
+			Proprietà finestra
 		*/
 
 		std::string GetWindowTitle();
@@ -137,7 +137,7 @@ namespace NGWCpp
 
 
 		/*
-			Proprietà disegno.
+			Proprietà disegno
 		*/
 
 		void DefaultPenColor();
@@ -159,17 +159,17 @@ namespace NGWCpp
 
 
 		/*
-			Metodo disegno.
+			Metodi disegno
 		*/
 
 		void ClearWindow();
-		void DrawFromScreen(int X1, int Y1, int X2, int Y2, int W, int H);
 		void SaveCanvas();
 		void RestoreCanvas();
+		void DrawPixel(int X, int Y);
 		void DrawLine(int X1, int Y1, int X2, int Y2);
 		void DrawArc(int X, int Y, int W, int H, int A, int B);
 		void DrawBezier(float X1, float Y1, float X2, float Y2, float X3, float Y3, float X4, float Y4);
-		void DrawText(std::string S, int X, int Y);
+		void DrawString(std::string S, int X, int Y);
 		// void DrawImage(Image^ I, int X, int Y);
 		void DrawImageFromFile(std::string F, int X, int Y);
 		// void DrawIcon(Icon^ I, int X, int Y);
@@ -181,39 +181,29 @@ namespace NGWCpp
 		void DrawEllipse(int X, int Y, int W, int H);
 		void DrawFillEllipse(int X, int Y, int W, int H);
 		void DrawCircle(int X, int Y, int R);
-		void DrawFillCirlce(int X, int Y, int R);
+		void DrawFillCircle(int X, int Y, int R);
 		// void DrawCurve(array<Point>^ P);
 		// DrawClosedCurve(array<Point>^ P);
 		// void DrawPolygon(array<Point>^ P);
 		// void DrawFillPolygon(array<Point>^ P);
 		void DrawPie(int X, int Y, int W, int H, int A, int B);
 		void DrawFillPie(int X, int Y, int W, int H, int A, int B);
+		void DrawFromScreen(int X1, int Y1, int X2, int Y2, int W, int H);
 
 
 
 		/*
-			Metodi evento.
+			Metodi evento
 		*/
 
-		// NPOINT RequestMouseDown(int B);
+		NPOINT RequestMouseDown(int B);
 		NPOINT RequestMoudeDown();
-		// NPOINT RequestMouseUp(int B);
+		NPOINT RequestMouseUp(int B);
 		NPOINT RequestMouseUp();
 		char RequestKeyDown(char C);
 		char RequestKeyDown();
 		char RequestKeyUp(char C);
 		char RequestKeyUp();
-
-
-
-		/*
-			Metodi vari.
-		*/
-
-		int GetScreenMaxX();
-		int GetScreenMaxY();
-		int GetWindowMaxX();
-		int GetWindowMaxY();
 
 	private:
 

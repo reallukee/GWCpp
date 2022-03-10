@@ -33,14 +33,15 @@ namespace NGWCpp
     using namespace Microsoft::VisualBasic;
 
 
+
     /*
-        Funzioni di conversione.
+        Funzioni di conversione
     */
 
     String^ UStringToMString(std::string Str)
     {
-        msclr::interop::marshal_context Context;
-        return Context.marshal_as<String^>(Str);
+        String^ Context = gcnew String(Str.c_str());
+        return Context;
     }
 
 
@@ -53,16 +54,16 @@ namespace NGWCpp
 
 
     /*
-        Costruttori e distruttori.
+        Costruttori e distruttori
     */
 
-    // Costruttori.
+    // Costruttori
     NGWC::NGWC()
     {
         GWCpp::GWC^ T = gcnew GWCpp::GWC(850, 505, "GWC++ Window", 50, 50);
         NGWCAdress = GCHandle::ToIntPtr(GCHandle::Alloc(T)).ToPointer();
     }
-
+    
     NGWC::NGWC(int W, int H)
     {
         GWCpp::GWC^ T = gcnew GWCpp::GWC(W, H, "GWC++ Window", 50, 50);
@@ -71,17 +72,17 @@ namespace NGWCpp
 
     NGWC::NGWC(int W, int H, std::string Title)
     {
-        GWCpp::GWC^ T = gcnew GWCpp::GWC(W, H, UStringToMString(Title), 50, 50);
+        GWCpp::GWC^ T = gcnew GWCpp::GWC(W, H, gcnew String(Title.c_str()), 50, 50);
         NGWCAdress = GCHandle::ToIntPtr(GCHandle::Alloc(T)).ToPointer();
     }
 
     NGWC::NGWC(int W, int H, std::string Title, int X, int Y)
     {
-        GWCpp::GWC^ T = gcnew GWCpp::GWC(W, H, UStringToMString(Title), X, Y);
+        GWCpp::GWC^ T = gcnew GWCpp::GWC(W, H, gcnew String(Title.c_str()), X, Y);
         NGWCAdress = GCHandle::ToIntPtr(GCHandle::Alloc(T)).ToPointer();
     }
 
-    // Distruttore.
+    // Distruttore
     NGWC::~NGWC()
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -91,10 +92,10 @@ namespace NGWCpp
 
 
     /*
-        Metodi finestra.
+        Metodi finestra
     */
 
-    // Start Window.
+    // Start Window
     void NGWC::StartWindow()
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -102,7 +103,7 @@ namespace NGWCpp
         T->StartWindow();
     }
 
-    // Close Window.
+    // Close Window
     void NGWC::CloseWindow()
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -110,7 +111,7 @@ namespace NGWCpp
         T->CloseWindow();
     }
 
-    // Suspend Window.
+    // Suspend Window
     void NGWC::SuspendWindow()
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -118,7 +119,7 @@ namespace NGWCpp
         T->SuspendWindow();
     }
     
-    // Resume Window.
+    // Resume Window
     void NGWC::ResumeWindow()
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -126,7 +127,7 @@ namespace NGWCpp
         T->ResumeWindow();
     }
 
-    // Show Window.
+    // Show Window
     void NGWC::ShowWindow()
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -134,7 +135,7 @@ namespace NGWCpp
         T->ShowWindow();
     }
 
-    // Hide Window.
+    // Hide Window
     void NGWC::HideWindow()
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -145,10 +146,10 @@ namespace NGWCpp
 
 
     /*
-        Proprietà finestra.
+        Proprietà finestra
     */
 
-    // Window Title.
+    // Window Title
     std::string NGWC::GetWindowTitle()
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -163,7 +164,7 @@ namespace NGWCpp
         T->WindowTitle = UStringToMString(Value);
     }
 
-    // Window Icon Visible.
+    // Window Icon Visible
     bool NGWC::GetWindowIconVisible()
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -178,7 +179,7 @@ namespace NGWCpp
         T->WindowIconVisible = Value;
     }
 
-    // Window Location.
+    // Window Location
     NPOINT NGWC::GetWindowLocation()
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -193,7 +194,7 @@ namespace NGWCpp
         T->WindowLocation = Point(Value.X, Value.Y);
     }
 
-    // Window Color.
+    // Window Color
     NCOLOR NGWC::GetWindowColor()
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -208,7 +209,7 @@ namespace NGWCpp
         T->WindowColor = Color::FromArgb(Value.R, Value.G, Value.B);
     }
 
-    // Window Size.
+    // Window Size
     NSIZE NGWC::GetWindowSize()
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -223,7 +224,7 @@ namespace NGWCpp
         T->WindowSize = Size(Value.W, Value.H);
     }
     
-    // Window Size State.
+    // Window Size State
     int NGWC::GetWindowSizeState()
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -238,7 +239,7 @@ namespace NGWCpp
         T->WindowSizeState = (FormWindowState)Value;
     }
 
-    // Window Minimum Size.
+    // Window Minimum Size
     NSIZE NGWC::GetWindowMinimumSize()
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -253,7 +254,7 @@ namespace NGWCpp
         T->WindowMinimumSize = Size(Value.W, Value.H);
     }
 
-    // Window Maximum Size.
+    // Window Maximum Size
     NSIZE NGWC::GetWindowMaximumSize()
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -268,7 +269,7 @@ namespace NGWCpp
         T->WindowMaximumSize = Size(Value.W, Value.H);
     }
 
-    // Window Opacity.
+    // Window Opacity
     double NGWC::GetWindowOpacity()
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -283,7 +284,7 @@ namespace NGWCpp
         T->WindowOpacity = Value;
     }
 
-    // Window Always On Top.
+    // Window Always On Top
     bool NGWC::GetWindowAlwaysOnTop()
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -298,7 +299,7 @@ namespace NGWCpp
         T->WindowAlwaysOnTop = Value;
     }
 
-    // Window In Taskbar.
+    // Window In Taskbar
     bool NGWC::GetWindowInTaskbar()
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -313,7 +314,7 @@ namespace NGWCpp
         T->WindowInTaskbar = Value;
     }
 
-    // Window Buttons.
+    // Window Buttons
     bool NGWC::GetWindowButtons()
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -328,7 +329,7 @@ namespace NGWCpp
         T->WindowButtons = Value;
     }
 
-    // Window Minimize Button.
+    // Window Minimize Button
     bool NGWC::GetWindowMinimizeButton()
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -343,7 +344,7 @@ namespace NGWCpp
         T->WindowMinimizeButton = Value;
     }
 
-    // Window Maximize Button.
+    // Window Maximize Button
     bool NGWC::GetWindowMaximizeButton()
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -361,10 +362,10 @@ namespace NGWCpp
 
 
     /*
-        Proprietà disegno.
+        Proprietà disegno
     */
 
-    // Pen Color.
+    // Pen Color
     void NGWC::DefaultPenColor()
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -386,7 +387,7 @@ namespace NGWCpp
         T->PenColor = Color::FromArgb(Value.R, Value.G, Value.B);
     }
 
-    // Pen Width.
+    // Pen Width
     void NGWC::DefaultPenWidth()
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -408,7 +409,7 @@ namespace NGWCpp
         T->PenWidth = Value;
     }
 
-    // Fill Color.
+    // Fill Color
     void NGWC::DefaultFillColor()
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -430,7 +431,7 @@ namespace NGWCpp
         T->FillColor = Color::FromArgb(Value.R, Value.G, Value.B);
     }
 
-    // Font Name.
+    // Font Name
     void NGWC::DefaultFontName()
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -452,7 +453,7 @@ namespace NGWCpp
         T->FontName = UStringToMString(Value);
     }
 
-    // Font Size.
+    // Font Size
     void NGWC::DefaultFontSize()
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -477,9 +478,10 @@ namespace NGWCpp
 
 
     /*
-        Metodo disegno.
+        Metodo disegno
     */
 
+    // Clear Window
     void NGWC::ClearWindow()
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -487,13 +489,7 @@ namespace NGWCpp
         T->ClearWindow();
     }
 
-    void NGWC::DrawFromScreen(int X1, int Y1, int X2, int Y2, int W, int H)
-    {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
-        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        T->DrawFromScreen(X1, Y1, X2, Y2, W, H);
-    }
-
+    // Save Canvas
     void NGWC::SaveCanvas()
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -501,6 +497,7 @@ namespace NGWCpp
         T->SaveCanvas();
     }
 
+    // Restore Canvas
     void NGWC::RestoreCanvas()
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -508,6 +505,15 @@ namespace NGWCpp
         T->RestoreCanvas();
     }
 
+    // Draw Pixel
+    void NGWC::DrawPixel(int X, int Y)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->DrawPixel(X, Y);
+    }
+
+    // Draw Line
     void NGWC::DrawLine(int X1, int Y1, int X2, int Y2)
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -515,6 +521,7 @@ namespace NGWCpp
         T->DrawLine(X1, Y1, X2, Y2);
     }
 
+    // Draw Arc
     void NGWC::DrawArc(int X, int Y, int W, int H, int A, int B)
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -522,6 +529,7 @@ namespace NGWCpp
         T->DrawArc(X, Y, W, H, A, B);
     }
 
+    // Draw Bezier
     void NGWC::DrawBezier(float X1, float Y1, float X2, float Y2, float X3, float Y3, float X4, float Y4)
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -529,13 +537,15 @@ namespace NGWCpp
         T->DrawBezier(X1, Y1, X2, Y2, X3, Y3, X4, Y4);
     }
 
-    void NGWC::DrawText(std::string S, int X, int Y)
+    // Draw String
+    void NGWC::DrawString(std::string S, int X, int Y)
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        T->DrawText(gcnew String(S.c_str()), X, Y);
+        T->DrawString(gcnew String(S.c_str()), X, Y);
     }
 
+    // Draw Image From File
     void NGWC::DrawImageFromFile(std::string F, int X, int Y)
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -543,6 +553,7 @@ namespace NGWCpp
         T->DrawImageFromFile(gcnew String(F.c_str()), X, Y);
     }
 
+    // Draw Icon From File
     void NGWC::DrawIconFromFile(std::string F, int X, int Y)
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -550,6 +561,7 @@ namespace NGWCpp
         T->DrawIconFromFile(gcnew String(F.c_str()), X, Y);
     }
 
+    // Draw Square
     void NGWC::DrawSquare(int X, int Y, int L)
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -557,6 +569,7 @@ namespace NGWCpp
         T->DrawSquare(X, Y, L);
     }
 
+    // Draw Fill Square
     void NGWC::DrawFillSquare(int X, int Y, int L)
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -564,6 +577,7 @@ namespace NGWCpp
         T->DrawFillSquare(X, Y, L);
     }
 
+    // Draw Rectangle
     void NGWC::DrawRectangle(int X, int Y, int W, int H)
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -571,6 +585,7 @@ namespace NGWCpp
         T->DrawRectangle(X, Y, W, H);
     }
 
+    // Draw Fill Rectangle
     void NGWC::DrawFillRectangle(int X, int Y, int W, int H)
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -578,6 +593,7 @@ namespace NGWCpp
         T->DrawFillRectangle(X, Y, W, H);
     }
 
+    // Draw Ellipse
     void NGWC::DrawEllipse(int X, int Y, int W, int H)
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -585,6 +601,7 @@ namespace NGWCpp
         T->DrawEllipse(X, Y, W, H);
     }
 
+    // Draw Fill Ellipse
     void NGWC::DrawFillEllipse(int X, int Y, int W, int H)
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -592,6 +609,7 @@ namespace NGWCpp
         T->DrawFillEllipse(X, Y, W, H);
     }
 
+    // Draw Circle
     void NGWC::DrawCircle(int X, int Y, int R)
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -599,13 +617,15 @@ namespace NGWCpp
         T->DrawCircle(X, Y, R);
     }
 
-    void NGWC::DrawFillCirlce(int X, int Y, int R)
+    // Draw Fill Circle
+    void NGWC::DrawFillCircle(int X, int Y, int R)
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DrawFillCircle(X, Y, R);
     }
 
+    // Draw Pie
     void NGWC::DrawPie(int X, int Y, int W, int H, int A, int B)
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -613,6 +633,7 @@ namespace NGWCpp
         T->DrawPie(X, Y, W, H, A, B);
     }
 
+    // Draw Fill Pie
     void NGWC::DrawFillPie(int X, int Y, int W, int H, int A, int B)
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -620,13 +641,28 @@ namespace NGWCpp
         T->DrawFillPie(X, Y, W, H, A, B);
     }
 
+    // Draw From Screen
+    void NGWC::DrawFromScreen(int X1, int Y1, int X2, int Y2, int W, int H)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->DrawFromScreen(X1, Y1, X2, Y2, W, H);
+    }
+
 
 
     /*
-        Metodi evento.
+        Metodi evento
     */
 
-    // Mouse Down.
+    // Mouse Down
+    NPOINT NGWC::RequestMouseDown(int B)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        return NPOINT{ T->RequestMouseDown((MouseButtons)B).X, T->RequestMouseDown((MouseButtons)B).Y };
+    }
+
     NPOINT NGWC::RequestMoudeDown()
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -634,7 +670,14 @@ namespace NGWCpp
         return NPOINT{ T->RequestMouseDown().X, T->RequestMouseDown().Y };
     }
 
-    // Mouse Up.
+    // Mouse Up
+    NPOINT NGWC::RequestMouseUp(int B)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        return NPOINT{ T->RequestMouseUp((MouseButtons)B).X, T->RequestMouseUp((MouseButtons)B).Y };
+    }
+
     NPOINT NGWC::RequestMouseUp()
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -642,7 +685,7 @@ namespace NGWCpp
         return NPOINT{ T->RequestMouseUp().X, T->RequestMouseUp().Y };
     }
 
-    // key Down.
+    // key Down
     char NGWC::RequestKeyDown(char C)
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -657,7 +700,7 @@ namespace NGWCpp
         return T->RequestKeyUp();
     }
 
-    // Key Up.
+    // Key Up
     char NGWC::RequestKeyUp(char C)
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
@@ -670,40 +713,6 @@ namespace NGWCpp
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->RequestKeyUp();
-    }
-
-
-
-    /*
-        Metodi vari.
-    */
-
-    int NGWC::GetScreenMaxX()
-    {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
-        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return T->GetScreenMaxX();
-    }
-
-    int NGWC::GetScreenMaxY()
-    {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
-        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return T->GetScreenMaxY();
-    }
-
-    int NGWC::GetWindowMaxX()
-    {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
-        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return T->GetWindowMaxX();
-    }
-
-    int NGWC::GetWindowMaxY()
-    {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
-        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return T->GetWindowMaxY();
     }
 
 }
