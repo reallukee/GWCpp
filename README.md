@@ -181,7 +181,7 @@ Window->CloseWindow();
     git clone https://github.com/reallukee/GWCpp.git
     ```
 
-3. Aprire con Visual Studio il file `gwc++.sln` o il file` gwc++\gwc++.vcxproj`.
+3. Aprire con Visual Studio il file `gwc++.sln` o il file `gwc++\gwc++.vcxproj`.
 
 
 
