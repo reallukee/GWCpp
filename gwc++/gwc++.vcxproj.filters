@@ -26,10 +26,13 @@
     <ClInclude Include="pch.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
-    <ClInclude Include="gwc++.h">
+    <ClInclude Include="pgwc++.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
     <ClInclude Include="ngwc++.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="gwc++.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
   </ItemGroup>
@@ -43,7 +46,10 @@
     <ClCompile Include="ngwc++.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="umain.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="mmain.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
   </ItemGroup>
