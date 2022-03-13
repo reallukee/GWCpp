@@ -4,7 +4,7 @@
 
 GWC++ o Graphic Window for Console Application è una libreria scritta in C++/CLI che mette a disposizione dei form personalizzati da utilizzare come tela da dipinto per applicazioni console .NET e C++ native per Windows.
 
-> ⚠ GWC++ è **SOLO** un esperimento, ne sconsiglio quindi l'utilizzo. 
+> ⚠ GWC++ è **SOLO** un esperimento. Ne consiglio l'utilizzo solo per divertimento.
 
 
 
@@ -12,6 +12,7 @@ GWC++ o Graphic Window for Console Application è una libreria scritta in C++/CL
 
 - [Rilasci](#rilasci)
 - [Esempi](#esempi)
+- [Compilazione](#compilazione)
 - [Documentazione](#documentazione)
 - [Strumenti](#strumenti)
 - [Autore](#autore)
@@ -21,16 +22,19 @@ GWC++ o Graphic Window for Console Application è una libreria scritta in C++/CL
 
 # Rilasci
 
-> ⚠ Una versione stabile di GWC++ verrà presto rilasciata.
+> 🎉 Una versione *"stabile"* di GWC++ è disponibile!
 
-| Architettura<br /> versione | Ultima versione<br/> (Stabile) | Ultima versione<br/> (Anteprima)                                           |
-| :-------------------------: | :----------------------------: | :------------------------------------------------------------------------: |
-| x64                         | -                              | [Download](https://github.com/reallukee/GWCpp/releases/tag/v0.0.4-preview) |
-| x86                         | -                              | [Download](https://github.com/reallukee/GWCpp/releases/tag/v0.0.4-preview) |
+| Architettura<br /> versione | Ultima versione<br/> (Stabile)                                     | Ultima versione<br/> (Anteprima)                                           |
+| :-------------------------: | :----------------------------------------------------------------: | :------------------------------------------------------------------------: |
+| x64                         | [Download](https://github.com/reallukee/GWCpp/releases/tag/v1.0.0) | [Download](https://github.com/reallukee/GWCpp/releases/tag/v0.0.3-preview) |
+| x86                         | [Download](https://github.com/reallukee/GWCpp/releases/tag/v1.0.0) | [Download](https://github.com/reallukee/GWCpp/releases/tag/v0.0.3-preview) |
 
 
 
 # Esempi
+
+## Premesse
+GWC++ offre la classe `GWC` per le applicazioni console .NET e `NGWC` per le applicazioni C++ native per Windows. Utilizzare la classe adatta al tipo di linguaggio e applicazione che si sta sviluppando. Nel caso di C++/CLI è possibile utilizzare entrambe le classi indistintamente.
 
 ## Applicazione console C#
 
@@ -54,7 +58,7 @@ Window.FontName = "Comic Sans";
 Window.FontSize = 25.0F;
 
 // Scrivo del testo.
-Window.DrawText("GWC++", 250, 100);
+Window.DrawString("GWC++", 250, 100);
 
 Console.ReadKey();
 
@@ -86,7 +90,7 @@ Window.FontName = "Comic Sans"
 Window.FontSize = 25.0F
 
 ' Scrivo del testo.
-Window.DrawText("GWC++", 250, 100)
+Window.DrawString("GWC++", 250, 100)
 
 Console.ReadKey()
 
@@ -118,7 +122,7 @@ Window->FontName = "Comic Sans";
 Window->FontSize = 25.0F;
 
 // Scrivo del testo.
-Window->DrawText("GWC++", 250, 100);
+Window->DrawString("GWC++", 250, 100);
 
 Console::ReadKey();
 
@@ -150,7 +154,7 @@ Window->SetFontName("Comic Sans");
 Window->SetPenWidth(25.0F);
 
 // Scrivo del testo.
-Window->DrawText("GWC++", 250, 100);
+Window->DrawString("GWC++", 250, 100);
 
 system("pause");
 
@@ -159,6 +163,25 @@ Window->CloseWindow();
 
 // Codice ...
 ```
+
+
+
+# Compilazione
+
+1. Installare l'ultima versione di [Visual Studio](https://visualstudio.microsoft.com/it/vs/).
+
+    - Installare il carico di lavoro `Sviluppo di applicazioni desktop con C++`.
+    - Installare il carico di lavoro `Sviluppo per desktop .NET`.
+    - Installare il componente facoltativo `Supporto C++/CLI per Build Tools v143`.
+    - Installare il componente facoltativo `.NET Framework 4.8 SDK`.
+
+2. Clonare la repository.
+
+    ```git
+    git clone https://github.com/reallukee/GWCpp.git
+    ```
+
+3. Aprire con Visual Studio il file `gwc++.sln` o il file` gwc++\gwc++.vcxproj`.
 
 
 
@@ -195,7 +218,7 @@ Window->CloseWindow();
 - `DrawLine`
 - `DrawArc`
 - `DrawBezier`
-- `DrawText`
+- `DrawString`
 - `DrawImage`
 - `DrawImageFromFile`
 - `DrawIcon`
@@ -278,15 +301,18 @@ Window->SetWindowTitle("New Title");
 # Strumenti
 
 - GWC++
+
     - [Visual Studio 2022](https://visualstudio.microsoft.com/it/vs/)
     - [MSVC v143](https://docs.microsoft.com/it-it/cpp/build/reference/compiling-a-c-cpp-program?view=msvc-170)
     - [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48)
 
 - CSTest
+
     - [Visual Studio 2022](https://visualstudio.microsoft.com/it/vs/)
     - [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48)
 
 - VBText
+
     - [Visual Studio 2022](https://visualstudio.microsoft.com/it/vs/)
     - [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48)
 
@@ -300,4 +326,4 @@ Window->SetWindowTitle("New Title");
 
 # Licenza
 
-GWC++ è sotto licenza [MIT](https://mit-license.org/).
+GWC++ è sotto licenza [MIT](./LICENSE).
