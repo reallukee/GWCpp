@@ -7,7 +7,7 @@
 
     ATUORE:			Realluke
     DESCRIZIONE:	UMani (Unmanaged Main)
-    DATA:			13/03/22
+    DATA:			14/03/22
 */
 
 
@@ -26,7 +26,7 @@ void UMain()
     Window->StartWindow();
 
     // Cambio le impostazioni di disegno
-    Window->SetPenColor(NCOLOR{ 255, 0, 0 });
+    Window->SetPenColor(NGWCpp::NGColor{ 255, 0, 0 });
     Window->SetFontName("Comic Sans");
     Window->SetPenWidth(25.0F);
 

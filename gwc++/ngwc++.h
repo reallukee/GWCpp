@@ -7,7 +7,7 @@
 
 	ATUORE:			Realluke
 	DESCRIZIONE:	Classe non gestita NGWC
-	DATA:			13/03/22
+	DATA:			14/03/22
 */
 
 
@@ -28,45 +28,47 @@
 #endif
 
 
-#ifndef NPOINTS
-#define NPOINTS
-
-struct NPOINT
-{
-	int X;
-	int Y;
-};
-
-#endif
-
-
-#ifndef NSIZES
-#define NSIZES
-
-struct NSIZE
-{
-	int W;
-	int H;
-};
-
-#endif
-
-
-#ifndef NCOLORS
-#define NCOLORS
-
-struct NCOLOR
-{
-	int R;
-	int G;
-	int B;
-};
-
-#endif
-
-
 namespace NGWCpp
 {
+	struct NGPoint
+	{
+		int X;
+		int Y;
+	};
+
+
+	struct NGSize
+	{
+		int W;
+		int H;
+	};
+
+
+	struct NGColor
+	{
+		int R;
+		int G;
+		int B;
+	};
+
+
+	public enum NGMouseButtons
+	{
+		None = 0,
+		Left = 1048576,
+		Right = 2097152,
+		Middle = 4194304
+	};
+
+
+	public enum NGWindowState
+	{
+		Normal = 0,
+		Minimized = 1,
+		Maximized = 2
+	};
+
+
 	class DECLSPECIFIER NGWC
 	{
 
@@ -94,6 +96,10 @@ namespace NGWCpp
 		void HideWindow();
 		void SuspendWindow();
 		void ResumeWindow();
+		int GetMaxX();
+		int GetRealMaxX();
+		int GetMaxY();
+		int GetRealMaxY();
 
 
 
@@ -101,26 +107,30 @@ namespace NGWCpp
 			Proprietà finestra
 		*/
 
+		bool GetWindowStarted();
+		bool GetWindowClosed();
 		std::string GetWindowTitle();
 		void SetWindowTitle(std::string value);
 		// Icon^ GetWindowIcon();
 		// void SetWindowIcon(Icon^ Value);
 		bool GetWindowIconVisible();
 		void SetWindowIconVisible(bool Value);
-		NPOINT GetWindowLocation();
-		void SetWindowLocation(NPOINT Value);
-		NCOLOR GetWindowColor();
-		void SetWindowColor(NCOLOR Value);
+		NGPoint GetWindowLocation();
+		void SetWindowLocation(NGPoint Value);
+		NGColor GetWindowColor();
+		void SetWindowColor(NGColor Value);
 		// Image^ GetWindowImage();
 		// void SetWindowImage(Image^ Value);
-		NSIZE GetWindowSize();
-		void SetWindowSize(NSIZE Value);
-		int GetWindowSizeState();
-		void SetWindowSizeState(int Value);
-		NSIZE GetWindowMinimumSize();
-		void SetWindowMinimumSize(NSIZE Value);
-		NSIZE GetWindowMaximumSize();
-		void SetWindowMaximumSize(NSIZE Value);
+		NGSize GetWindowSize();
+		void SetWindowSize(NGSize Value);
+		NGSize GetWindowRealSize();
+		void SetWindowRealSize(NGSize Value);
+		NGWindowState GetWindowSizeState();
+		void SetWindowSizeState(NGWindowState Value);
+		NGSize GetWindowMinimumSize();
+		void SetWindowMinimumSize(NGSize Value);
+		NGSize GetWindowMaximumSize();
+		void SetWindowMaximumSize(NGSize Value);
 		double GetWindowOpacity();
 		void SetWindowOpacity(double Value);
 		bool GetWindowAlwaysOnTop();
@@ -141,14 +151,14 @@ namespace NGWCpp
 		*/
 
 		void DefaultPenColor();
-		NCOLOR GetPenColor();
-		void SetPenColor(NCOLOR Value);
+		NGColor GetPenColor();
+		void SetPenColor(NGColor Value);
 		void DefaultPenWidth();
 		float GetPenWidth();
 		void SetPenWidth(float Value);
 		void DefaultFillColor();
-		NCOLOR GetFillColor();
-		void SetFillColor(NCOLOR Value);
+		NGColor GetFillColor();
+		void SetFillColor(NGColor Value);
 		void DefaultFontName();
 		std::string GetFontName();
 		void SetFontName(std::string Value);
@@ -176,18 +186,18 @@ namespace NGWCpp
 		void DrawIconFromFile(std::string F, int X, int Y);
 		void DrawRectangle(int X, int Y, int W, int H);
 		void DrawSquare(int X, int Y, int L);
-		void DrawFillSquare(int X, int Y, int L);
-		void DrawFillRectangle(int X, int Y, int W, int H);
+		void DrawFullSquare(int X, int Y, int L);
+		void DrawFullRectangle(int X, int Y, int W, int H);
 		void DrawEllipse(int X, int Y, int W, int H);
-		void DrawFillEllipse(int X, int Y, int W, int H);
+		void DrawFullEllipse(int X, int Y, int W, int H);
 		void DrawCircle(int X, int Y, int R);
-		void DrawFillCircle(int X, int Y, int R);
+		void DrawFullCircle(int X, int Y, int R);
 		// void DrawCurve(array<Point>^ P);
 		// DrawClosedCurve(array<Point>^ P);
 		// void DrawPolygon(array<Point>^ P);
-		// void DrawFillPolygon(array<Point>^ P);
+		// void DrawFullPolygon(array<Point>^ P);
 		void DrawPie(int X, int Y, int W, int H, int A, int B);
-		void DrawFillPie(int X, int Y, int W, int H, int A, int B);
+		void DrawFullPie(int X, int Y, int W, int H, int A, int B);
 		void DrawFromScreen(int X1, int Y1, int X2, int Y2, int W, int H);
 
 
@@ -196,10 +206,10 @@ namespace NGWCpp
 			Metodi evento
 		*/
 
-		NPOINT RequestMouseDown(int B);
-		NPOINT RequestMoudeDown();
-		NPOINT RequestMouseUp(int B);
-		NPOINT RequestMouseUp();
+		NGPoint RequestMouseDown(NGMouseButtons B);
+		NGPoint RequestMoudeDown();
+		NGPoint RequestMouseUp(NGMouseButtons B);
+		NGPoint RequestMouseUp();
 		char RequestKeyDown(char C);
 		char RequestKeyDown();
 		char RequestKeyUp(char C);

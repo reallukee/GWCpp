@@ -7,7 +7,7 @@
 
 	ATUORE:			Realluke
 	DESCRIZIONE:	Classe gestita PGWC
-	DATA:			13/03/22
+	DATA:			14/03/22
 */
 
 
@@ -28,16 +28,127 @@ using namespace Microsoft::VisualBasic;
 
 namespace GWCpp
 {
+	public value struct GPoint
+	{
+		int X;
+		int Y;
+
+		GPoint(int X, int Y)
+		{
+			if (X >= 0)
+			{
+				this->X = X;
+			}
+			else
+			{
+				this->X = 0;
+			}
+
+			if (Y >= 0)
+			{
+				this->Y = Y;
+			}
+			else
+			{
+				this->Y = 0;
+			}
+		}
+	};
+
+
+	public value struct GSize
+	{
+		int W;
+		int H;
+
+		GSize(int W, int H)
+		{
+			if (W >= 0)
+			{
+				this->W = W;
+			}
+			else
+			{
+				this->W = 0;
+			}
+
+			if (H >= 0)
+			{
+				this->H = H;
+			}
+			else
+			{
+				this->H = 0;
+			}
+		}
+	};
+
+
+	public value struct GColor
+	{
+		int R;
+		int G;
+		int B;
+
+		GColor(int R, int G, int B)
+		{
+			if (R >= 0 || R <= 255)
+			{
+				this->R = R;
+			}
+			else
+			{
+				this->R = 0;
+			}
+
+			if (G >= 0 || G <= 255)
+			{
+				this->G = G;
+			}
+			else
+			{
+				this->G = 0;
+			}
+
+			if (B >= 0 || B <= 255)
+			{
+				this->B = B;
+			}
+			else
+			{
+				this->B = 0;
+			}
+		}
+	};
+
+
+	public enum class GMouseButtons
+	{
+		None = 0,
+		Left = 1048576,
+		Right = 2097152,
+		Middle = 4194304
+	};
+
+
+	public enum class GWindowState
+	{
+		Normal = 0,
+		Minimized = 1,
+		Maximized = 2
+	};
+
+
 	private ref class PGWC : public Form
 	{
 
 		/*
-			Costruttori e distruttori
+			Costruttori e distruttori.
 		*/
 
 	public:
 
-		// Costruttori
+		// Costruttori.
 		PGWC() : Form()
 		{
 			InitializeComponent(850, 505, "GWC++ Window", 50, 50);
@@ -66,7 +177,7 @@ namespace GWCpp
 			GWCThread->SetApartmentState(ApartmentState::STA);
 		}
 
-		// Distruttore
+		// Distruttore.
 		~PGWC()
 		{
 			if (Components)
@@ -79,31 +190,27 @@ namespace GWCpp
 
 	private:
 
-		// Abilitazione del designer di Visual Studio
+		// Abilitazione del designer di Visual Studio.
 		System::ComponentModel::Container^ Components;
 
-		// Thread della finestra
+		// Thread della finestra.
 		Thread^ GWCThread;
 
-		// Indicatore orgine della chiamata
-		bool CalledByMe = false;
-
-		// Canvas
+		// Canvas.
 		System::Drawing::Drawing2D::GraphicsState^ Canvas;
 
-		// Inizializzatore componenti
+		// Inizializzatore componenti.
 		void InitializeComponent(int W, int H, String^ Title, int X, int Y)
 		{
 			// Abilitazione del designer di Visual Studio.
 			this->Components = gcnew System::ComponentModel::Container();
 
-			// Sospensione layout
+			// Sospensione layout.
 			this->SuspendLayout();
 
-			// Imposto 'CalledByMe' su 'true'
-			CalledByMe = true;
-
-			// Proprietà finestra
+			// Proprietà finestra.
+			this->WindowStarted = false;
+			this->WindowClosed = true;
 			Form::Text = Title;
 			Form::Icon = nullptr;
 			Form::ShowIcon = false;
@@ -111,6 +218,7 @@ namespace GWCpp
 			Form::BackColor = Color::FromArgb(240, 240, 240);
 			Form::BackgroundImage = nullptr;
 			Form::Size = System::Drawing::Size(W, H);
+			Form::ClientSize = System::Drawing::Size(W, H);
 			Form::WindowState = FormWindowState::Normal;
 			Form::MinimumSize = System::Drawing::Size(0, 0);
 			Form::MaximumSize = System::Drawing::Size(0, 0);
@@ -121,27 +229,24 @@ namespace GWCpp
 			Form::MinimizeBox = true;
 			Form::MaximizeBox = true;
 
-			// Proprietà disegno
+			// Proprietà disegno.
 			this->DefaultPenColor();
 			this->DefaultPenWidth();
 			this->DefaultFillColor();
 			this->DefaultFontName();
 			this->DefaultFontSize();
 
-			// Eventi finestra
+			// Eventi finestra.
 			this->MouseDown += gcnew MouseEventHandler(this, &PGWC::GWC_MouseDown);
 			this->MouseUp += gcnew MouseEventHandler(this, &PGWC::GWC_MouseUp);
 			this->KeyDown += gcnew KeyEventHandler(this, &PGWC::GWC_KeyDown);
 			this->KeyUp += gcnew KeyEventHandler(this, &PGWC::GWC_KeyUp);
 
-			// Imposto 'CalledByMe' su 'false'
-			CalledByMe = false;
-
 			// Ripresa layout.
 			this->ResumeLayout(false);
 		}
 
-		// Inizializzatore finestra
+		// Inizializzatore finestra.
 		void InitializeWindow()
 		{
 			Application::EnableVisualStyles();
@@ -152,42 +257,68 @@ namespace GWCpp
 
 
 		/*
-			Metodi finestra
+			Metodi finestra.
 		*/
 
 	public:
 
-		// Start Window
+		// Start Window.
 		void StartWindow()
 		{
 			GWCThread->Start();
 			GWCThread->Sleep(50);
+			WindowStarted = true;
 		}
 
-		// Close Window
+		// Close Window.
 		void CloseWindow()
 		{
 			GWCThread->Sleep(50);
 			GWCThread->Abort();
+			WindowClosed = true;
 		}
 
-		// Suspend Window
+		// Suspend Window.
 		void SuspendWindow()
 		{
 			GWCThread->Sleep(10);
 			GWCThread->Suspend();
 		}
 
-		// Resume Window
+		// Resume Window.
 		void ResumeWindow()
 		{
 			GWCThread->Sleep(10);
 			GWCThread->Resume();
 		}
 
+		// Get Max X.
+		int GetMaxX()
+		{
+			return Form::Size.Width - 1;
+		}
+
+		// Get Real Max X.
+		int GetRealMaxX()
+		{
+			return Form::ClientSize.Width - 1;
+		}
+
+		// Get Max Y.
+		int GetMaxY()
+		{
+			return Form::Size.Height - 1;
+		}
+
+		// Get Real Max Y.
+		int GetRealMaxY()
+		{
+			return Form::ClientSize.Height - 1;
+		}
 
 
-		// Show Window
+
+		// Show Window.
 
 	private:
 
@@ -202,27 +333,20 @@ namespace GWCpp
 
 		void Show()
 		{
-			if (CalledByMe == false)
-			{
-				throw gcnew NotSupportedException();
-			}
-
 			Form::Show();
-			CalledByMe = false;
 		}
 
 		void ShowWindow()
 		{
 			ShowWindowD^ D;
 			D = gcnew ShowWindowD(this, &PGWC::ShowWindowT);
-			CalledByMe = true;
 			this->Invoke(D);
 			delete D;
 		}
 
 
 
-		// Hide Window
+		// Hide Window.
 
 	private:
 
@@ -237,27 +361,70 @@ namespace GWCpp
 
 		void Hide()
 		{
-			if (CalledByMe == false)
-			{
-				throw gcnew NotSupportedException();
-			}
-
 			Form::Hide();
-			CalledByMe = false;
 		}
 
 		void HideWindow()
 		{
 			HideWindowD^ D;
 			D = gcnew HideWindowD(this, &PGWC::HideWindowT);
-			CalledByMe = true;
 			this->Invoke(D);
 			delete D;
 		}
 
 
 
-		// Window Title
+		/*
+			Proprietà finestra.
+		*/
+
+		// Window Started.
+
+	private:
+
+		bool WindowStarted_;
+
+	public:
+
+		property bool WindowStarted
+		{
+			bool get()
+			{
+				return WindowStarted_;
+			}
+
+			private: void set(bool Value)
+			{
+				WindowStarted_ = Value;
+			}
+		}
+
+
+
+		// Window Closed.
+
+	private:
+
+		bool WindowClosed_;
+
+	public:
+
+		property bool WindowClosed
+		{
+			bool get()
+			{
+				return WindowClosed_;
+			}
+
+			private: void set(bool Value)
+			{
+				WindowClosed_ = Value;
+			}
+		}
+
+
+
+		// Window Title.
 
 	private:
 
@@ -304,7 +471,7 @@ namespace GWCpp
 
 
 
-		// Window Icon
+		// Window Icon.
 
 	private:
 
@@ -351,7 +518,7 @@ namespace GWCpp
 
 
 
-		// Window Icon Visible
+		// Window Icon Visible.
 
 	private:
 
@@ -398,7 +565,7 @@ namespace GWCpp
 
 
 
-		// Window Location
+		// Window Location.
 
 	private:
 
@@ -409,7 +576,7 @@ namespace GWCpp
 			Form::Location = Value; 
 		}
 		
-		Point WindowLocation_;
+		GPoint WindowLocation_;
 
 	public:
 
@@ -426,18 +593,18 @@ namespace GWCpp
 			}
 		}
 
-		property Point WindowLocation
+		property GPoint WindowLocation
 		{
-			Point get() 
+			GPoint get() 
 			{ 
 				return WindowLocation_; 
 			}
 
-			void set(Point Value)
+			void set(GPoint Value)
 			{
 				WindowLocationD^ D;
 				D = gcnew WindowLocationD(this, &PGWC::WindowLocationT);
-				this->Invoke(D, Value);
+				this->Invoke(D, gcnew Point(Value.X, Value.Y));
 				this->WindowLocation_ = Value;
 				delete D;
 			}
@@ -445,7 +612,7 @@ namespace GWCpp
 
 
 
-		// Window Color
+		// Window Color.
 
 	private:
 
@@ -456,7 +623,7 @@ namespace GWCpp
 			Form::BackColor = Value; 
 		}
 		
-		Color WindowColor_;
+		GColor WindowColor_;
 
 	public:
 
@@ -473,19 +640,18 @@ namespace GWCpp
 			}
 		}
 
-		property Color WindowColor
+		property GColor WindowColor
 		{
-			Color get() 
+			GColor get() 
 			{ 
 				return WindowColor_; 
 			}
 
-			void set(Color Value)
+			void set(GColor Value)
 			{
 				WindowColorD^ D;
 				D = gcnew WindowColorD(this, &PGWC::WindowColorT);
-				CalledByMe = true;
-				this->Invoke(D, Value);
+				this->Invoke(D, Color::FromArgb(Value.R, Value.G, Value.B));
 				this->WindowColor_ = Value;
 				delete D;
 			}
@@ -493,7 +659,7 @@ namespace GWCpp
 
 
 
-		// Window Image
+		// Window Image.
 
 	private:
 
@@ -540,7 +706,7 @@ namespace GWCpp
 
 
 
-		// Window Size
+		// Window Size.
 
 	private:
 
@@ -551,7 +717,7 @@ namespace GWCpp
 			Form::Size = Value; 
 		}
 
-		System::Drawing::Size WindowSize_;
+		GSize WindowSize_;
 
 	public:
 
@@ -568,18 +734,18 @@ namespace GWCpp
 			}
 		}
 
-		property System::Drawing::Size WindowSize
+		property GSize WindowSize
 		{
-			System::Drawing::Size get() 
+			GSize get()
 			{ 
 				return WindowSize_; 
 			}
 
-			void set(System::Drawing::Size Value)
+			void set(GSize Value)
 			{
 				WindowSizeD^ D;
 				D = gcnew WindowSizeD(this, &PGWC::WindowSizeT);
-				this->Invoke(D, Value);
+				this->Invoke(D, gcnew System::Drawing::Size(Value.W, Value.H));
 				this->WindowSize_ = Value;
 				delete D;
 			}
@@ -587,7 +753,54 @@ namespace GWCpp
 
 
 
-		// Window Size State
+		// Window Real Size.
+
+	private:
+
+		delegate void WindowRealSizeD(System::Drawing::Size Value);
+
+		void WindowRealSizeT(System::Drawing::Size Value)
+		{
+			Form::ClientSize = Value;
+		}
+
+		GSize WindowRealSize_;
+
+	public:
+
+		property System::Drawing::Size ClientSize
+		{
+			virtual System::Drawing::Size get() sealed
+			{
+				return System::Drawing::Size(0, 0);
+			};
+
+			virtual void set(System::Drawing::Size Value) sealed
+			{
+				return;
+			}
+		}
+
+		property GSize WindowRealSize
+		{
+			GSize get()
+			{
+				return WindowRealSize_;
+			}
+
+			void set(GSize Value)
+			{
+				WindowRealSizeD^ D;
+				D = gcnew WindowRealSizeD(this, &PGWC::WindowRealSizeT);
+				this->Invoke(D, gcnew System::Drawing::Size(Value.W, Value.H));
+				this->WindowRealSize_ = Value;
+				delete D;
+			}
+		}
+
+
+
+		// Window Size State.
 	
 	private:
 
@@ -598,7 +811,7 @@ namespace GWCpp
 			Form::WindowState = Value;
 		}
 
-		FormWindowState WindowSizeState_;
+		GWindowState WindowSizeState_;
 
 	public:
 
@@ -615,18 +828,18 @@ namespace GWCpp
 			}
 		}
 
-		property FormWindowState WindowSizeState
+		property GWindowState WindowSizeState
 		{
-			FormWindowState get()
+			GWindowState get()
 			{
 				return WindowSizeState_;
 			}
 
-			void set(FormWindowState Value)
+			void set(GWindowState Value)
 			{
 				WindowSizeStateD^ D;
 				D = gcnew WindowSizeStateD(this, &PGWC::WindowSizeStateT);
-				this->Invoke(D, Value);
+				this->Invoke(D, (FormWindowState)Value);
 				this->WindowSizeState_ = Value;
 				delete D;
 			}
@@ -634,7 +847,7 @@ namespace GWCpp
 
 
 
-		// Window Minimum Size
+		// Window Minimum Size.
 
 	private:
 
@@ -645,7 +858,7 @@ namespace GWCpp
 			Form::MinimumSize = Value; 
 		}
 
-		System::Drawing::Size WindowMinimumSize_;
+		GSize WindowMinimumSize_;
 
 	public:
 
@@ -662,18 +875,18 @@ namespace GWCpp
 			}
 		}
 
-		property System::Drawing::Size WindowMinimumSize
+		property GSize WindowMinimumSize
 		{
-			System::Drawing::Size get() 
+			GSize get() 
 			{ 
 				return WindowMinimumSize_; 
 			}
 
-			void set(System::Drawing::Size Value)
+			void set(GSize Value)
 			{
 				WindowMinimumSizeD^ D;
 				D = gcnew WindowMinimumSizeD(this, &PGWC::WindowMinimumSizeT);
-				this->Invoke(D, Value);
+				this->Invoke(D, System::Drawing::Size(Value.W, Value.H));
 				this->WindowMinimumSize_ = Value;
 				delete D;
 			}
@@ -681,7 +894,7 @@ namespace GWCpp
 
 
 
-		// Window Maximum Size
+		// Window Maximum Size.
 
 	private:
 
@@ -692,7 +905,7 @@ namespace GWCpp
 			Form::MaximumSize = Value; 
 		}
 
-		System::Drawing::Size WindowMaximumSize_;
+		GSize WindowMaximumSize_;
 
 	public:
 
@@ -709,18 +922,18 @@ namespace GWCpp
 			}
 		}
 
-		property System::Drawing::Size WindowMaximumSize
+		property GSize WindowMaximumSize
 		{
-			System::Drawing::Size get() 
+			GSize get() 
 			{ 
 				return WindowMaximumSize_; 
 			}
 
-			void set(System::Drawing::Size Value)
+			void set(GSize Value)
 			{
 				WindowMaximumSizeD^ D;
 				D = gcnew WindowMaximumSizeD(this, &PGWC::WindowMaximumSizeT);
-				this->Invoke(D, Value);
+				this->Invoke(D, System::Drawing::Size(Value.W, Value.H));
 				this->WindowMaximumSize_ = Value;
 				delete D;
 			}
@@ -728,7 +941,7 @@ namespace GWCpp
 
 
 
-		// Window Opacity
+		// Window Opacity.
 
 	private:
 
@@ -775,7 +988,7 @@ namespace GWCpp
 
 
 
-		// Window Always On Top
+		// Window Always On Top.
 
 	private:
 
@@ -822,7 +1035,7 @@ namespace GWCpp
 
 
 
-		// Window In Taskbar
+		// Window In Taskbar.
 
 	private:
 
@@ -854,7 +1067,7 @@ namespace GWCpp
 
 
 
-		// Window Buttons
+		// Window Buttons.
 	
 	private:
 
@@ -894,7 +1107,7 @@ namespace GWCpp
 
 
 
-		// Window Minimize Button
+		// Window Minimize Button.
 
 	private:
 
@@ -941,7 +1154,7 @@ namespace GWCpp
 
 
 
-		// Window Maximize Button
+		// Window Maximize Button.
 		
 	private:
 
@@ -989,30 +1202,30 @@ namespace GWCpp
 
 
 		/*
-			Proprietà disegno
+			Proprietà disegno.
 		*/
 
-		// Pen Color
+		// Pen Color.
 
 	private:
 
-		Color PenColor_;
+		GColor PenColor_;
 
 	public:
 
 		void DefaultPenColor() 
 		{ 
-			PenColor_ = Color::Black; 
+			PenColor_ = GColor(0, 0, 0);
 		}
 
-		property Color PenColor
+		property GColor PenColor
 		{
-			Color get() 
+			GColor get() 
 			{ 
 				return PenColor_; 
 			}
 
-			void set(Color Value) 
+			void set(GColor Value) 
 			{	
 				PenColor_ = Value; 
 			}
@@ -1020,7 +1233,7 @@ namespace GWCpp
 
 
 
-		// Pen Width
+		// Pen Width.
 
 	private:
 		
@@ -1048,35 +1261,35 @@ namespace GWCpp
 
 
 
-		// Fill Color
+		// Fill Color.
 
 	private:
 
-		Color FillColor_;
+		GColor FillColor_;
 
 	public:
 
 		void DefaultFillColor() 
 		{ 
-			FillColor = Color::Black; 
+			FillColor = GColor(0, 0, 0);
 		}
 
-		property Color FillColor
+		property GColor FillColor
 		{
-			Color get() 
+			GColor get() 
 			{ 
-				return FillColor_; 
+				return FillColor_;
 			}
 
-			void set(Color Value) 
+			void set(GColor Value) 
 			{ 
-				FillColor_ = Value; 
+				FillColor_ = Value;
 			}
 		}
 
 
 
-		// Font Name
+		// Font Name.
 
 	private:
 
@@ -1104,7 +1317,7 @@ namespace GWCpp
 
 
 
-		// Font Size
+		// Font Size.
 
 	private:
 
@@ -1138,15 +1351,15 @@ namespace GWCpp
 
 	public:
 
-		// Clear Window
+		// Clear Window.
 		void ClearWindow()
 		{
 			Graphics^ G = this->CreateGraphics();
-			G->Clear(WindowColor);
+			G->Clear(Color::FromArgb(WindowColor.R, WindowColor.G, WindowColor.B));
 			delete G;
 		}
 
-		// Save Canvas
+		// Save Canvas.
 		void SaveCanvas()
 		{
 			Graphics^ G = this->CreateGraphics();
@@ -1154,7 +1367,7 @@ namespace GWCpp
 			delete G;
 		}
 
-		// Restore Canvas
+		// Restore Canvas.
 		void RestoreCanvas()
 		{
 			Graphics^ G = this->CreateGraphics();
@@ -1162,47 +1375,47 @@ namespace GWCpp
 			delete G;
 		}
 
-		// Draw Pixel
+		// Draw Pixel.
 		void DrawPixel(int X, int Y)
 		{
 			Graphics^ G = this->CreateGraphics();
-			G->FillRectangle(gcnew SolidBrush(PenColor), X, Y, 1, 1);
+			G->FillRectangle(gcnew SolidBrush(Color::FromArgb(FillColor.R, FillColor.G, FillColor.B)), X, Y, 1, 1);
 			delete G;
 		}
 
-		// Draw Line
+		// Draw Line.
 		void DrawLine(int X1, int Y1, int X2, int Y2)
 		{
 			Graphics^ G = this->CreateGraphics();
-			G->DrawLine(gcnew Pen(PenColor, PenWidth), X1, Y1, X2, Y2);
+			G->DrawLine(gcnew Pen(Color::FromArgb(PenColor.R, PenColor.G, PenColor.B), PenWidth), X1, Y1, X2, Y2);
 			delete G;
 		}
 
-		// Draw Arc
+		// Draw Arc.
 		void DrawArc(int X, int Y, int W, int H, int A, int B)
 		{
 			Graphics^ G = this->CreateGraphics();
-			G->DrawArc(gcnew Pen(PenColor, PenWidth), X, Y, W, H, A, B);
+			G->DrawArc(gcnew Pen(Color::FromArgb(PenColor.R, PenColor.G, PenColor.B), PenWidth), X, Y, W, H, A, B);
 			delete G;
 		}
 
-		// Draw Bezier
+		// Draw Bezier.
 		void DrawBezier(float X1, float Y1, float X2, float Y2, float X3, float Y3, float X4, float Y4)
 		{
 			Graphics^ G = this->CreateGraphics();
-			G->DrawBezier(gcnew Pen(PenColor, PenWidth), X1, Y1, X2, Y2, X3, Y3, X4, Y4);
+			G->DrawBezier(gcnew Pen(Color::FromArgb(PenColor.R, PenColor.G, PenColor.B), PenWidth), X1, Y1, X2, Y2, X3, Y3, X4, Y4);
 			delete G;
 		}
 
-		// Draw String
+		// Draw String.
 		void DrawString(String^ S, int X, int Y)
 		{
 			Graphics^ G = this->CreateGraphics();
-			G->DrawString(S, gcnew System::Drawing::Font(FontName, FontSize), gcnew SolidBrush(PenColor), Point(X, Y));
+			G->DrawString(S, gcnew System::Drawing::Font(FontName, FontSize), gcnew SolidBrush(Color::FromArgb(PenColor.R, PenColor.G, PenColor.B)), Point(X, Y));
 			delete G;
 		}
 
-		// Draw Image
+		// Draw Image.
 		void DrawImage(Image^ I, int X, int Y)
 		{
 			Graphics^ G = this->CreateGraphics();
@@ -1210,7 +1423,7 @@ namespace GWCpp
 			delete G;
 		}
 
-		// Draw Image From File
+		// Draw Image From File.
 		void DrawImageFromFile(String^ F, int X, int Y)
 		{
 			Graphics^ G = this->CreateGraphics();
@@ -1228,7 +1441,7 @@ namespace GWCpp
 			delete G;
 		}
 
-		// Draw Icon
+		// Draw Icon.
 		void DrawIcon(System::Drawing::Icon^ I, int X, int Y)
 		{
 			Graphics^ G = this->CreateGraphics();
@@ -1236,7 +1449,7 @@ namespace GWCpp
 			delete G;
 		}
 
-		// Draw Icon From File
+		// Draw Icon From File.
 		void DrawIconFromFile(String^ F, int X, int Y)
 		{
 			Graphics^ G = this->CreateGraphics();
@@ -1254,119 +1467,119 @@ namespace GWCpp
 			delete G;
 		}
 
-		// Draw Square
+		// Draw Square.
 		void DrawSquare(int X, int Y, int L)
 		{
 			Graphics^ G = this->CreateGraphics();
-			G->DrawRectangle(gcnew Pen(PenColor, PenWidth), X, Y, L, L);
+			G->DrawRectangle(gcnew Pen(Color::FromArgb(PenColor.R, PenColor.G, PenColor.B), PenWidth), X, Y, L, L);
 			delete G;
 		}
 
-		// Draw Fill Square
-		void DrawFillSquare(int X, int Y, int L)
+		// Draw Full Square.
+		void DrawFullSquare(int X, int Y, int L)
 		{
 			Graphics^ G = this->CreateGraphics();
-			G->FillRectangle(gcnew SolidBrush(FillColor), X, Y, L, L);
+			G->FillRectangle(gcnew SolidBrush(Color::FromArgb(FillColor.R, FillColor.G, FillColor.B)), X, Y, L, L);
 			delete G;
 		}
 
-		// Draw Rectangle
+		// Draw Rectangle.
 		void DrawRectangle(int X, int Y, int W, int H)
 		{
 			Graphics^ G = this->CreateGraphics();
-			G->DrawRectangle(gcnew Pen(PenColor, PenWidth), X, Y, W, H);
+			G->DrawRectangle(gcnew Pen(Color::FromArgb(PenColor.R, PenColor.G, PenColor.B), PenWidth), X, Y, W, H);
 			delete G;
 		}
 
-		// Draw Fill Rectangle
-		void DrawFillRectangle(int X, int Y, int W, int H)
+		// Draw Full Rectangle.
+		void DrawFullRectangle(int X, int Y, int W, int H)
 		{
 			Graphics^ G = this->CreateGraphics();
-			G->FillRectangle(gcnew SolidBrush(FillColor), X, Y, W, H);
+			G->FillRectangle(gcnew SolidBrush(Color::FromArgb(FillColor.R, FillColor.G, FillColor.B)), X, Y, W, H);
 			delete G;
 		}
 
-		// Draw Ellipse
+		// Draw Ellipse.
 		void DrawEllipse(int X, int Y, int W, int H)
 		{
 			Graphics^ G = this->CreateGraphics();
-			G->DrawEllipse(gcnew Pen(PenColor, PenWidth), X, Y, W, H);
+			G->DrawEllipse(gcnew Pen(Color::FromArgb(PenColor.R, PenColor.G, PenColor.B), PenWidth), X, Y, W, H);
 			delete G;
 		}
 
-		// Draw Fill Ellipse
-		void DrawFillEllipse(int X, int Y, int W, int H)
+		// Draw Full Ellipse.
+		void DrawFullEllipse(int X, int Y, int W, int H)
 		{
 			Graphics^ G = this->CreateGraphics();
-			G->FillEllipse(gcnew SolidBrush(FillColor), X, Y, W, H);
+			G->FillEllipse(gcnew SolidBrush(Color::FromArgb(FillColor.R, FillColor.G, FillColor.B)), X, Y, W, H);
 			delete G;
 		}
 
-		// Draw Circle
+		// Draw Circle.
 		void DrawCircle(int X, int Y, int R)
 		{
 			Graphics^ G = this->CreateGraphics();
-			G->DrawEllipse(gcnew Pen(PenColor, PenWidth), X - R, Y - R, R * 2, R * 2);
+			G->DrawEllipse(gcnew Pen(Color::FromArgb(PenColor.R, PenColor.G, PenColor.B), PenWidth), X - R, Y - R, R * 2, R * 2);
 			delete G;
 		}
 
-		// Draw Fill Circle
-		void DrawFillCircle(int X, int Y, int R)
+		// Draw Full Circle.
+		void DrawFullCircle(int X, int Y, int R)
 		{
 			Graphics^ G = this->CreateGraphics();
-			G->FillEllipse(gcnew SolidBrush(FillColor), X - R, Y - R, R * 2, R * 2);
+			G->FillEllipse(gcnew SolidBrush(Color::FromArgb(FillColor.R, FillColor.G, FillColor.B)), X - R, Y - R, R * 2, R * 2);
 			delete G;
 		}
 
-		// Draw Curve
+		// Draw Curve.
 		void DrawCurve(array<Point>^ P)
 		{
 			Graphics^ G = this->CreateGraphics();
-			G->DrawCurve(gcnew Pen(PenColor, PenWidth), P);
+			G->DrawCurve(gcnew Pen(Color::FromArgb(PenColor.R, PenColor.G, PenColor.B), PenWidth), P);
 			delete G;
 		}
 
-		// Draw Closed Curve
+		// Draw Closed Curve.
 		void DrawClosedCurve(array<Point>^ P)
 		{
 			Graphics^ G = this->CreateGraphics();
-			G->DrawClosedCurve(gcnew Pen(PenColor, PenWidth), P);
+			G->DrawClosedCurve(gcnew Pen(Color::FromArgb(PenColor.R, PenColor.G, PenColor.B), PenWidth), P);
 			delete G;
 		}
 
-		// Draw Polygon
+		// Draw Polygon.
 		void DrawPolygon(array<Point>^ P)
 		{
 			Graphics^ G = this->CreateGraphics();
-			G->DrawPolygon(gcnew Pen(PenColor, PenWidth), P);
+			G->DrawPolygon(gcnew Pen(Color::FromArgb(PenColor.R, PenColor.G, PenColor.B), PenWidth), P);
 			delete G;
 		}
 
-		// Draw Fill Polygon
-		void DrawFillPolygon(array<Point>^ P)
+		// Draw Full Polygon.
+		void DrawFullPolygon(array<Point>^ P)
 		{
 			Graphics^ G = this->CreateGraphics();
-			G->FillPolygon(gcnew SolidBrush(FillColor), P);
+			G->FillPolygon(gcnew SolidBrush(Color::FromArgb(FillColor.R, FillColor.G, FillColor.B)), P);
 			delete G;
 		}
 
-		// Draw Pie
+		// Draw Pie.
 		void DrawPie(int X, int Y, int W, int H, int A, int B)
 		{
 			Graphics^ G = this->CreateGraphics();
-			G->DrawPie(gcnew Pen(PenColor, PenWidth), X, Y, W, H, A, B);
+			G->DrawPie(gcnew Pen(Color::FromArgb(PenColor.R, PenColor.G, PenColor.B), PenWidth), X, Y, W, H, A, B);
 			delete G;
 		}
 
-		// Draw Fill Pie
-		void DrawFillPie(int X, int Y, int W, int H, int A, int B)
+		// Draw Full Pie.
+		void DrawFullPie(int X, int Y, int W, int H, int A, int B)
 		{
 			Graphics^ G = this->CreateGraphics();
-			G->FillPie(gcnew SolidBrush(FillColor), X, Y, W, H, A, B);
+			G->FillPie(gcnew SolidBrush(Color::FromArgb(FillColor.R, FillColor.G, FillColor.B)), X, Y, W, H, A, B);
 			delete G;
 		}
 
-		// Draw From Screen
+		// Draw From Screen.
 		void DrawFromScreen(int X1, int Y1, int X2, int Y2, int W, int H)
 		{
 			Graphics^ G = this->CreateGraphics();
@@ -1377,16 +1590,16 @@ namespace GWCpp
 
 
 		/*
-			Metodi evento
+			Metodi evento.
 		*/
 
-		// Mouse Down
+		// Mouse Down.
 
 	private:
 
 		bool MouseDownPending;
 		Point MouseDownPoint;
-		System::Windows::Forms::MouseButtons MouseDownButton;
+		GMouseButtons MouseDownButton;
 
 		void GWC_MouseDown(Object^ Sender, MouseEventArgs^ E)
 		{
@@ -1424,7 +1637,7 @@ namespace GWCpp
 
 	public:
 
-		Point RequestMouseDown(System::Windows::Forms::MouseButtons B)
+		Point RequestMouseDown(GMouseButtons B)
 		{
 			MouseDownPending = true;
 			MouseDownButton = B;
@@ -1440,7 +1653,7 @@ namespace GWCpp
 		Point RequestMouseDown()
 		{
 			MouseDownPending = true;
-			MouseDownButton = System::Windows::Forms::MouseButtons::None;
+			MouseDownButton = GMouseButtons::None;
 
 			while (MouseDownPending)
 			{
@@ -1452,13 +1665,13 @@ namespace GWCpp
 
 
 
-		// Mouse Up
+		// Mouse Up.
 
 	private:
 
 		bool MouseUpPending;
 		Point MouseUpPoint;
-		System::Windows::Forms::MouseButtons MouseUpButton;
+		GMouseButtons MouseUpButton;
 
 		void GWC_MouseUp(Object^ Sender, MouseEventArgs^ E)
 		{
@@ -1496,7 +1709,7 @@ namespace GWCpp
 
 	public:
 
-		Point RequestMouseUp(System::Windows::Forms::MouseButtons B)
+		Point RequestMouseUp(GMouseButtons B)
 		{
 			MouseUpPending = true;
 			MouseUpButton = B;
@@ -1512,7 +1725,7 @@ namespace GWCpp
 		Point RequestMouseUp()
 		{
 			MouseUpPending = true;
-			MouseUpButton = System::Windows::Forms::MouseButtons::None;
+			MouseUpButton = GMouseButtons::None;
 
 			while (MouseUpPending)
 			{
@@ -1524,7 +1737,7 @@ namespace GWCpp
 
 
 
-		// Key Down
+		// Key Down.
 
 	private:
 
@@ -1575,7 +1788,7 @@ namespace GWCpp
 
 
 
-		// Key Up
+		// Key Up.
 
 	private:
 

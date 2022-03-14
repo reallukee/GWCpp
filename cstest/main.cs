@@ -7,7 +7,7 @@
 
 	ATUORE:			Realluke
 	DESCRIZIONE:	CSTest
-	DATA:			13/03/22
+	DATA:			14/03/22
 */
 
 
@@ -30,7 +30,7 @@ namespace CSText
             Form.StartWindow();
 
             // Cambio le impostazioni di disegno
-            Form.PenColor = Color.Red;
+            Form.PenColor = new GColor(255, 0, 0);
             Form.FontName = "Comic Sans";
             Form.FontSize = 25.0F;
 

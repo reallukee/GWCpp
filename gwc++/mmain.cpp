@@ -7,7 +7,7 @@
 
     ATUORE:			Realluke
     DESCRIZIONE:	MMain (Managed Main)
-    DATA:			13/03/22
+    DATA:			14/03/22
 */
 
 
@@ -25,7 +25,7 @@ void MMain()
     Window->StartWindow();
 
     // Cambio le impostazioni di disegno.
-    Window->PenColor = Color::Red;
+    Window->PenColor = GWCpp::GColor(255, 0, 0);
     Window->FontName = "Comic Sans";
     Window->FontSize = 25.0F;
 

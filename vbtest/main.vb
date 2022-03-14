@@ -7,7 +7,7 @@
 '
 '   ATUORE:         Realluke
 '   DESCRIZIONE:    VBTest
-'   DATA:			13/03/22
+'   DATA:			14/03/22
 '
 
 
@@ -29,7 +29,7 @@ Namespace VBTest
             Form.StartWindow()
 
             ' Cambio le impostazioni di disegno
-            Form.PenColor = Color.Red
+            Form.PenColor = New GColor(255, 0, 0)
             Form.FontName = "Comic Sans"
             Form.FontSize = 25.0F
 

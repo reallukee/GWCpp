@@ -7,7 +7,7 @@
 
 	ATUORE:			Realluke
 	DESCRIZIONE:	Classe gestita GWC
-	DATA:			13/03/22
+	DATA:			14/03/22
 */
 
 
@@ -26,10 +26,10 @@ namespace GWCpp
 	public:
 
 		/*
-			Costruttori e distruttori
+			Costruttori e distruttori.
 		*/
-
-		// Costruttori
+		
+		// Costruttori.
 		GWC()
 		{
 			PGWC = gcnew GWCpp::PGWC();
@@ -50,7 +50,7 @@ namespace GWCpp
 			PGWC = gcnew GWCpp::PGWC(W, H, Title, X, Y);
 		}
 
-		// Distruttore
+		// Distruttore.
 		~GWC()
 		{
 			//~PGWC();
@@ -59,52 +59,94 @@ namespace GWCpp
 
 
 		/*
-			Metodi finestra
+			Metodi finestra.
 		*/
 
-		// Start Window
+		// Start Window.
 		void StartWindow()
 		{
 			PGWC->StartWindow();
 		}
 
-		// Close Window
+		// Close Window.
 		void CloseWindow()
 		{		
 			PGWC->CloseWindow();
 		}
 
-		// Suspend Window
+		// Suspend Window.
 		void SuspendWindow()
 		{
 			PGWC->SuspendWindow();
 		}
 
-		// Resume Window
+		// Resume Window.
 		void ResumeWindow()
 		{
 			PGWC->ResumeWindow();
 		}
 
-		// Show Window
+		// Show Window.
 		void ShowWindow()
 		{
 			PGWC->ShowWindow();
 		}
 
-		// Hide Window
+		// Hide Window.
 		void HideWindow()
 		{
 			PGWC->HideWindow();
 		}
 
+		// Get Max X.
+		int GetMaxX()
+		{
+			return PGWC->GetMaxX();
+		}
+
+		// Get Real Max X.
+		int GetRealMaxX()
+		{
+			return PGWC->GetRealMaxX();
+		}
+
+		// Get Max Y.
+		int GetMaxY()
+		{
+			return PGWC->GetMaxY();
+		}
+
+		// Get Real Max Y.
+		int GetRealMaxY()
+		{
+			return PGWC->GetRealMaxY();
+		}
+
 
 
 		/*
-			Proprietà finestra
+			Proprietà finestra.
 		*/
 
-		// Window Title
+		// Window Started.
+		property bool WindowStarted
+		{
+			bool get()
+			{
+				return PGWC->WindowStarted;
+			}
+		}
+
+		// Window Closed.
+		property bool WindowClosed
+		{
+			bool get()
+			{
+				return PGWC->WindowClosed;
+			}
+		}
+
+		// Window Title.
 		property String^ WindowTitle
 		{
 			String^ get()
@@ -118,7 +160,7 @@ namespace GWCpp
 			}
 		}
 
-		// Window Icon Visible
+		// Window Icon Visible.
 		property bool WindowIconVisible
 		{
 			bool get()
@@ -132,7 +174,7 @@ namespace GWCpp
 			}
 		}
 
-		// Window Icon
+		// Window Icon.
 		property Icon^ WindowIcon
 		{
 			Icon^ get()
@@ -146,35 +188,35 @@ namespace GWCpp
 			}
 		}
 
-		// Window Location
-		property Point WindowLocation
+		// Window Location.
+		property GPoint WindowLocation
 		{
-			Point get()
+			GPoint get()
 			{
 				return PGWC->WindowLocation;
 			}
 
-			void set(Point Value)
+			void set(GPoint Value)
 			{
 				PGWC->WindowLocation = Value;
 			}
 		}
 
-		// Window Color
-		property Color WindowColor
+		// Window Color.
+		property GColor WindowColor
 		{
-			Color get()
+			GColor get()
 			{
 				return PGWC->WindowColor;
 			}
 
-			void set(Color Value)
+			void set(GColor Value)
 			{
 				PGWC->WindowColor = Value;
 			}
 		}
 
-		// Window Image
+		// Window Image.
 		property Image^ WindowImage
 		{
 			Image^ get()
@@ -188,63 +230,77 @@ namespace GWCpp
 			}
 		}
 
-		// Window Size
-		property Size WindowSize
+		// Window Size.
+		property GSize WindowSize
 		{
-			Size get()
+			GSize get()
 			{
 				return PGWC->WindowSize;
 			}
 
-			void set(Size Value)
+			void set(GSize Value)
 			{
 				PGWC->WindowSize = Value;
 			}
 		}
 
-		// Window Size State
-		property FormWindowState WindowSizeState
+		// Window Real Size.
+		property GSize WindowRealSize
 		{
-			FormWindowState get()
+			GSize get()
+			{
+				return PGWC->WindowRealSize;
+			}
+
+			void set(GSize Value)
+			{
+				PGWC->WindowRealSize = Value;
+			}
+		}
+
+		// Window Size State.
+		property GWindowState WindowSizeState
+		{
+			GWindowState get()
 			{
 				return PGWC->WindowSizeState;
 			}
 
-			void set(FormWindowState Value)
+			void set(GWindowState Value)
 			{
 				PGWC->WindowSizeState = Value;
 			}
 		}
 
-		// Window Minimum Size
-		property Size WindowMinimumSize
+		// Window Minimum Size.
+		property GSize WindowMinimumSize
 		{
-			Size get()
+			GSize get()
 			{
 				return PGWC->WindowMinimumSize;
 			}
 
-			void set(Size Value)
+			void set(GSize Value)
 			{
 				PGWC->WindowMinimumSize = Value;
 			}
 		}
 
-		// Window Maximum Size
-		property Size WindowMaximumSize
+		// Window Maximum Size.
+		property GSize WindowMaximumSize
 		{
-			Size get()
+			GSize get()
 			{
 				return PGWC->WindowMaximumSize;
 			}
 
-			void set(Size Value)
+			void set(GSize Value)
 			{
 				PGWC->WindowMaximumSize = Value;
 			}
 		}
 
-		// Window Opacity
+		// Window Opacity.
 		property double WindowOpacity
 		{
 			double get()
@@ -258,7 +314,7 @@ namespace GWCpp
 			}
 		}
 
-		// Window Always On Top
+		// Window Always On Top.
 		property bool WindowAlwaysOnTop
 		{
 			bool get()
@@ -272,7 +328,7 @@ namespace GWCpp
 			}
 		}
 
-		// Window In Taskbar
+		// Window In Taskbar.
 		property bool WindowInTaskbar
 		{
 			bool get()
@@ -286,7 +342,7 @@ namespace GWCpp
 			}
 		}
 
-		// Window Buttons
+		// Window Buttons.
 		property bool WindowButtons
 		{
 			bool get()
@@ -300,7 +356,7 @@ namespace GWCpp
 			}
 		}
 
-		// Window Minimize Button
+		// Window Minimize Button.
 		property bool WindowMinimizeButton
 		{
 			bool get()
@@ -314,7 +370,7 @@ namespace GWCpp
 			}
 		}
 
-		// Window Maximize Button
+		// Window Maximize Button.
 		property bool WindowMaximizeButton
 		{
 			bool get()
@@ -331,29 +387,29 @@ namespace GWCpp
 
 
 		/*
-			Proprietà disegno
+			Proprietà disegno.
 		*/
 
-		// Pen Color
+		// Pen Color.
 		void DefaultPenColor()
 		{
 			PGWC->DefaultPenColor();
 		}
 
-		property Color PenColor
+		property GColor PenColor
 		{
-			Color get()
+			GColor get()
 			{
 				return PGWC->PenColor;
 			}
 
-			void set(Color Value)
+			void set(GColor Value)
 			{
 				PGWC->PenColor = Value;
 			}
 		}
 
-		// Pen Width
+		// Pen Width.
 		void DefaultPenWidth()
 		{
 			PGWC->DefaultPenWidth();
@@ -372,30 +428,28 @@ namespace GWCpp
 			}
 		}
 
-		// Fill Color
+		// Fill Color.
 		void DefaultFillColor()
 		{
-
 			PGWC->DefaultFillColor();
 		}
 
-		property Color FillColor
+		property GColor FillColor
 		{
-			Color get()
+			GColor get()
 			{
 				return PGWC->FillColor;
 			}
 
-			void set(Color Value)
+			void set(GColor Value)
 			{
 				PGWC->FillColor = Value;
 			}
 		}
 
-		// Font Name
+		// Font Name.
 		void DefaultFontName()
 		{
-
 			PGWC->DefaultFontName();
 		}
 
@@ -412,10 +466,9 @@ namespace GWCpp
 			}
 		}
 
-		// Font Size
+		// Font Size.
 		void DefaultFontSize()
 		{
-
 			PGWC->DefaultFontSize();
 		}
 
@@ -435,166 +488,166 @@ namespace GWCpp
 
 
 		/*
-			Metodo disegno
+			Metodo disegno.
 		*/
 
-		// Clear Window
+		// Clear Window.
 		void ClearWindow()
 		{
 			PGWC->ClearWindow();
 		}
 
-		// Save Canvas
+		// Save Canvas.
 		void SaveCanvas()
 		{
 			PGWC->SaveCanvas();
 		}
 
-		// Restore Canvas
+		// Restore Canvas.
 		void RestoreCanvas()
 		{
 			PGWC->RestoreCanvas();
 		}
 
-		// Draw Pixel
+		// Draw Pixel.
 		void DrawPixel(int X, int Y)
 		{
 			PGWC->DrawPixel(X, Y);
 		}
 
-		// Draw Line
+		// Draw Line.
 		void DrawLine(int X1, int Y1, int X2, int Y2)
 		{
 			PGWC->DrawLine(X1, Y1, X2, Y2);
 		}
 
-		// Draw Arc
+		// Draw Arc.
 		void DrawArc(int X, int Y, int W, int H, int A, int B)
 		{
 			PGWC->DrawArc(X, Y, W, H, A, B);
 		}
 
-		// Draw Bezier
+		// Draw Bezier.
 		void DrawBezier(float X1, float Y1, float X2, float Y2, float X3, float Y3, float X4, float Y4)
 		{
 			PGWC->DrawBezier(X1, Y1, X2, Y2, X3, Y3, X4, Y4);
 		}
 
-		// Draw String
+		// Draw String.
 		void DrawString(String^ S, int X, int Y)
 		{
 			PGWC->DrawString(S, X, Y);
 		}
 
-		// Draw Image
+		// Draw Image.
 		void DrawImage(Image^ I, int X, int Y)
 		{
 			PGWC->DrawImage(I, X, Y);
 		}
 
-		// Draw Image From File
+		// Draw Image From File.
 		void DrawImageFromFile(String^ F, int X, int Y)
 		{
 			PGWC->DrawImageFromFile(F, X, Y);
 		}
 
-		// Draw Icon
+		// Draw Icon.
 		void DrawIcon(Icon^ I, int X, int Y)
 		{
 			PGWC->DrawIcon(I, X, Y);
 		}
 
-		// Draw Icon From File
+		// Draw Icon From File.
 		void DrawIconFromFile(String^ F, int X, int Y)
 		{
 			PGWC->DrawIconFromFile(F, X, Y);
 		}
 
-		// Draw Square
+		// Draw Square.
 		void DrawSquare(int X, int Y, int L)
 		{
 			PGWC->DrawSquare(X, Y, L);
 		}
 
-		// Draw Fill Square
-		void DrawFillSquare(int X, int Y, int L)
+		// Draw Full Square.
+		void DrawFullSquare(int X, int Y, int L)
 		{
-			PGWC->DrawFillSquare(X, Y, L);
+			PGWC->DrawFullSquare(X, Y, L);
 		}
 
-		// Draw Rectangle
+		// Draw Rectangle.
 		void DrawRectangle(int X, int Y, int W, int H)
 		{
 			PGWC->DrawRectangle(X, Y, W, H);
 		}
 
-		// Draw Fill Rectangle
-		void DrawFillRectangle(int X, int Y, int W, int H)
+		// Draw Full Rectangle.
+		void DrawFullRectangle(int X, int Y, int W, int H)
 		{
-			PGWC->DrawFillRectangle(X, Y, W, H);
+			PGWC->DrawFullRectangle(X, Y, W, H);
 		}
 
-		// Draw Ellipse
+		// Draw Ellipse.
 		void DrawEllipse(int X, int Y, int W, int H)
 		{
 			PGWC->DrawEllipse(X, Y, W, H);
 		}
 
-		// Draw Fill Ellipse
-		void DrawFillEllipse(int X, int Y, int W, int H)
+		// Draw Full Ellipse.
+		void DrawFullEllipse(int X, int Y, int W, int H)
 		{
-			PGWC->DrawFillEllipse(X, Y, W, H);
+			PGWC->DrawFullEllipse(X, Y, W, H);
 		}
 
-		// Draw Circle
+		// Draw Circle.
 		void DrawCircle(int X, int Y, int R)
 		{
 			PGWC->DrawCircle(X, Y, R);
 		}
 
-		// Draw Fill Circle
-		void DrawFillCircle(int X, int Y, int R)
+		// Draw Full Circle.
+		void DrawFullCircle(int X, int Y, int R)
 		{
-			PGWC->DrawFillCircle(X, Y, R);
+			PGWC->DrawFullCircle(X, Y, R);
 		}
 
-		// Draw Curve
+		// Draw Curve.
 		void DrawCurve(array<Point>^ P)
 		{
 			PGWC->DrawCurve(P);
 		}
 
-		// Draw Closed Curve
+		// Draw Closed Curve.
 		void DrawClosedCurve(array<Point>^ P)
 		{
 			PGWC->DrawClosedCurve(P);
 		}
 
-		// Draw Polygon
+		// Draw Polygon.
 		void DrawPolygon(array<Point>^ P)
 		{
 			PGWC->DrawPolygon(P);
 		}
 
-		// Draw Fill Polygon
-		void DrawFillPolygon(array<Point>^ P)
+		// Draw Full Polygon.
+		void DrawFullPolygon(array<Point>^ P)
 		{
-			PGWC->DrawFillPolygon(P);
+			PGWC->DrawFullPolygon(P);
 		}
 
-		// Draw Pie
+		// Draw Pie.
 		void DrawPie(int X, int Y, int W, int H, int A, int B)
 		{
 			PGWC->DrawPie(X, Y, W, H, A, B);
 		}
 
-		// Draw Fill Pie
-		void DrawFillPie(int X, int Y, int W, int H, int A, int B)
+		// Draw Full Pie.
+		void DrawFullPie(int X, int Y, int W, int H, int A, int B)
 		{
-			PGWC->DrawFillPie(X, Y, W, H, A, B);
+			PGWC->DrawFullPie(X, Y, W, H, A, B);
 		}
 
-		// Draw From Screen
+		// Draw From Screen.
 		void DrawFromScreen(int X1, int Y1, int X2, int Y2, int W, int H)
 		{
 			PGWC->DrawFromScreen(X1, Y1, X2, Y2, W, H);
@@ -603,11 +656,11 @@ namespace GWCpp
 
 
 		/*
-			Metodi evento
+			Metodi evento.
 		*/
 
-		// Mouse Down
-		Point RequestMouseDown(MouseButtons B)
+		// Mouse Down.
+		Point RequestMouseDown(GMouseButtons B)
 		{
 			return PGWC->RequestMouseDown(B);
 		}
@@ -617,8 +670,8 @@ namespace GWCpp
 			return PGWC->RequestMouseDown();
 		}
 
-		// Mouse Up
-		Point RequestMouseUp(MouseButtons B)
+		// Mouse Up.
+		Point RequestMouseUp(GMouseButtons B)
 		{
 			return PGWC->RequestMouseUp(B);
 		}
@@ -628,24 +681,24 @@ namespace GWCpp
 			return PGWC->RequestMouseUp();
 		}
 
-		// key Down
-		char RequestKeyDown(char C)
+		// key Down.
+		Char RequestKeyDown(char C)
 		{
 			return PGWC->RequestKeyDown(C);
 		}
 
-		char RequestKeyDown()
+		Char RequestKeyDown()
 		{
 			return PGWC->RequestKeyDown();
 		}
 
-		// Key Up
-		char RequestKeyUp(char C)
+		// Key Up.
+		Char RequestKeyUp(char C)
 		{
 			return PGWC->RequestKeyUp(C);
 		}
 
-		char RequestKeyUp()
+		Char RequestKeyUp()
 		{
 			return PGWC->RequestKeyUp();
 		}
