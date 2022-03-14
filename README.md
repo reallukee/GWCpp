@@ -34,6 +34,7 @@ GWC++ o Graphic Window for Console Application è una libreria scritta in C++/CL
 # Esempi
 
 ## Premesse
+
 GWC++ offre la classe `GWC` per le applicazioni console .NET e `NGWC` per le applicazioni C++ native per Windows. Utilizzare la classe adatta al tipo di linguaggio e applicazione che si sta sviluppando. Nel caso di C++/CLI è possibile utilizzare entrambe le classi indistintamente.
 
 ## Applicazione console C#
@@ -53,7 +54,7 @@ GWC Window = new GWC(850, 505, "GWC++ Test", 50, 50);
 Window.StartWindow();
 
 // Cambio le impostazioni di disegno.
-Window.PenColor = Color.Red;
+Window.PenColor = new GColor(255, 0, 0);
 Window.FontName = "Comic Sans";
 Window.FontSize = 25.0F;
 
@@ -85,7 +86,7 @@ Dim Window As New GWC(850, 505, "GWC++ Test", 50, 50)
 Window.StartWindow()
 
 ' Cambio le impostazioni di disegno.
-Window.PenColor = Color.Red
+Window.PenColor = New GColor(255, 0, 0)
 Window.FontName = "Comic Sans"
 Window.FontSize = 25.0F
 
@@ -117,7 +118,7 @@ GWC^ Window = gcnew GWC(850, 505, "GWC++ Test", 50, 50);
 Window->StartWindow();
 
 // Cambio le impostazioni di disegno.
-Window->PenColor = Color::Red;
+Window->PenColor = gcnew GColor(255, 0, 0);
 Window->FontName = "Comic Sans";
 Window->FontSize = 25.0F;
 
@@ -149,7 +150,7 @@ NGWCpp::NGWC* Window = new NGWCpp::NGWC(850, 505, "NGWC++ Test", 50, 50);
 Window->StartWindow();
 
 // Cambio le impostazioni di disegno.
-Window->SetPenColor(NCOLOR{ 255, 0, 0 });
+Window->SetPenColor(NGWCpp::NGCOLOR{ 255, 0, 0 });
 Window->SetFontName("Comic Sans");
 Window->SetPenWidth(25.0F);
 
@@ -187,6 +188,8 @@ Window->CloseWindow();
 
 # Documentazione
 
+Il contenuto di questa sezione offre una visione generale delle funzionalità di GWC++. Per avere maggiori informazioni sull'utilizzo di metodi, proprietà, strutture e enumerazioni vedere la [documentazione](./DOCS.md).
+
 ## Metodi
 
 > ⚠ Non tutti i metodi elencati in questa sezione sono presenti e utilizzabili all'interno della classe `NGWC` e quindi all'interno di applicazioni C++ native per Windows.
@@ -199,6 +202,10 @@ Window->CloseWindow();
 - `ResumeWindow`
 - `ShowWindow`
 - `HideWindow`
+- `GetMaxX`
+- `GetRealMaxX`
+- `GetMaxY`
+- `GetRealMaxY`
 - `RequestMouseDown`
 - `RequestMouseUp`
 - `RequestKeyDown`
@@ -208,7 +215,7 @@ Window->CloseWindow();
 
 - `DefaultPenColor`
 - `DefaultPenWidth`
-- `DefaultFillColor`
+- `DefaultFullColor`
 - `DefaultFontName`
 - `DefaultFontSize`
 - `ClearWindow`
@@ -224,19 +231,19 @@ Window->CloseWindow();
 - `DrawIcon`
 - `DrawIconFromFile`
 - `DrawSquare`
-- `DrawFillSquare`
+- `DrawFullSquare`
 - `DrawRectangle`
-- `DrawFillRectangle`
+- `DrawFullRectangle`
 - `DrawEllipse`
-- `DrawFillEllipse`
+- `DrawFullEllipse`
 - `DrawCircle`
-- `DrawFillCircle`
+- `DrawFullCircle`
 - `DrawCurve`
 - `DrawClosedCurve`
 - `DrawPolygon`
-- `DrawFillPolygon`
+- `DrawFullPolygon`
 - `DrawPie`
-- `DrawFillPie`
+- `DrawFullPie`
 - `DrawFromScreen`
 
 
@@ -261,6 +268,8 @@ Window->SetWindowTitle("New Title");
 
 ### Finestra
 
+- `WindowStarted`
+- `WindowClosed`
 - `WindowTitle`
 - `WindowIcon`
 - `WindowIconVisible`
@@ -268,6 +277,7 @@ Window->SetWindowTitle("New Title");
 - `WindowColor`
 - `WindowImage`
 - `WindowSize`
+- `WindowRealSize`
 - `WindowSizeState`
 - `WindowMinimumSize`
 - `WindowMaximumSize`
@@ -290,11 +300,31 @@ Window->SetWindowTitle("New Title");
 
 ## Strutture
 
-> ⚠ Queste strutture sono scritte in C++ nativo.
+### Gestite
 
-- `NPOINT`
-- `NSIZE`
-- `NCOLOR`
+- `GPoint`
+- `GSize`
+- `GColor`
+
+### Non gestite
+
+- `NGPoint`
+- `NGSize`
+- `NGColor`
+
+
+
+## Enumerazioni
+
+### Gestite
+
+- `GMouseButtons`
+- `GWindowState`
+
+### Non gestite
+
+- `NGMouseButtons`
+- `NGWindowState`
 
 
 
@@ -311,7 +341,7 @@ Window->SetWindowTitle("New Title");
     - [Visual Studio 2022](https://visualstudio.microsoft.com/it/vs/)
     - [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48)
 
-- VBText
+- VBTest
 
     - [Visual Studio 2022](https://visualstudio.microsoft.com/it/vs/)
     - [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48)
