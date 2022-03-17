@@ -24,10 +24,10 @@ GWC++ o Graphic Window for Console Application è una libreria scritta in C++/CL
 
 > 🎉 Una versione *"stabile"* di GWC++ è disponibile!
 
-| Architettura<br /> versione | Ultima versione<br/> (Stabile)                                     | Ultima versione<br/> (Anteprima)                                           |
-| :-------------------------: | :----------------------------------------------------------------: | :------------------------------------------------------------------------: |
-| x64                         | [Download](https://github.com/reallukee/GWCpp/releases/tag/v1.0.0) | [Download](https://github.com/reallukee/GWCpp/releases/tag/v0.0.3-preview) |
-| x86                         | [Download](https://github.com/reallukee/GWCpp/releases/tag/v1.0.0) | [Download](https://github.com/reallukee/GWCpp/releases/tag/v0.0.3-preview) |
+| Architettura<br /> versione | Ultima versione<br/> (Stabile)                                     | Ultima versione<br/> (Anteprima)                                   |
+| :-------------------------: | :----------------------------------------------------------------: | :----------------------------------------------------------------: |
+| x64                         | [Download](https://github.com/reallukee/GWCpp/releases/tag/v1.0.0) | [Download](https://github.com/reallukee/GWCpp/releases/tag/v1.0.0) |
+| x86                         | [Download](https://github.com/reallukee/GWCpp/releases/tag/v1.0.0) | [Download](https://github.com/reallukee/GWCpp/releases/tag/v1.0.0) |
 
 
 
@@ -188,8 +188,6 @@ Window->CloseWindow();
 
 # Documentazione
 
-Il contenuto di questa sezione offre una visione generale delle funzionalità di GWC++. Per avere maggiori informazioni sull'utilizzo di metodi, proprietà, strutture e enumerazioni vedere la [documentazione](./DOCS.md).
-
 ## Metodi
 
 > ⚠ Non tutti i metodi elencati in questa sezione sono presenti e utilizzabili all'interno della classe `NGWC` e quindi all'interno di applicazioni C++ native per Windows.
@@ -215,7 +213,7 @@ Il contenuto di questa sezione offre una visione generale delle funzionalità di
 
 - `DefaultPenColor`
 - `DefaultPenWidth`
-- `DefaultFullColor`
+- `DefaultFillColor`
 - `DefaultFontName`
 - `DefaultFontSize`
 - `ClearWindow`
