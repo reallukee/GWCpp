@@ -63,39 +63,39 @@ namespace GWCpp
 		*/
 
 		// Start Window.
-		void StartWindow()
+		bool StartWindow()
 		{
-			PGWC->StartWindow();
+			return PGWC->StartWindow();
 		}
 
 		// Close Window.
-		void CloseWindow()
+		bool CloseWindow()
 		{		
-			PGWC->CloseWindow();
+			return PGWC->CloseWindow();
 		}
 
 		// Suspend Window.
-		void SuspendWindow()
+		bool SuspendWindow()
 		{
-			PGWC->SuspendWindow();
+			return PGWC->SuspendWindow();
 		}
 
 		// Resume Window.
-		void ResumeWindow()
+		bool ResumeWindow()
 		{
-			PGWC->ResumeWindow();
+			return PGWC->ResumeWindow();
 		}
 
 		// Show Window.
-		void ShowWindow()
+		bool ShowWindow()
 		{
-			PGWC->ShowWindow();
+			return PGWC->ShowWindow();
 		}
 
 		// Hide Window.
-		void HideWindow()
+		bool HideWindow()
 		{
-			PGWC->HideWindow();
+			return PGWC->HideWindow();
 		}
 
 		// Get Max X.
@@ -660,23 +660,23 @@ namespace GWCpp
 		*/
 
 		// Mouse Down.
-		Point RequestMouseDown(GMouseButtons B)
+		GPoint RequestMouseDown(GMouseButtons B)
 		{
 			return PGWC->RequestMouseDown(B);
 		}
 
-		Point RequestMoudeDown()
+		GPoint RequestMoudeDown()
 		{
 			return PGWC->RequestMouseDown();
 		}
 
 		// Mouse Up.
-		Point RequestMouseUp(GMouseButtons B)
+		GPoint RequestMouseUp(GMouseButtons B)
 		{
 			return PGWC->RequestMouseUp(B);
 		}
 
-		Point RequestMouseUp()
+		GPoint RequestMouseUp()
 		{
 			return PGWC->RequestMouseUp();
 		}

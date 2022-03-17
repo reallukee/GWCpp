@@ -29,6 +29,8 @@ void MMain()
     Window->FontName = "Comic Sans";
     Window->FontSize = 25.0F;
 
+    Window->DrawPixel(100, 100);
+
     // Scrivo del testo.
     Window->DrawString("GWC++", 250, 100);
 

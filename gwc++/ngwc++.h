@@ -90,12 +90,12 @@ namespace NGWCpp
 			Metodi finestra
 		*/
 
-		void StartWindow();
-		void CloseWindow();
-		void ShowWindow();
-		void HideWindow();
-		void SuspendWindow();
-		void ResumeWindow();
+		bool StartWindow();
+		bool CloseWindow();
+		bool SuspendWindow();
+		bool ResumeWindow();
+		bool ShowWindow();
+		bool HideWindow();
 		int GetMaxX();
 		int GetRealMaxX();
 		int GetMaxY();

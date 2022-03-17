@@ -263,33 +263,69 @@ namespace GWCpp
 	public:
 
 		// Start Window.
-		void StartWindow()
+		bool StartWindow()
 		{
-			GWCThread->Start();
-			GWCThread->Sleep(50);
-			WindowStarted = true;
+			try
+			{
+				GWCThread->Start();
+				GWCThread->Sleep(50);
+				WindowStarted = true;
+			}
+			catch (Exception^ Ex)
+			{
+				return false;
+			}
+			
+			return true;
 		}
 
 		// Close Window.
-		void CloseWindow()
+		bool CloseWindow()
 		{
-			GWCThread->Sleep(50);
-			GWCThread->Abort();
-			WindowClosed = true;
+			try
+			{
+				GWCThread->Sleep(50);
+				GWCThread->Abort();
+				WindowClosed = true;
+			}
+			catch (Exception^ Ex)
+			{
+				return false;
+			}
+
+			return true;
 		}
 
 		// Suspend Window.
-		void SuspendWindow()
+		bool SuspendWindow()
 		{
-			GWCThread->Sleep(10);
-			GWCThread->Suspend();
+			try
+			{
+				GWCThread->Sleep(10);
+				GWCThread->Suspend();
+			}
+			catch (Exception^ Ex)
+			{
+				return false;
+			}
+
+			return true;
 		}
 
 		// Resume Window.
-		void ResumeWindow()
+		bool ResumeWindow()
 		{
-			GWCThread->Sleep(10);
-			GWCThread->Resume();
+			try
+			{
+				GWCThread->Sleep(10);
+				GWCThread->Resume();
+			}
+			catch (Exception^ Ex)
+			{
+				return false;
+			}
+
+			return true;
 		}
 
 		// Get Max X.
@@ -336,12 +372,21 @@ namespace GWCpp
 			Form::Show();
 		}
 
-		void ShowWindow()
+		bool ShowWindow()
 		{
-			ShowWindowD^ D;
-			D = gcnew ShowWindowD(this, &PGWC::ShowWindowT);
-			this->Invoke(D);
-			delete D;
+			try
+			{
+				ShowWindowD^ D;
+				D = gcnew ShowWindowD(this, &PGWC::ShowWindowT);
+				this->Invoke(D);
+				delete D;
+			}
+			catch (Exception^ Ex)
+			{
+				return false;
+			}
+
+			return true;
 		}
 
 
@@ -364,12 +409,21 @@ namespace GWCpp
 			Form::Hide();
 		}
 
-		void HideWindow()
+		bool HideWindow()
 		{
-			HideWindowD^ D;
-			D = gcnew HideWindowD(this, &PGWC::HideWindowT);
-			this->Invoke(D);
-			delete D;
+			try
+			{
+				HideWindowD^ D;
+				D = gcnew HideWindowD(this, &PGWC::HideWindowT);
+				this->Invoke(D);
+				delete D;
+			}
+			catch (Exception^ Ex)
+			{
+				return false;
+			}
+
+			return true;
 		}
 
 
@@ -1379,7 +1433,7 @@ namespace GWCpp
 		void DrawPixel(int X, int Y)
 		{
 			Graphics^ G = this->CreateGraphics();
-			G->FillRectangle(gcnew SolidBrush(Color::FromArgb(FillColor.R, FillColor.G, FillColor.B)), X, Y, 1, 1);
+			G->DrawRectangle(gcnew Pen(Color::FromArgb(FillColor.R, FillColor.G, FillColor.B), 1.0F), X, Y, 1, 1);
 			delete G;
 		}
 
@@ -1598,7 +1652,7 @@ namespace GWCpp
 	private:
 
 		bool MouseDownPending;
-		Point MouseDownPoint;
+		GPoint MouseDownPoint;
 		GMouseButtons MouseDownButton;
 
 		void GWC_MouseDown(Object^ Sender, MouseEventArgs^ E)
@@ -1611,22 +1665,22 @@ namespace GWCpp
 			switch (E->Button)
 			{
 			case System::Windows::Forms::MouseButtons::Left:
-				MouseDownPoint = Point(E->X, E->Y);
+				MouseDownPoint = GPoint(E->X, E->Y);
 				MouseDownPending = false;
 				break;
 
 			case System::Windows::Forms::MouseButtons::Right:
-				MouseDownPoint = Point(E->X, E->Y);
+				MouseDownPoint = GPoint(E->X, E->Y);
 				MouseDownPending = false;
 				break;
 
 			case System::Windows::Forms::MouseButtons::Middle:
-				MouseDownPoint = Point(E->X, E->Y);
+				MouseDownPoint = GPoint(E->X, E->Y);
 				MouseDownPending = false;
 				break;
 
 			case System::Windows::Forms::MouseButtons::None:
-				MouseDownPoint = Point(E->X, E->Y);
+				MouseDownPoint = GPoint(E->X, E->Y);
 				MouseDownPending = false;
 				break;
 
@@ -1637,7 +1691,7 @@ namespace GWCpp
 
 	public:
 
-		Point RequestMouseDown(GMouseButtons B)
+		GPoint RequestMouseDown(GMouseButtons B)
 		{
 			MouseDownPending = true;
 			MouseDownButton = B;
@@ -1650,7 +1704,7 @@ namespace GWCpp
 			return MouseDownPoint;
 		}
 
-		Point RequestMouseDown()
+		GPoint RequestMouseDown()
 		{
 			MouseDownPending = true;
 			MouseDownButton = GMouseButtons::None;
@@ -1670,7 +1724,7 @@ namespace GWCpp
 	private:
 
 		bool MouseUpPending;
-		Point MouseUpPoint;
+		GPoint MouseUpPoint;
 		GMouseButtons MouseUpButton;
 
 		void GWC_MouseUp(Object^ Sender, MouseEventArgs^ E)
@@ -1683,22 +1737,22 @@ namespace GWCpp
 			switch (E->Button)
 			{
 			case System::Windows::Forms::MouseButtons::Left:
-				MouseUpPoint = Point(E->X, E->Y);
+				MouseUpPoint = GPoint(E->X, E->Y);
 				MouseUpPending = false;
 				break;
 
 			case System::Windows::Forms::MouseButtons::Right:
-				MouseUpPoint = Point(E->X, E->Y);
+				MouseUpPoint = GPoint(E->X, E->Y);
 				MouseUpPending = false;
 				break;
 
 			case System::Windows::Forms::MouseButtons::Middle:
-				MouseUpPoint = Point(E->X, E->Y);
+				MouseUpPoint = GPoint(E->X, E->Y);
 				MouseUpPending = false;
 				break;
 
 			case System::Windows::Forms::MouseButtons::None:
-				MouseUpPoint = Point(E->X, E->Y);
+				MouseUpPoint = GPoint(E->X, E->Y);
 				MouseUpPending = false;
 				break;
 
@@ -1709,7 +1763,7 @@ namespace GWCpp
 
 	public:
 
-		Point RequestMouseUp(GMouseButtons B)
+		GPoint RequestMouseUp(GMouseButtons B)
 		{
 			MouseUpPending = true;
 			MouseUpButton = B;
@@ -1722,7 +1776,7 @@ namespace GWCpp
 			return MouseUpPoint;
 		}
 
-		Point RequestMouseUp()
+		GPoint RequestMouseUp()
 		{
 			MouseUpPending = true;
 			MouseUpButton = GMouseButtons::None;

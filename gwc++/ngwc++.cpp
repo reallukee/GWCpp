@@ -85,51 +85,51 @@ namespace NGWCpp
     */
 
     // Start Window.
-    void NGWC::StartWindow()
+    bool NGWC::StartWindow()
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
         GWCpp::PGWC^ T = safe_cast<GWCpp::PGWC^>(Handle.Target);
-        T->StartWindow();
+        return T->StartWindow();
     }
 
     // Close Window.
-    void NGWC::CloseWindow()
+    bool NGWC::CloseWindow()
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
         GWCpp::PGWC^ T = safe_cast<GWCpp::PGWC^>(Handle.Target);
-        T->CloseWindow();
+        return T->CloseWindow();
     }
 
     // Suspend Window.
-    void NGWC::SuspendWindow()
+    bool NGWC::SuspendWindow()
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
         GWCpp::PGWC^ T = safe_cast<GWCpp::PGWC^>(Handle.Target);
-        T->SuspendWindow();
+        return T->SuspendWindow();
     }
 
     // Resume Window.
-    void NGWC::ResumeWindow()
+    bool NGWC::ResumeWindow()
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
         GWCpp::PGWC^ T = safe_cast<GWCpp::PGWC^>(Handle.Target);
-        T->ResumeWindow();
+        return T->ResumeWindow();
     }
 
     // Show Window.
-    void NGWC::ShowWindow()
+    bool NGWC::ShowWindow()
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
         GWCpp::PGWC^ T = safe_cast<GWCpp::PGWC^>(Handle.Target);
-        T->ShowWindow();
+        return T->ShowWindow();
     }
 
     // Hide Window.
-    void NGWC::HideWindow()
+    bool NGWC::HideWindow()
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(NGWCAdress));
         GWCpp::PGWC^ T = safe_cast<GWCpp::PGWC^>(Handle.Target);
-        T->HideWindow();
+        return T->HideWindow();
     }
 
     // Get Max X.
