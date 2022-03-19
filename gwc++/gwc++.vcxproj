@@ -167,18 +167,18 @@
     <ResourceCompile Include="app.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pgwc++.h">
+    <ClInclude Include="gwc++.h">
       <FileType>CppHeader</FileType>
     </ClInclude>
-    <ClInclude Include="ngwc++.h" />
-    <ClInclude Include="gwc++.h" />
+    <ClInclude Include="ugwc++.h" />
+    <ClInclude Include="mgwc++.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="mmain.cpp" />
-    <ClCompile Include="ngwc++.cpp" />
+    <ClCompile Include="ugwc++.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

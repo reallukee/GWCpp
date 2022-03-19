@@ -7,7 +7,7 @@
 '
 '   ATUORE:         Realluke
 '   DESCRIZIONE:    VBTest
-'   DATA:			14/03/22
+'   DATA:			19/03/22
 '
 
 
@@ -23,13 +23,13 @@ Namespace VBTest
 
         Sub Main()
             ' Istanza di GWC
-            Dim Form As New GWC(850, 505, "GWC++ Test", 50, 50)
+            Dim Form As New MGWC(850, 505, "GWC++ Test", 50, 50)
 
             ' Creo la finestra
             Form.StartWindow()
 
             ' Cambio le impostazioni di disegno
-            Form.PenColor = New GColor(255, 0, 0)
+            Form.PenColor = New MGColor(255, 0, 0)
             Form.FontName = "Comic Sans"
             Form.FontSize = 25.0F
 

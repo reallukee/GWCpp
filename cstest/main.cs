@@ -7,7 +7,7 @@
 
 	ATUORE:			Realluke
 	DESCRIZIONE:	CSTest
-	DATA:			14/03/22
+	DATA:			19/03/22
 */
 
 
@@ -24,13 +24,13 @@ namespace CSText
         static void Main()
         {
             // Istanza di GWC
-            GWC Form = new GWC(850, 505, "GWC++ Test", 50, 50);
+            MGWC Form = new MGWC(850, 505, "GWC++ Test", 50, 50);
 
             // Creo la finestra
             Form.StartWindow();
 
             // Cambio le impostazioni di disegno
-            Form.PenColor = new GColor(255, 0, 0);
+            Form.PenColor = new MGColor(255, 0, 0);
             Form.FontName = "Comic Sans";
             Form.FontSize = 25.0F;
 

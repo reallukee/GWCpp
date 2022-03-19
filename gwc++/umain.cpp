@@ -15,18 +15,18 @@
 #pragma unmanaged
 
 // Includo NGWC++
-#include "ngwc++.h"
+#include "ugwc++.h"
 
 void UMain()
 {
     // Istanza di NGWC
-    NGWCpp::NGWC* Window = new NGWCpp::NGWC(850, 505, "NGWC++ Test", 50, 50);
+    GWCpp::UGWC* Window = new GWCpp::UGWC(850, 505, "NGWC++ Test", 50, 50);
 
     // Creo la finestra
     Window->StartWindow();
 
     // Cambio le impostazioni di disegno
-    Window->SetPenColor(NGWCpp::NGColor{ 255, 0, 0 });
+    Window->SetPenColor(GWCpp::UGColor{ 255, 0, 0 });
     Window->SetFontName("Comic Sans");
     Window->SetPenWidth(25.0F);
 
