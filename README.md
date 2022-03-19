@@ -10,13 +10,19 @@ GWC++ o Graphic Window for Console Application è una libreria scritta in C++/CL
 
 # Indice
 
+**Contenuti interni**
+
 - [Rilasci](#rilasci)
 - [Esempi](#esempi)
 - [Compilazione](#compilazione)
-- [Documentazione](#documentazione)
 - [Strumenti](#strumenti)
 - [Autore](#autore)
 - [Licenza](#licenza)
+
+
+**Contenuti esterni**
+
+- [Documentazione](./docs.md)
 
 
 
@@ -29,13 +35,15 @@ GWC++ o Graphic Window for Console Application è una libreria scritta in C++/CL
 | x64                         | [Download](https://github.com/reallukee/GWCpp/releases/tag/v1.0.0) | [Download](https://github.com/reallukee/GWCpp/releases/tag/v1.0.0) |
 | x86                         | [Download](https://github.com/reallukee/GWCpp/releases/tag/v1.0.0) | [Download](https://github.com/reallukee/GWCpp/releases/tag/v1.0.0) |
 
+> ⚠ Per poter eseguire GWC++ è necessario [.NET Framework 4.8 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48).
+
 
 
 # Esempi
 
 ## Premesse
 
-GWC++ offre la classe `GWC` per le applicazioni console .NET e `NGWC` per le applicazioni C++ native per Windows. Utilizzare la classe adatta al tipo di linguaggio e applicazione che si sta sviluppando. Nel caso di C++/CLI è possibile utilizzare entrambe le classi indistintamente.
+GWC++ offre la classe `MGWC` (Managed GWC) per le applicazioni console .NET e `UGWC` (Unmanaged GWC) per le applicazioni C++ native per Windows. Utilizzare la classe adatta al tipo di linguaggio e applicazione che si sta sviluppando. Nel caso di C++/CLI è possibile utilizzare entrambe le classi indistintamente.
 
 ## Applicazione console C#
 
@@ -47,19 +55,19 @@ using GWCpp;
 
 // Codice ...
 
-// Istanza di GWC.
-GWC Window = new GWC(850, 505, "GWC++ Test", 50, 50);
+// Istanza di MGWC.
+MGWC Window = new MGWC(850, 505, "MGWC++ Test", 50, 50);
 
 // Creo la finestra.
 Window.StartWindow();
 
 // Cambio le impostazioni di disegno.
-Window.PenColor = new GColor(255, 0, 0);
+Window.PenColor = new MGColor(255, 0, 0);
 Window.FontName = "Comic Sans";
 Window.FontSize = 25.0F;
 
 // Scrivo del testo.
-Window.DrawString("GWC++", 250, 100);
+Window.DrawString("MGWC++", 250, 100);
 
 Console.ReadKey();
 
@@ -79,19 +87,19 @@ Imports GWCpp
 
 ' Codice ...
 
-' Istanza di GWC.
-Dim Window As New GWC(850, 505, "GWC++ Test", 50, 50)
+' Istanza di MGWC.
+Dim Window As New MGWC(850, 505, "MGWC++ Test", 50, 50)
 
 ' Creo la finestra.
 Window.StartWindow()
 
 ' Cambio le impostazioni di disegno.
-Window.PenColor = New GColor(255, 0, 0)
+Window.PenColor = New MGColor(255, 0, 0)
 Window.FontName = "Comic Sans"
 Window.FontSize = 25.0F
 
 ' Scrivo del testo.
-Window.DrawString("GWC++", 250, 100)
+Window.DrawString("MGWC++", 250, 100)
 
 Console.ReadKey()
 
@@ -111,19 +119,19 @@ using namespace GWCpp;
 
 // Codice ...
 
-// Istanza di GWC.
-GWC^ Window = gcnew GWC(850, 505, "GWC++ Test", 50, 50);
+// Istanza di MGWC.
+MGWC^ Window = gcnew MGWC(850, 505, "MGWC++ Test", 50, 50);
 
 // Creo la finestra.
 Window->StartWindow();
 
 // Cambio le impostazioni di disegno.
-Window->PenColor = gcnew GColor(255, 0, 0);
+Window->PenColor = gcnew MGColor(255, 0, 0);
 Window->FontName = "Comic Sans";
 Window->FontSize = 25.0F;
 
 // Scrivo del testo.
-Window->DrawString("GWC++", 250, 100);
+Window->DrawString("MGWC++", 250, 100);
 
 Console::ReadKey();
 
@@ -139,18 +147,18 @@ Window->CloseWindow();
 // main.cpp
 
 // Importo lo spazio dei nomi.
-#include "ngwc++.h"
+#include "ugwc++.h"
 
 // Codice ...
 
-// Istanza di NGWC.
-NGWCpp::NGWC* Window = new NGWCpp::NGWC(850, 505, "NGWC++ Test", 50, 50);
+// Istanza di UGWC.
+GWCpp::UGWC* Window = new GWCpp::UGWC(850, 505, "UGWC++ Test", 50, 50);
 
 // Creo la finestra.
 Window->StartWindow();
 
 // Cambio le impostazioni di disegno.
-Window->SetPenColor(NGWCpp::NGCOLOR{ 255, 0, 0 });
+Window->SetPenColor(GWCpp::UGCOLOR{ 255, 0, 0 });
 Window->SetFontName("Comic Sans");
 Window->SetPenWidth(25.0F);
 
@@ -182,147 +190,7 @@ Window->CloseWindow();
     git clone https://github.com/reallukee/GWCpp.git
     ```
 
-3. Aprire con Visual Studio il file `gwc++.sln` o il file `gwc++\gwc++.vcxproj`.
-
-
-
-# Documentazione
-
-## Metodi
-
-> ⚠ Non tutti i metodi elencati in questa sezione sono presenti e utilizzabili all'interno della classe `NGWC` e quindi all'interno di applicazioni C++ native per Windows.
-
-### Finestra
-
-- `StartWindow`
-- `CloseWindow`
-- `SuspendWindow`
-- `ResumeWindow`
-- `ShowWindow`
-- `HideWindow`
-- `GetMaxX`
-- `GetRealMaxX`
-- `GetMaxY`
-- `GetRealMaxY`
-- `RequestMouseDown`
-- `RequestMouseUp`
-- `RequestKeyDown`
-- `RequestKeyUp`
-
-### Disegno
-
-- `DefaultPenColor`
-- `DefaultPenWidth`
-- `DefaultFillColor`
-- `DefaultFontName`
-- `DefaultFontSize`
-- `ClearWindow`
-- `SaveCanvas`
-- `RestoreCanvas`
-- `DrawPixel`
-- `DrawLine`
-- `DrawArc`
-- `DrawBezier`
-- `DrawString`
-- `DrawImage`
-- `DrawImageFromFile`
-- `DrawIcon`
-- `DrawIconFromFile`
-- `DrawSquare`
-- `DrawFullSquare`
-- `DrawRectangle`
-- `DrawFullRectangle`
-- `DrawEllipse`
-- `DrawFullEllipse`
-- `DrawCircle`
-- `DrawFullCircle`
-- `DrawCurve`
-- `DrawClosedCurve`
-- `DrawPolygon`
-- `DrawFullPolygon`
-- `DrawPie`
-- `DrawFullPie`
-- `DrawFromScreen`
-
-
-
-## Proprietà
-
-> ⚠ Non tutte le proprietà elencate in questa sezione sono presenti e utilizzabili all'interno della classe `NGWC` e quindi all'interno di applicazioni C++ native per Windows.
-
-> ⚠ In C++ non esisteno le proprietà per questo motivo all'interno di `NGWC` è necessario chiamare le funzioni `Get<Nome proprietà>` per ottenere il valore della proprietà e `Set<Nome Proprietà>` per impostare il valore della proprietà.
-
-```cpp
-// C++/CLI
-System::String^ Title = Window->WindowTitle;
-Window->WindowTitle = "New Title";
-
-// C++
-std::string Window = Window->GetWindowTitle();
-Window->SetWindowTitle("New Title");
-```
-
-
-
-### Finestra
-
-- `WindowStarted`
-- `WindowClosed`
-- `WindowTitle`
-- `WindowIcon`
-- `WindowIconVisible`
-- `WindowLocation`
-- `WindowColor`
-- `WindowImage`
-- `WindowSize`
-- `WindowRealSize`
-- `WindowSizeState`
-- `WindowMinimumSize`
-- `WindowMaximumSize`
-- `WindowOpacity`
-- `WindowAlwaysOnTop`
-- `WindowInTaskbar`
-- `WindowButtons`
-- `WindowMinimizeButton`
-- `WindowMaximizeButton`
-
-### Disegno
-
-- `PenColor`
-- `PenWidth`
-- `FillColor`
-- `FontName`
-- `FontSize`
-
-
-
-## Strutture
-
-### Gestite
-
-- `GPoint`
-- `GSize`
-- `GColor`
-
-### Non gestite
-
-- `NGPoint`
-- `NGSize`
-- `NGColor`
-
-
-
-## Enumerazioni
-
-### Gestite
-
-- `GMouseButtons`
-- `GWindowState`
-
-### Non gestite
-
-- `NGMouseButtons`
-- `NGWindowState`
+3. Aprire con Visual Studio il file `gwc++.sln` o eseguire lo script `build.cmd`.
 
 
 
