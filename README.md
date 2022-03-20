@@ -22,7 +22,7 @@ GWC++ o Graphic Window for Console Application è una libreria scritta in C++/CL
 
 **Contenuti esterni**
 
-- [Documentazione](./docs.md)
+- [Documentazione](./DOCS.md)
 
 
 
@@ -56,7 +56,7 @@ using GWCpp;
 // Codice ...
 
 // Istanza di MGWC.
-MGWC Window = new MGWC(850, 505, "MGWC++ Test", 50, 50);
+MGWC Window = new MGWC(850, 505, "MGWC++ Window", 50, 50);
 
 // Creo la finestra.
 Window.StartWindow();
@@ -88,7 +88,7 @@ Imports GWCpp
 ' Codice ...
 
 ' Istanza di MGWC.
-Dim Window As New MGWC(850, 505, "MGWC++ Test", 50, 50)
+Dim Window As New MGWC(850, 505, "MGWC++ Window", 50, 50)
 
 ' Creo la finestra.
 Window.StartWindow()
@@ -120,7 +120,7 @@ using namespace GWCpp;
 // Codice ...
 
 // Istanza di MGWC.
-MGWC^ Window = gcnew MGWC(850, 505, "MGWC++ Test", 50, 50);
+MGWC^ Window = gcnew MGWC(850, 505, "MGWC++ Window", 50, 50);
 
 // Creo la finestra.
 Window->StartWindow();
@@ -152,7 +152,7 @@ Window->CloseWindow();
 // Codice ...
 
 // Istanza di UGWC.
-GWCpp::UGWC* Window = new GWCpp::UGWC(850, 505, "UGWC++ Test", 50, 50);
+GWCpp::UGWC* Window = new GWCpp::UGWC(850, 505, "UGWC++ Window", 50, 50);
 
 // Creo la finestra.
 Window->StartWindow();
@@ -160,10 +160,10 @@ Window->StartWindow();
 // Cambio le impostazioni di disegno.
 Window->SetPenColor(GWCpp::UGCOLOR{ 255, 0, 0 });
 Window->SetFontName("Comic Sans");
-Window->SetPenWidth(25.0F);
+Window->SetFontSize(25.0F);
 
 // Scrivo del testo.
-Window->DrawString("GWC++", 250, 100);
+Window->DrawString("UGWC++", 250, 100);
 
 system("pause");
 
@@ -196,21 +196,9 @@ Window->CloseWindow();
 
 # Strumenti
 
-- GWC++
-
-    - [Visual Studio 2022](https://visualstudio.microsoft.com/it/vs/)
-    - [MSVC v143](https://docs.microsoft.com/it-it/cpp/build/reference/compiling-a-c-cpp-program?view=msvc-170)
-    - [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48)
-
-- CSTest
-
-    - [Visual Studio 2022](https://visualstudio.microsoft.com/it/vs/)
-    - [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48)
-
-- VBTest
-
-    - [Visual Studio 2022](https://visualstudio.microsoft.com/it/vs/)
-    - [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48)
+- [Visual Studio 2022](https://visualstudio.microsoft.com/it/vs/)
+- [MSVC v143](https://docs.microsoft.com/it-it/cpp/build/reference/compiling-a-c-cpp-program?view=msvc-170)
+- [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48)
 
 
 
