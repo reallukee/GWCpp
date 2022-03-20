@@ -7,7 +7,7 @@
 
 	ATUORE:			Realluke
 	DESCRIZIONE:	Classe non gestita NGWC
-	DATA:			19/03/22
+	DATA:			20/03/22
 */
 
 
@@ -69,6 +69,42 @@ namespace GWCpp
 	};
 
 
+	public enum UGMessageBoxStyle
+	{
+		ApplicationModal = 0,
+		DefaultButton1 = 0,
+		OkOnly = 0,
+		OkCancel = 1,
+		AbortRetryIgnore = 2,
+		YesNoCancel = 3,
+		YesNo = 4,
+		RetryCancel = 5,
+		Critical = 16,
+		Question = 32,
+		Exclamation = 48,
+		Information = 64,
+		DefaultButton2 = 256,
+		DefaultButton3 = 512,
+		SystemModal = 4096,
+		MsgBoxHelp = 16384,
+		MsgBoxSetForeground = 65536,
+		MsgBoxRight = 524288,
+		MsgBoxRtlReading = 1048576
+	};
+
+
+	public enum UGMessageBoxResult
+	{
+		OK = 1,
+		Cancel = 2,
+		Abort = 3,
+		Retry = 4,
+		Ignore = 5,
+		Yes = 6,
+		No = 7
+	};
+
+
 	class DECLSPECIFIER UGWC
 	{
 
@@ -87,6 +123,15 @@ namespace GWCpp
 		UGWC(int Width, int Height, std::string);
 		UGWC(int Width, int Height, std::string Title, int X, int Y);
 		~UGWC();
+
+
+
+		/*
+			Interazioni.
+		*/
+
+		void InputBox(std::string Prompt, std::string Title, std::string DefaultResponse, int X, int Y);
+		UGMessageBoxResult MessageBox(std::string Prompt, UGMessageBoxStyle Style, std::string Title);
 
 
 
@@ -121,6 +166,12 @@ namespace GWCpp
 		char RequestKeyDown();
 		char RequestKeyUp(char C);
 		char RequestKeyUp();
+		UGPoint GetMouseLocation();
+		void SetMouseLocation(UGPoint Value);
+		int GetMouseX();
+		void SetMouseX(int Value);
+		int GetMouseY();
+		void SetMouseY(int Value);
 
 
 
@@ -229,7 +280,7 @@ namespace GWCpp
 			Metodi disegno
 		*/
 
-		void ClearWindow();
+		void ClearWindow(UGColor Color);
 		void SaveCanvas();
 		void RestoreCanvas();
 		void DrawPixel(int X, int Y);

@@ -7,19 +7,20 @@
 
     ATUORE:			Realluke
     DESCRIZIONE:	MMain (Managed Main)
-    DATA:			14/03/22
+    DATA:			20/03/22
 */
 
 
 #include "pch.h"
 #pragma managed
 
-// Includo GWC++
-#include "mgwc++.h"
+// Includo GWC++.
+#include "gwc++.h"
 
 void MMain()
 {
-    GWCpp::MGWC^ Window = gcnew GWCpp::MGWC(850, 505, "GWC++ Test", 50, 50);
+    // Utilizzo GWC.
+    GWCpp::GWC^ Window = gcnew GWCpp::GWC(850, 505, "MGWC++ Window", 50, 50);
 
     // Creo la finestra.
     Window->StartWindow();
@@ -29,10 +30,8 @@ void MMain()
     Window->FontName = "Comic Sans";
     Window->FontSize = 25.0F;
 
-    Window->DrawPixel(100, 100);
-
     // Scrivo del testo.
-    Window->DrawString("GWC++", 250, 100);
+    Window->DrawString("MGWC++", 250, 100);
 
     Console::ReadKey();
 

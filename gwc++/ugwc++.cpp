@@ -7,7 +7,7 @@
 
     ATUORE:			Realluke
     DESCRIZIONE:	Classe gestita UGWC
-    DATA:			14/03/22
+    DATA:			20/03/22
 */
 
 
@@ -24,7 +24,45 @@ namespace GWCpp
 {
 
     /*
-        Funzioni di conversione.
+        Costruttori e distruttori.
+    */
+
+    // Costruttori.
+    UGWC::UGWC()
+    {
+        GWCpp::GWC^ T = gcnew GWCpp::GWC(850, 505, "GWC++ Window", 50, 50);
+        UGWCAdress = GCHandle::ToIntPtr(GCHandle::Alloc(T)).ToPointer();
+    }
+
+    UGWC::UGWC(int Width, int Height)
+    {
+        GWCpp::GWC^ T = gcnew GWCpp::GWC(Width, Height, "GWC++ Window", 50, 50);
+        UGWCAdress = GCHandle::ToIntPtr(GCHandle::Alloc(T)).ToPointer();
+    }
+
+    UGWC::UGWC(int Width, int Height, std::string Title)
+    {
+        GWCpp::GWC^ T = gcnew GWCpp::GWC(Width, Height, gcnew String(Title.c_str()), 50, 50);
+        UGWCAdress = GCHandle::ToIntPtr(GCHandle::Alloc(T)).ToPointer();
+    }
+
+    UGWC::UGWC(int Width, int Height, std::string Title, int X, int Y)
+    {
+        GWCpp::GWC^ T = gcnew GWCpp::GWC(Width, Height, gcnew String(Title.c_str()), X, Y);
+        UGWCAdress = GCHandle::ToIntPtr(GCHandle::Alloc(T)).ToPointer();
+    }
+
+    // Distruttore.
+    UGWC::~UGWC()
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        Handle.Free();
+    }
+
+
+
+    /*
+        Metodi di conversione.
     */
 
     // UString To MString.
@@ -80,39 +118,23 @@ namespace GWCpp
 
 
     /*
-        Costruttori e distruttori.
+        Interazioni.
     */
 
-    // Costruttori.
-    UGWC::UGWC()
-    {
-        GWCpp::GWC^ T = gcnew GWCpp::GWC(850, 505, "GWC++ Window", 50, 50);
-        UGWCAdress = GCHandle::ToIntPtr(GCHandle::Alloc(T)).ToPointer();
-    }
-
-    UGWC::UGWC(int Width, int Height)
-    {
-        GWCpp::GWC^ T = gcnew GWCpp::GWC(Width, Height, "GWC++ Window", 50, 50);
-        UGWCAdress = GCHandle::ToIntPtr(GCHandle::Alloc(T)).ToPointer();
-    }
-
-    UGWC::UGWC(int Width, int Height, std::string Title)
-    {
-        GWCpp::GWC^ T = gcnew GWCpp::GWC(Width, Height, gcnew String(Title.c_str()), 50, 50);
-        UGWCAdress = GCHandle::ToIntPtr(GCHandle::Alloc(T)).ToPointer();
-    }
-
-    UGWC::UGWC(int Width, int Height, std::string Title, int X, int Y)
-    {
-        GWCpp::GWC^ T = gcnew GWCpp::GWC(Width, Height, gcnew String(Title.c_str()), X, Y);
-        UGWCAdress = GCHandle::ToIntPtr(GCHandle::Alloc(T)).ToPointer();
-    }
-
-    // Distruttore.
-    UGWC::~UGWC()
+    // Input Box.
+    void UGWC::InputBox(std::string Prompt, std::string Title, std::string DefaultResponse, int X, int Y)
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
-        Handle.Free();
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->InputBox(UStringToMString(Prompt), UStringToMString(Title), UStringToMString(DefaultResponse), X, Y);
+    }
+
+    // Message Box.
+    UGMessageBoxResult UGWC::MessageBox(std::string Prompt, UGMessageBoxStyle Style, std::string Title)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        return (UGMessageBoxResult)T->MessageBox(UStringToMString(Prompt), (MGMessageBoxStyle)Style, UStringToMString(Title));
     }
 
 
@@ -332,6 +354,49 @@ namespace GWCpp
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->RequestKeyUp();
+    }
+
+    // Mouse Location.
+    UGPoint UGWC::GetMouseLocation()
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        return MGPointToUGPoint(T->MouseLocation);
+    }
+
+    void UGWC::SetMouseLocation(UGPoint Value)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->MouseLocation = UGPointToMGPoint(Value);
+    }
+
+    int UGWC::GetMouseX()
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        return T->MouseX;
+    }
+
+    void UGWC::SetMouseX(int Value)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->MouseX = Value;
+    }
+
+    int UGWC::GetMouseY()
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        return T->MouseY;
+    }
+
+    void UGWC::SetMouseY(int Value) 
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->MouseY = Value;
     }
 
 
@@ -943,11 +1008,11 @@ namespace GWCpp
     */
 
     // Clear Window.
-    void UGWC::ClearWindow()
+    void UGWC::ClearWindow(UGColor Color)
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        T->ClearWindow();
+        T->ClearWindow(UGColorToMGColor(Color));
     }
 
     // Save Canvas.

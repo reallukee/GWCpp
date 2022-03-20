@@ -7,7 +7,7 @@
 
     ATUORE:			Realluke
     DESCRIZIONE:	UMani (Unmanaged Main)
-    DATA:			14/03/22
+    DATA:			20/03/22
 */
 
 
@@ -20,7 +20,7 @@
 void UMain()
 {
     // Istanza di NGWC
-    GWCpp::UGWC* Window = new GWCpp::UGWC(850, 505, "NGWC++ Test", 50, 50);
+    GWCpp::UGWC* Window = new GWCpp::UGWC(850, 505, "UGWC++ Window", 50, 50);
 
     // Creo la finestra
     Window->StartWindow();
@@ -28,10 +28,10 @@ void UMain()
     // Cambio le impostazioni di disegno
     Window->SetPenColor(GWCpp::UGColor{ 255, 0, 0 });
     Window->SetFontName("Comic Sans");
-    Window->SetPenWidth(25.0F);
+    Window->SetFontSize(15.0F);
 
     // Scrivo del testo
-    Window->DrawString("GWC++", 250, 100);
+    Window->DrawString("UGWC++", 250, 100);
 
     system("pause");
 

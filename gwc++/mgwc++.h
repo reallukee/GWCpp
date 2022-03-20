@@ -7,7 +7,7 @@
 
 	ATUORE:			Realluke
 	DESCRIZIONE:	Classe gestita GWC
-	DATA:			19/03/22
+	DATA:			20/03/22
 */
 
 
@@ -100,6 +100,24 @@ namespace GWCpp
 		System::Drawing::Size GSizeToSize(MGSize Value)
 		{
 			return GWC->MGSizeToSize(Value);
+		}
+
+
+
+		/*
+			Interazioni.
+		*/
+
+		// Input Box.
+		void InputBox(String^ Prompt, String^ Title, String^ DefaultResponse, int X, int Y)
+		{
+			GWC->InputBox(Prompt, Title, DefaultResponse, X, Y);
+		}
+
+		// Message Box.
+		MGMessageBoxResult MessageBox(String^ Prompt, MGMessageBoxStyle Style, String^ Title)
+		{
+			return GWC->MessageBox(Prompt, Style, Title);
 		}
 
 
@@ -266,6 +284,46 @@ namespace GWCpp
 			return GWC->RequestKeyUp();
 		}
 
+		// Mouse Location.
+		property MGPoint MouseLocation
+		{
+			MGPoint get()
+			{
+				return GWC->MouseLocation;
+			}
+
+			void set(MGPoint Value)
+			{
+				GWC->MouseLocation = Value;
+			}
+		}
+
+		property int MouseX
+		{
+			int get()
+			{
+				return GWC->MouseLocation.X;
+			}
+
+			void set(int Value)
+			{
+				GWC->MouseLocation = MGPoint(Value, MouseLocation.Y);
+			}
+		}
+
+		property int MouseY
+		{
+			int get()
+			{
+				return GWC->MouseLocation.Y;
+			}
+
+			void set(int Value)
+			{
+				GWC->MouseLocation = MGPoint(MouseLocation.X, Value);
+			}
+		}
+		
 
 
 		/*
@@ -737,9 +795,9 @@ namespace GWCpp
 		*/
 
 		// Clear Window.
-		void ClearWindow()
+		void ClearWindow(MGColor Color)
 		{
-			GWC->ClearWindow();
+			GWC->ClearWindow(Color);
 		}
 
 		// Save Canvas.
