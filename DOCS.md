@@ -21,7 +21,11 @@ Alcuni dei metodi, delle proprietà sono presenti solo all'interno della classe 
     - [Finestra](#finestra-1)
     - [Disegno](#disegno-1)
 - [Strutture](#strutture)
+    - [Gestite](#gestite)
+    - [Non gestite](#non-gestite)
 - [Enumerazioni](#enumerazioni)
+    - [Gestite](#gestite-1)
+    - [Non gestite](#non-gestite-1)
 
 
 
@@ -126,7 +130,6 @@ Alcuni dei metodi, delle proprietà sono presenti solo all'interno della classe 
 - 🟢 `DrawFullPolygon`
 - 🔵 `DrawPie`
 - 🔵 `DrawFullPie`
-- 🔵 `DrawFromScreen`
 - 🔵 `DefaultPenColor`
 - 🔵 `DefaultPenWidth`
 - 🔵 `DefaultFillColor`

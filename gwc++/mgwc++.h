@@ -109,9 +109,9 @@ namespace GWCpp
 		*/
 
 		// Input Box.
-		void InputBox(String^ Prompt, String^ Title, String^ DefaultResponse, int X, int Y)
+		String^ InputBox(String^ Prompt, String^ Title, String^ DefaultResponse, int X, int Y)
 		{
-			GWC->InputBox(Prompt, Title, DefaultResponse, X, Y);
+			return GWC->InputBox(Prompt, Title, DefaultResponse, X, Y);
 		}
 
 		// Message Box.
@@ -948,12 +948,6 @@ namespace GWCpp
 		void DrawFullPie(int X, int Y, int Width, int Height, int A, int B)
 		{
 			GWC->DrawFullPie(X, Y, Width, Height, A, B);
-		}
-
-		// Draw From Screen.
-		void DrawFromScreen(int X1, int Y1, int X2, int Y2, int Width, int Height)
-		{
-			GWC->DrawFromScreen(X1, Y1, X2, Y2, Width, Height);
 		}
 
 

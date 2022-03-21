@@ -122,11 +122,11 @@ namespace GWCpp
     */
 
     // Input Box.
-    void UGWC::InputBox(std::string Prompt, std::string Title, std::string DefaultResponse, int X, int Y)
+    std::string UGWC::InputBox(std::string Prompt, std::string Title, std::string DefaultResponse, int X, int Y)
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        T->InputBox(UStringToMString(Prompt), UStringToMString(Title), UStringToMString(DefaultResponse), X, Y);
+        return MStringToUString(T->InputBox(UStringToMString(Prompt), UStringToMString(Title), UStringToMString(DefaultResponse), X, Y));
     }
 
     // Message Box.
@@ -1048,14 +1048,6 @@ namespace GWCpp
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DrawFullPie(X, Y, Width, Height, A, B);
-    }
-
-    // Draw From Screen.
-    void UGWC::DrawFromScreen(int X1, int Y1, int X2, int Y2, int Width, int Height)
-    {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
-        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        T->DrawFromScreen(X1, Y1, X2, Y2, Width, Height);
     }
 
 

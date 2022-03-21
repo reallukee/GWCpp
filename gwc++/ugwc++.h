@@ -130,7 +130,7 @@ namespace GWCpp
 			Interazioni.
 		*/
 
-		void InputBox(std::string Prompt, std::string Title, std::string DefaultResponse, int X, int Y);
+		std::string InputBox(std::string Prompt, std::string Title, std::string DefaultResponse, int X, int Y);
 		UGOutputBoxResult OutputBox(std::string Prompt, UGOutputBoxStyle Style, std::string Title);
 
 

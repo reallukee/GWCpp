@@ -108,7 +108,7 @@ namespace GWCpp
 		UGWC(int Width, int Height, std::string);
 		UGWC(int Width, int Height, std::string Title, int X, int Y);
 		~UGWC();
-		void InputBox(std::string Prompt, std::string Title, std::string DefaultResponse, int X, int Y);
+		std::string InputBox(std::string Prompt, std::string Title, std::string DefaultResponse, int X, int Y);
 		UGOutputBoxResult OutputBox(std::string Prompt, UGOutputBoxStyle Style, std::string Title);
 		bool StartWindow();
 		bool CloseWindow();
@@ -256,7 +256,6 @@ namespace GWCpp
 		// void DrawFullPolygon(array<UGPoint>^ P);
 		void DrawPie(int X, int Y, int Width, int Height, int A, int B);
 		void DrawFullPie(int X, int Y, int Width, int Height, int A, int B);
-		void DrawFromScreen(int X1, int Y1, int X2, int Y2, int Width, int Height);
 
 	};
 }

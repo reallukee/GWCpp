@@ -391,9 +391,9 @@ namespace GWCpp
 	public:
 
 		// Input Box.
-		void InputBox(String^ Prompt, String^ Title, String^ DefaultResponse, int X, int Y)
+		String^ InputBox(String^ Prompt, String^ Title, String^ DefaultResponse, int X, int Y)
 		{
-			Interaction::InputBox(Prompt, Title, DefaultResponse, X, Y);
+			return Interaction::InputBox(Prompt, Title, DefaultResponse, X, Y);
 		}
 
 		// Message Box.
@@ -2810,18 +2810,6 @@ namespace GWCpp
 			{
 				Graphics^ G = this->CreateGraphics();
 				G->FillPie(GcnewSolidBrush, X, Y, Width, Height, A, B);
-				delete G;
-			}
-		}
-
-
-		// Draw From Screen.
-		void DrawFromScreen(int X1, int Y1, int X2, int Y2, int Width, int Height)
-		{
-			if (WindowStarted == true && WindowClosed == false)
-			{
-				Graphics^ G = this->CreateGraphics();
-				G->CopyFromScreen(Point(X1, Y1), Point(X2, Y2), System::Drawing::Size(Width, Height));
 				delete G;
 			}
 		}
