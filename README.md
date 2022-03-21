@@ -2,9 +2,9 @@
 
 ![Oh no! Anyway...](./assets/banner.png "GWC++")
 
-GWC++ o Graphic Window for Console Application è una libreria scritta in C++/CLI che mette a disposizione dei form personalizzati da utilizzare come tela da dipinto per applicazioni console .NET e C++ native per Windows.
+🧩 GWC++ o Graphic Window for Console Application è una libreria scritta in C++/CLI che mette a disposizione dei form personalizzati da utilizzare come tela da dipinto per applicazioni console .NET e C++ per Windows.
 
-> ⚠ GWC++ è **SOLO** un esperimento. Ne consiglio l'utilizzo solo per divertimento.
+> ⚠ GWC++ è **SOLO** un esperimento. L'utilizzo è consigliato solo per applicazioni semplici e non professionali.
 
 
 
@@ -13,6 +13,7 @@ GWC++ o Graphic Window for Console Application è una libreria scritta in C++/CL
 **Contenuti interni**
 
 - [Rilasci](#rilasci)
+- [Utilizzo](#utilizzo)
 - [Esempi](#esempi)
 - [Compilazione](#compilazione)
 - [Strumenti](#strumenti)
@@ -35,15 +36,21 @@ GWC++ o Graphic Window for Console Application è una libreria scritta in C++/CL
 | x64                         | [Download](https://github.com/reallukee/GWCpp/releases/tag/v1.0.0) | [Download](https://github.com/reallukee/GWCpp/releases/tag/v1.0.0) |
 | x86                         | [Download](https://github.com/reallukee/GWCpp/releases/tag/v1.0.0) | [Download](https://github.com/reallukee/GWCpp/releases/tag/v1.0.0) |
 
-> ⚠ Per poter eseguire GWC++ è necessario [.NET Framework 4.8 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48).
+
+
+#  Utilizzo
+
+GWC++ offre la classe `MGWC` (Managed GWC) per le applicazioni console .NET e `UGWC` (Unmanaged GWC) per le applicazioni console C++ per Windows. Utilizzare la classe adatta al tipo di linguaggio e applicazione che si sta sviluppando. Nel caso di C++/CLI è possibile utilizzare entrambe le classi indistintamente.
+
+> ⚠ Se si vuole utilizzare la classe `UGWC` è necessario scaricare e aggiungere il file [hgwc++.h](./gwc++/hgwc++.h) all'interno del proprio progetto. Inserire `#include <hgwc++.h>` all'interno dei file di codice sorgente dove è necessario GWC++.
+
+> ⚠ Per poter eseguire GWC++ è necessario [.NET Framework 4.8 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48). Su Windows 10 e 11 è sempre installato mentre su Windows 7 e 8.1 potrebbe essere necessaria un'installazione manuale.
 
 
 
 # Esempi
 
-## Premesse
-
-GWC++ offre la classe `MGWC` (Managed GWC) per le applicazioni console .NET e `UGWC` (Unmanaged GWC) per le applicazioni C++ native per Windows. Utilizzare la classe adatta al tipo di linguaggio e applicazione che si sta sviluppando. Nel caso di C++/CLI è possibile utilizzare entrambe le classi indistintamente.
+![Oh no! Anyway...](./assets/example.png "Tux")
 
 ## Applicazione console C#
 
@@ -56,19 +63,25 @@ using GWCpp;
 // Codice ...
 
 // Istanza di MGWC.
-MGWC Window = new MGWC(850, 505, "MGWC++ Window", 50, 50);
+MGWC Window = new MGWC(850, 505, "Tux", 50, 50);
 
 // Creo la finestra.
 Window.StartWindow();
 
-// Cambio le impostazioni di disegno.
-Window.PenColor = new MGColor(255, 0, 0);
-Window.FontName = "Comic Sans";
-Window.FontSize = 25.0F;
+// Disegno il cielo.
+Window.FillColor = MGColor(64, 128, 255);
+Window.DrawFullRectangle(0, 0, 850, 430);
 
-// Scrivo del testo.
-Window.DrawString("MGWC++", 250, 100);
+// Disegno il prato.
+Window.FillColor = MGColor(128, 255, 64);
+Window.DrawFullRectangle(0, 430, 850, 75);
 
+for (int X = 0; X < 100; X++)
+{
+    Window.DrawImageFromFile("tux.png", X, 325);
+}
+
+// Richiedo la pressione di un tasto per terminare l'applicazione.
 Console.ReadKey();
 
 // Chiudo la finestra.
@@ -88,19 +101,24 @@ Imports GWCpp
 ' Codice ...
 
 ' Istanza di MGWC.
-Dim Window As New MGWC(850, 505, "MGWC++ Window", 50, 50)
+Dim Window As New MGWC(850, 505, "Tux", 50, 50)
 
 ' Creo la finestra.
 Window.StartWindow()
 
-' Cambio le impostazioni di disegno.
-Window.PenColor = New MGColor(255, 0, 0)
-Window.FontName = "Comic Sans"
-Window.FontSize = 25.0F
+' Disegno il cielo.
+Window.FillColor = GColor(64, 128, 255);
+Window.DrawFullRectangle(0, 0, 850, 430);
 
-' Scrivo del testo.
-Window.DrawString("MGWC++", 250, 100)
+' Disegno il prato.
+Window.FillColor = MGColor(128, 255, 64)
+Window.DrawFullRectangle(0, 430, 850, 75)
 
+For X As Int = 0 To 100
+    Window.DrawImageFromFile("tux.png", X, 325)
+Next
+
+' Richiedo la pressione di un tasto per terminare l'applicazione.
 Console.ReadKey()
 
 ' Chiudo la finestra.
@@ -120,19 +138,22 @@ using namespace GWCpp;
 // Codice ...
 
 // Istanza di MGWC.
-MGWC^ Window = gcnew MGWC(850, 505, "MGWC++ Window", 50, 50);
+MGWC^ Window = gcnew MGWC(850, 505, "Tux", 50, 50);
 
-// Creo la finestra.
-Window->StartWindow();
+// Disegno il cielo.
+Window->FillColor = MGColor(64, 128, 255);
+Window->DrawFullRectangle(0, 0, 850, 430);
 
-// Cambio le impostazioni di disegno.
-Window->PenColor = gcnew MGColor(255, 0, 0);
-Window->FontName = "Comic Sans";
-Window->FontSize = 25.0F;
+// Disegno il prato.
+Window->FillColor = MGColor(128, 255, 64);
+Window->DrawFullRectangle(0, 430, 850, 75);
 
-// Scrivo del testo.
-Window->DrawString("MGWC++", 250, 100);
+for (int X = 0; X < 100; X++)
+{
+    Window->DrawImageFromFile("tux.png", X, 325);
+}
 
+// Richiedo la pressione di un tasto per terminare l'applicazione.
 Console::ReadKey();
 
 // Chiudo la finestra.
@@ -152,19 +173,22 @@ Window->CloseWindow();
 // Codice ...
 
 // Istanza di UGWC.
-GWCpp::UGWC* Window = new GWCpp::UGWC(850, 505, "UGWC++ Window", 50, 50);
+GWCpp::UGWC* Window = new GWCpp::UGWC(850, 505, "Tux", 50, 50);
 
-// Creo la finestra.
-Window->StartWindow();
+// Disegno il cielo.
+Window->SetFillColor(GWCpp::UGColor(64, 128, 255));
+Window->DrawFullRectangle(0, 0, 850, 430);
 
-// Cambio le impostazioni di disegno.
-Window->SetPenColor(GWCpp::UGCOLOR{ 255, 0, 0 });
-Window->SetFontName("Comic Sans");
-Window->SetFontSize(25.0F);
+// Disegno il prato.
+Window->SetFillColor(GWCpp::UGColor(128, 255, 64));
+Window->DrawFullRectangle(0, 430, 850, 75);
 
-// Scrivo del testo.
-Window->DrawString("UGWC++", 250, 100);
+for (int X = 0; X < 100; X++)
+{
+    Window->DrawImageFromFile("tux.png", X, 325);
+}
 
+// Richiedo la pressione di un tasto per terminare l'applicazione.
 system("pause");
 
 // Chiudo la finestra.
