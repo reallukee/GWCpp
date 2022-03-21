@@ -16,6 +16,7 @@
 
 // Includo GWC++.
 #include "gwc++.h"
+#include "mgwc++.h"
 
 void MMain()
 {

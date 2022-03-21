@@ -115,9 +115,9 @@ namespace GWCpp
 		}
 
 		// Message Box.
-		MGMessageBoxResult MessageBox(String^ Prompt, MGMessageBoxStyle Style, String^ Title)
+		MGOutputBoxResult OutputBox(String^ Prompt, MGOutputBoxStyle Style, String^ Title)
 		{
-			return GWC->MessageBox(Prompt, Style, Title);
+			return GWC->OutputBox(Prompt, Style, Title);
 		}
 
 
@@ -154,6 +154,18 @@ namespace GWCpp
 		bool PauseWindow(int Time)
 		{
 			return GWC->PauseWindow(Time);
+		}
+
+		// Show Window.
+		bool ShowWindow()
+		{
+			return GWC->ShowWindow();
+		}
+
+		// Hide Window.
+		bool HideWindow()
+		{
+			return GWC->HideWindow();
 		}
 
 		// Get Window Max X.
@@ -202,18 +214,6 @@ namespace GWCpp
 		int GetScreenRealMaxY()
 		{
 			return GWC->GetScreenRealMaxY();
-		}
-
-		// Show Window.
-		bool ShowWindow()
-		{
-			return GWC->ShowWindow();
-		}
-
-		// Hide Window.
-		bool HideWindow()
-		{
-			return GWC->HideWindow();
 		}
 
 		// Create Canvas State.
@@ -284,6 +284,39 @@ namespace GWCpp
 			return GWC->RequestKeyUp();
 		}
 
+
+
+		/*
+			Proprietà finestra.
+		*/
+
+		// Window Started.
+		property bool WindowStarted
+		{
+			bool get()
+			{
+				return GWC->WindowStarted;
+			}
+		}
+
+		// Window Closed.
+		property bool WindowClosed
+		{
+			bool get()
+			{
+				return GWC->WindowClosed;
+			}
+		}
+
+		// Window Suspended.
+		property bool WindowSuspended
+		{
+			bool get()
+			{
+				return GWC->WindowSuspended;
+			}
+		}
+
 		// Mouse Location.
 		property MGPoint MouseLocation
 		{
@@ -324,39 +357,6 @@ namespace GWCpp
 			}
 		}
 		
-
-
-		/*
-			Proprietà finestra.
-		*/
-
-		// Window Started.
-		property bool WindowStarted
-		{
-			bool get()
-			{
-				return GWC->WindowStarted;
-			}
-		}
-
-		// Window Closed.
-		property bool WindowClosed
-		{
-			bool get()
-			{
-				return GWC->WindowClosed;
-			}
-		}
-
-		// Window Suspended.
-		property bool WindowSuspended
-		{
-			bool get()
-			{
-				return GWC->WindowSuspended;
-			}
-		}
-
 		// Window Title.
 		property String^ WindowTitle
 		{

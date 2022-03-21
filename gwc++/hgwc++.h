@@ -6,26 +6,19 @@
 	- Maggiori informazioni sono diponibili nel file README.md
 
 	ATUORE:			Realluke
-	DESCRIZIONE:	Classe non gestita NGWC
+	DESCRIZIONE:	File di esposizione.
 	DATA:			20/03/22
 */
 
 
+// NON MODIFICARE QUESTO FILE!
+
+
 #pragma once
-#pragma unmanaged
 
 
 #include <string>
 #include "windows.h"
-
-
-#ifdef TONATIVE
-#define DECLSPECIFIER __declspec(dllexport)
-#define EXPIMP_TEMPLATE
-#else
-#define DECLSPECIFIER __declspec(dllimport)
-#define EXPIMP_TEMPLATE extern
-#endif
 
 
 namespace GWCpp
@@ -105,40 +98,18 @@ namespace GWCpp
 	};
 
 
-	class DECLSPECIFIER UGWC
+	class UGWC
 	{
 
-	private:
-
-		void* UGWCAdress;
-
 	public:
-
-		/*
-			Costruttori e distruttori
-		*/
 
 		UGWC();
 		UGWC(int Width, int Height);
 		UGWC(int Width, int Height, std::string);
 		UGWC(int Width, int Height, std::string Title, int X, int Y);
 		~UGWC();
-
-
-
-		/*
-			Interazioni.
-		*/
-
 		void InputBox(std::string Prompt, std::string Title, std::string DefaultResponse, int X, int Y);
 		UGOutputBoxResult OutputBox(std::string Prompt, UGOutputBoxStyle Style, std::string Title);
-
-
-
-		/*
-			Metodi finestra
-		*/
-
 		bool StartWindow();
 		bool CloseWindow();
 		bool SuspendWindow();
@@ -166,13 +137,6 @@ namespace GWCpp
 		char RequestKeyDown();
 		char RequestKeyUp(char C);
 		char RequestKeyUp();
-
-
-
-		/*
-			Proprietà finestra
-		*/
-
 		bool GetWindowStarted();
 		bool GetWindowClosed();
 		bool GetWindowSuspended();
@@ -251,13 +215,6 @@ namespace GWCpp
 		bool GetWindowMaximizeButton();
 		void SetWindowMaximizeButton(bool Value);
 		void DefaultWindowMaximizeButton();
-
-
-
-		/*
-			Proprietà disegno
-		*/
-
 		UGColor GetPenColor();
 		void SetPenColor(UGColor Value);
 		void DefaultPenColor();
@@ -273,13 +230,6 @@ namespace GWCpp
 		float GetFontSize();
 		void SetFontSize(float Value);
 		void DefaultFontSize();
-
-
-
-		/*
-			Metodi disegno
-		*/
-
 		void ClearWindow(UGColor Color);
 		void SaveCanvas();
 		void RestoreCanvas();

@@ -141,7 +141,7 @@ namespace GWCpp
 	};
 
 
-	public enum class MGMessageBoxStyle
+	public enum class MGOutputBoxStyle
 	{
 		ApplicationModal = 0,
 		DefaultButton1 = 0,
@@ -165,7 +165,7 @@ namespace GWCpp
 	};
 
 
-	public enum class MGMessageBoxResult
+	public enum class MGOutputBoxResult
 	{
 		OK = 1,
 		Cancel = 2,
@@ -267,7 +267,7 @@ namespace GWCpp
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 
 			// Proprietà finestra pubbliche.
-			this->Text = "GWC++ Window";
+			this->Text = Title;
 			this->Icon = AppIcon;
 			this->ShowIcon = true;
 			this->Location = System::Drawing::Point(X, Y);
@@ -397,9 +397,9 @@ namespace GWCpp
 		}
 
 		// Message Box.
-		MGMessageBoxResult MessageBox(String^ Prompt, MGMessageBoxStyle Style, String^ Title)
+		MGOutputBoxResult OutputBox(String^ Prompt, MGOutputBoxStyle Style, String^ Title)
 		{
-			return (MGMessageBoxResult)Interaction::MsgBox(Prompt, (MsgBoxStyle)Style, Title);
+			return (MGOutputBoxResult)Interaction::MsgBox(Prompt, (MsgBoxStyle)Style, Title);
 		}
 
 
@@ -510,6 +510,84 @@ namespace GWCpp
 				finally
 				{
 					WindowSuspended = false;
+				}
+
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+
+
+		// Show Window.
+
+	private:
+
+		delegate void ShowWindowDel();
+
+		void ShowWindowExc()
+		{
+			Form::Show();
+		}
+
+	public:
+
+		bool ShowWindow()
+		{
+			if (WindowStarted == true && WindowClosed == false)
+			{
+				try
+				{
+					ShowWindowDel^ D;
+					D = gcnew ShowWindowDel(this, &GWC::ShowWindowExc);
+					this->Invoke(D);
+					delete D;
+				}
+				catch (Exception^ Ex)
+				{
+					return false;
+				}
+
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+
+
+		// Hide Window.
+
+	private:
+
+		delegate void HideWindowDel();
+
+		void HideWindowExc()
+		{
+			Form::Hide();
+		}
+
+	public:
+
+		bool HideWindow()
+		{
+			if (WindowStarted == true && WindowClosed == false)
+			{
+				try
+				{
+					HideWindowDel^ D;
+					D = gcnew HideWindowDel(this, &GWC::HideWindowExc);
+					this->Invoke(D);
+					delete D;
+				}
+				catch (Exception^ Ex)
+				{
+					return false;
 				}
 
 				return true;
@@ -798,84 +876,6 @@ namespace GWCpp
 					Graphics^ G = this->CreateGraphics();
 					G->Restore(CanvasStates[Name]);
 					delete G;
-				}
-				catch (Exception^ Ex)
-				{
-					return false;
-				}
-
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-
-
-
-		// Show Window.
-
-	private:
-
-		delegate void ShowWindowDel();
-
-		void ShowWindowExc()
-		{
-			Form::Show();
-		}
-
-	public:
-
-		bool ShowWindow()
-		{
-			if (WindowStarted == true && WindowClosed == false)
-			{
-				try
-				{
-					ShowWindowDel^ D;
-					D = gcnew ShowWindowDel(this, &GWC::ShowWindowExc);
-					this->Invoke(D);
-					delete D;
-				}
-				catch (Exception^ Ex)
-				{
-					return false;
-				}
-
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-
-
-
-		// Hide Window.
-
-	private:
-
-		delegate void HideWindowDel();
-
-		void HideWindowExc()
-		{
-			Form::Hide();
-		}
-
-	public:
-
-		bool HideWindow()
-		{
-			if (WindowStarted == true && WindowClosed == false)
-			{
-				try
-				{
-					HideWindowDel^ D;
-					D = gcnew HideWindowDel(this, &GWC::HideWindowExc);
-					this->Invoke(D);
-					delete D;
 				}
 				catch (Exception^ Ex)
 				{
@@ -1194,6 +1194,79 @@ namespace GWCpp
 
 
 
+		/*
+			Proprietà finestra.
+		*/
+
+		// Window Started.
+
+	private:
+
+		bool WindowStarted_;
+
+	public:
+
+		property bool WindowStarted
+		{
+			bool get()
+			{
+				return WindowStarted_;
+			}
+
+			private: void set(bool Value)
+			{
+				WindowStarted_ = Value;
+			}
+		}
+
+
+
+		// Window Closed.
+
+	private:
+
+		bool WindowClosed_;
+
+	public:
+
+		property bool WindowClosed
+		{
+			bool get()
+			{
+				return WindowClosed_;
+			}
+
+			private: void set(bool Value)
+			{
+				WindowClosed_ = Value;
+			}
+		}
+
+
+
+		// Window Suspended.
+		
+	private:
+
+		bool WindowSuspended_;
+
+	public:
+
+		property bool WindowSuspended
+		{
+			bool get()
+			{
+				return WindowSuspended_;
+			}
+
+			private: void set(bool Value)
+			{
+				WindowSuspended_ = Value;
+			}
+		}
+
+
+
 		// Mouse Location.
 
 	private:
@@ -1276,79 +1349,6 @@ namespace GWCpp
 					MouseLocation = MGPoint(MouseLocation.X, Value);
 					Form::Cursor->Position = MGPointToPoint(MouseLocation);
 				}
-			}
-		}
-
-
-
-		/*
-			Proprietà finestra.
-		*/
-
-		// Window Started.
-
-	private:
-
-		bool WindowStarted_;
-
-	public:
-
-		property bool WindowStarted
-		{
-			bool get()
-			{
-				return WindowStarted_;
-			}
-
-			private: void set(bool Value)
-			{
-				WindowStarted_ = Value;
-			}
-		}
-
-
-
-		// Window Closed.
-
-	private:
-
-		bool WindowClosed_;
-
-	public:
-
-		property bool WindowClosed
-		{
-			bool get()
-			{
-				return WindowClosed_;
-			}
-
-			private: void set(bool Value)
-			{
-				WindowClosed_ = Value;
-			}
-		}
-
-
-
-		// Window Suspended.
-		
-	private:
-
-		bool WindowSuspended_;
-
-	public:
-
-		property bool WindowSuspended
-		{
-			bool get()
-			{
-				return WindowSuspended_;
-			}
-
-			private: void set(bool Value)
-			{
-				WindowSuspended_ = Value;
 			}
 		}
 

@@ -1,8 +1,8 @@
 /*
     GWC++ (Graphic Window for Console Application)
 
-    - Questo progetto Ë sotto lincenza MIT (https://mit-license.org)
-    - Questo progetto Ë disponibile su GitHub (https://github.com/reallukee/GWCpp)
+    - Questo progetto √® sotto lincenza MIT (https://mit-license.org)
+    - Questo progetto √® disponibile su GitHub (https://github.com/reallukee/GWCpp)
     - Maggiori informazioni sono diponibili nel file README.md
 
     ATUORE:			Realluke
@@ -130,11 +130,11 @@ namespace GWCpp
     }
 
     // Message Box.
-    UGMessageBoxResult UGWC::MessageBox(std::string Prompt, UGMessageBoxStyle Style, std::string Title)
+    UGOutputBoxResult UGWC::OutputBox(std::string Prompt, UGOutputBoxStyle Style, std::string Title)
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return (UGMessageBoxResult)T->MessageBox(UStringToMString(Prompt), (MGMessageBoxStyle)Style, UStringToMString(Title));
+        return (UGOutputBoxResult)T->OutputBox(UStringToMString(Prompt), (MGOutputBoxStyle)Style, UStringToMString(Title));
     }
 
 
@@ -181,6 +181,22 @@ namespace GWCpp
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->PauseWindow(Time);
+    }
+
+    // Show Window.
+    bool UGWC::ShowWindow()
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        return T->ShowWindow();
+    }
+
+    // Hide Window.
+    bool UGWC::HideWindow()
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        return T->HideWindow();
     }
 
     // Get Window Max X.
@@ -245,23 +261,6 @@ namespace GWCpp
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->GetScreenRealMaxY();
-    }
-
-
-    // Show Window.
-    bool UGWC::ShowWindow()
-    {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
-        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return T->ShowWindow();
-    }
-
-    // Hide Window.
-    bool UGWC::HideWindow()
-    {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
-        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return T->HideWindow();
     }
 
     // Create Canvas State.
@@ -356,6 +355,36 @@ namespace GWCpp
         return T->RequestKeyUp();
     }
 
+    
+
+    /*
+        Propriet√† finestra.
+    */
+
+    // Window Started.
+    bool UGWC::GetWindowStarted()
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        return T->WindowStarted;
+    }
+
+    // Window Closed.
+    bool UGWC::GetWindowClosed()
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        return T->WindowClosed;
+    }
+
+    // Window Suspended.
+    bool UGWC::GetWindowSuspended()
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        return T->WindowSuspended;
+    }
+
     // Mouse Location.
     UGPoint UGWC::GetMouseLocation()
     {
@@ -397,36 +426,6 @@ namespace GWCpp
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->MouseY = Value;
-    }
-
-
-
-    /*
-        Propriet‡ finestra.
-    */
-
-    // Window Started.
-    bool UGWC::GetWindowStarted()
-    {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
-        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return T->WindowStarted;
-    }
-
-    // Window Closed.
-    bool UGWC::GetWindowClosed()
-    {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
-        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return T->WindowClosed;
-    }
-
-    // Window Suspended.
-    bool UGWC::GetWindowSuspended()
-    {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
-        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return T->WindowSuspended;
     }
 
     // Window Title.
@@ -888,122 +887,6 @@ namespace GWCpp
 
 
     /*
-        Propriet‡ disegno.
-    */
-
-    // Pen Color.
-    void UGWC::DefaultPenColor()
-    {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
-        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        T->DefaultPenColor();
-    }
-
-    UGColor UGWC::GetPenColor()
-    {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
-        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return UGColor{ T->PenColor.R, T->PenColor.G, T->PenColor.B };
-    }
-
-    void UGWC::SetPenColor(UGColor Value)
-    {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
-        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        T->PenColor = GWCpp::MGColor(Value.R, Value.G, Value.B);
-    }
-
-    // Pen Width.
-    void UGWC::DefaultPenWidth()
-    {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
-        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        T->DefaultPenWidth();
-    }
-
-    float UGWC::GetPenWidth()
-    {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
-        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return T->PenWidth;
-    }
-
-    void UGWC::SetPenWidth(float Value)
-    {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
-        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        T->PenWidth = Value;
-    }
-
-    // Fill Color.
-    void UGWC::DefaultFillColor()
-    {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
-        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        T->DefaultFillColor();
-    }
-
-    UGColor UGWC::GetFillColor()
-    {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
-        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return UGColor{ T->FillColor.R, T->FillColor.G, T->FillColor.B };
-    }
-
-    void UGWC::SetFillColor(UGColor Value)
-    {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
-        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        T->FillColor = GWCpp::MGColor(Value.R, Value.G, Value.B);
-    }
-
-    // Font Name.
-    void UGWC::DefaultFontName()
-    {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
-        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        T->DefaultFontName();
-    }
-
-    std::string UGWC::GetFontName()
-    {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
-        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return MStringToUString(T->FontName);
-    }
-
-    void UGWC::SetFontName(std::string Value)
-    {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
-        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        T->FontName = UStringToMString(Value);
-    }
-
-    // Font Size.
-    void UGWC::DefaultFontSize()
-    {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
-        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        T->DefaultFontSize();
-    }
-
-    float UGWC::GetFontSize()
-    {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
-        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return T->FontSize;
-    }
-
-    void UGWC::SetFontSize(float Value)
-    {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
-        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        T->FontSize = Value;
-    }
-
-
-
-    /*
         Metodo disegno.
     */
 
@@ -1173,6 +1056,122 @@ namespace GWCpp
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DrawFromScreen(X1, Y1, X2, Y2, Width, Height);
+    }
+
+
+
+    /*
+        Propriet√† disegno.
+    */
+
+    // Pen Color.
+    UGColor UGWC::GetPenColor()
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        return UGColor{ T->PenColor.R, T->PenColor.G, T->PenColor.B };
+    }
+
+    void UGWC::SetPenColor(UGColor Value)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->PenColor = GWCpp::MGColor(Value.R, Value.G, Value.B);
+    }
+
+    void UGWC::DefaultPenColor()
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->DefaultPenColor();
+    }
+
+    // Pen Width.
+    float UGWC::GetPenWidth()
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        return T->PenWidth;
+    }
+
+    void UGWC::SetPenWidth(float Value)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->PenWidth = Value;
+    }
+
+    void UGWC::DefaultPenWidth()
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->DefaultPenWidth();
+    }
+
+    // Fill Color.
+    UGColor UGWC::GetFillColor()
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        return UGColor{ T->FillColor.R, T->FillColor.G, T->FillColor.B };
+    }
+
+    void UGWC::SetFillColor(UGColor Value)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->FillColor = GWCpp::MGColor(Value.R, Value.G, Value.B);
+    }
+
+    void UGWC::DefaultFillColor()
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->DefaultFillColor();
+    }
+
+    // Font Name.
+    std::string UGWC::GetFontName()
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        return MStringToUString(T->FontName);
+    }
+
+    void UGWC::SetFontName(std::string Value)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->FontName = UStringToMString(Value);
+    }
+
+    void UGWC::DefaultFontName()
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->DefaultFontName();
+    }
+
+    // Font Size.
+    float UGWC::GetFontSize()
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        return T->FontSize;
+    }
+
+    void UGWC::SetFontSize(float Value)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->FontSize = Value;
+    }
+    
+    void UGWC::DefaultFontSize()
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->DefaultFontSize();
     }
 
 }

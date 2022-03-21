@@ -32,6 +32,9 @@
     <ClInclude Include="ugwc++.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
+    <ClInclude Include="hgwc++.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
     <ClInclude Include="mgwc++.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
