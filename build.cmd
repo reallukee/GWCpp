@@ -6,7 +6,6 @@ echo Script di compilazione di GWC++
 @echo,
 echo   * Compila GWC++ x64 (x64)
 echo   * Compila GWC++ x86 (x86)
-echo   * Esci (Quit)
 @echo,
 
 :loop
@@ -37,10 +36,4 @@ echo   * Esci (Quit)
         )
     )
 
-    if %op%==Quit (
-        goto quit
-    )
-
 goto loop
-
-:quit

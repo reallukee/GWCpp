@@ -6,7 +6,7 @@
 	- Maggiori informazioni sono diponibili nel file README.md
 
 	ATUORE:			Realluke
-	DESCRIZIONE:	Classe non gestita NGWC
+	DESCRIZIONE:	Classe UGWC
 	DATA:			20/03/22
 */
 

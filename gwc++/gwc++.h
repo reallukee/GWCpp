@@ -6,7 +6,7 @@
 	- Maggiori informazioni sono diponibili nel file README.md
 
 	ATUORE:			Realluke
-	DESCRIZIONE:	Classe gestita GWC
+	DESCRIZIONE:	Classe GWC
 	DATA:			20/03/22
 */
 
@@ -190,30 +190,58 @@ namespace GWCpp
 
 		GWC() : Form()
 		{
-			InitializeComponent(850, 505, "GWC++ Window", 50, 50);
-			GWCThread = gcnew Thread(gcnew ThreadStart(this, &GWC::InitializeWindow));
-			GWCThread->SetApartmentState(ApartmentState::STA);
+			try
+			{
+				InitializeComponent(850, 505, "GWC++ Window", 50, 50);
+				GWCThread = gcnew Thread(gcnew ThreadStart(this, &GWC::InitializeWindow));
+				GWCThread->SetApartmentState(ApartmentState::STA);
+			}
+			catch (Exception^ Ex)
+			{
+				throw Ex;
+			}
 		}
 
 		GWC(int Width, int Height) : Form()
 		{
-			InitializeComponent(Width, Height, "GWC++ Window", 50, 50);
-			GWCThread = gcnew Thread(gcnew ThreadStart(this, &GWC::InitializeWindow));
-			GWCThread->SetApartmentState(ApartmentState::STA);
+			try
+			{
+				InitializeComponent(Width, Height, "GWC++ Window", 50, 50);
+				GWCThread = gcnew Thread(gcnew ThreadStart(this, &GWC::InitializeWindow));
+				GWCThread->SetApartmentState(ApartmentState::STA);
+			}
+			catch (Exception^ Ex)
+			{
+				throw Ex;
+			}
 		}
 
 		GWC(int Width, int Height, String^ Title) : Form()
 		{
-			InitializeComponent(Width, Height, Title, 50, 50);
-			GWCThread = gcnew Thread(gcnew ThreadStart(this, &GWC::InitializeWindow));
-			GWCThread->SetApartmentState(ApartmentState::STA);
+			try
+			{
+				InitializeComponent(Width, Height, Title, 50, 50);
+				GWCThread = gcnew Thread(gcnew ThreadStart(this, &GWC::InitializeWindow));
+				GWCThread->SetApartmentState(ApartmentState::STA);
+			}
+			catch (Exception^ Ex)
+			{
+				throw Ex;
+			}
 		}
 
 		GWC(int Width, int Height, String^ Title, int X, int Y) : Form()
 		{
-			InitializeComponent(Width, Height, Title, X, Y);
-			GWCThread = gcnew Thread(gcnew ThreadStart(this, &GWC::InitializeWindow));
-			GWCThread->SetApartmentState(ApartmentState::STA);
+			try
+			{
+				InitializeComponent(Width, Height, Title, X, Y);
+				GWCThread = gcnew Thread(gcnew ThreadStart(this, &GWC::InitializeWindow));
+				GWCThread->SetApartmentState(ApartmentState::STA);
+			}
+			catch (Exception^ Ex)
+			{
+				throw Ex;
+			}
 		}
 
 
@@ -427,7 +455,7 @@ namespace GWCpp
 				}
 				catch (Exception^ Ex)
 				{
-					return false;
+					throw Ex;
 				}
 
 				return true;
@@ -453,7 +481,7 @@ namespace GWCpp
 				}
 				catch (Exception^ Ex)
 				{
-					return false;
+					throw Ex;
 				}
 
 				return true;
@@ -477,7 +505,7 @@ namespace GWCpp
 				}
 				catch (Exception^ Ex)
 				{
-					return false;
+					throw Ex;
 				}
 				finally
 				{
@@ -505,7 +533,7 @@ namespace GWCpp
 				}
 				catch (Exception^ Ex)
 				{
-					return false;
+					throw Ex;
 				}
 				finally
 				{
@@ -548,7 +576,7 @@ namespace GWCpp
 				}
 				catch (Exception^ Ex)
 				{
-					return false;
+					throw Ex;
 				}
 
 				return true;
@@ -587,7 +615,7 @@ namespace GWCpp
 				}
 				catch (Exception^ Ex)
 				{
-					return false;
+					throw Ex;
 				}
 
 				return true;
@@ -611,7 +639,7 @@ namespace GWCpp
 				}
 				catch (Exception^ Ex)
 				{
-					return false;
+					throw Ex;
 				}
 
 				return true;
@@ -635,7 +663,7 @@ namespace GWCpp
 				}
 				catch (Exception^ Ex)
 				{
-					throw Ex;;
+					throw Ex;
 				}
 			}
 			else
@@ -801,7 +829,7 @@ namespace GWCpp
 				}
 				catch (Exception^ Ex)
 				{
-					return false;
+					throw Ex;
 				}
 
 				return true;
@@ -827,7 +855,7 @@ namespace GWCpp
 				}
 				catch (Exception^ Ex)
 				{
-					return false;
+					throw Ex;
 				}
 
 				return true;
@@ -853,7 +881,7 @@ namespace GWCpp
 				}
 				catch (Exception^ Ex)
 				{
-					return false;
+					throw Ex;
 				}
 
 				return true;
@@ -879,7 +907,7 @@ namespace GWCpp
 				}
 				catch (Exception^ Ex)
 				{
-					return false;
+					throw Ex;
 				}
 
 				return true;
