@@ -28,7 +28,7 @@ void UMain()
     // Cambio le impostazioni di disegno
     Window->SetPenColor(GWCpp::UGColor{ 255, 0, 0 });
     Window->SetFontName("Comic Sans");
-    Window->SetFontSize(15.0F);
+    Window->SetFontSize(25.0F);
 
     // Scrivo del testo
     Window->DrawString("UGWC++", 250, 100);
