@@ -2,7 +2,7 @@
 
 ![Oh no! Anyway...](./assets/banner.png "GWC++")
 
-🧩 GWC++ o Graphic Window for Console Application è una libreria scritta in C++/CLI che mette a disposizione dei form personalizzati da utilizzare come tela da dipinto per applicazioni console .NET e C++ per Windows.
+🧩 GWC++ o Graphic Window for Console Application è una libreria scritta in C++/CLI che mette a disposizione dei form personalizzati da utilizzare come tela da dipinto per applicazioni console .NET e C++ compilate con MSVC.
 
 > ⚠ GWC++ è **SOLO** un esperimento. L'utilizzo è consigliato solo per applicazioni semplici e non professionali.
 
@@ -33,18 +33,26 @@
 
 | Architettura<br /> versione | Ultima versione<br/> (Stabile)                                     | Ultima versione<br/> (Anteprima)                                   |
 | :-------------------------: | :----------------------------------------------------------------: | :----------------------------------------------------------------: |
-| x64                         | [Download](https://github.com/reallukee/GWCpp/releases/tag/v1.0.0) | [Download](https://github.com/reallukee/GWCpp/releases/tag/v1.0.0) |
-| x86                         | [Download](https://github.com/reallukee/GWCpp/releases/tag/v1.0.0) | [Download](https://github.com/reallukee/GWCpp/releases/tag/v1.0.0) |
+| x64 (STD)                   | [Download](https://github.com/reallukee/GWCpp/releases/tag/v1.0.0) | [Download](https://github.com/reallukee/GWCpp/releases/tag/v1.0.0) |
+| x86 (STD)                   | [Download](https://github.com/reallukee/GWCpp/releases/tag/v1.0.0) | [Download](https://github.com/reallukee/GWCpp/releases/tag/v1.0.0) |
+| x64 (CIL)                   | [Download](https://github.com/reallukee/GWCpp/releases/tag/v1.0.0) | [Download](https://github.com/reallukee/GWCpp/releases/tag/v1.0.0) |
+| x86 (CIL)                   | [Download](https://github.com/reallukee/GWCpp/releases/tag/v1.0.0) | [Download](https://github.com/reallukee/GWCpp/releases/tag/v1.0.0) |
 
 
 
 #  Utilizzo
 
-GWC++ offre la classe `MGWC` (Managed GWC) per le applicazioni console .NET e `UGWC` (Unmanaged GWC) per le applicazioni console C++ per Windows. Utilizzare la classe adatta al tipo di linguaggio e applicazione che si sta sviluppando. Nel caso di C++/CLI è possibile utilizzare entrambe le classi indistintamente.
+## STD (Standard) e CIL (Command Line Interface)
 
-> ⚠ Se si vuole utilizzare la classe `UGWC` è necessario scaricare e aggiungere il file [hgwc++.h](./gwc++/hgwc++.h) all'interno del proprio progetto. Inserire `#include "hgwc++.h"` all'interno dei file di codice sorgente dove è necessario GWC++.
+GWC++ è disponibile in versione `STD` (Standard) e versione `CIL` (Command Intermediate Language).La prima è compilata con l'ozione `/clr` ed è utilizzabile in applicazioni console .NET e C++ mentre la seconda è compilata con l'ozione `/clr:pure` ed è utilizzabile solo in applicazioni console .NET.
 
-> ⚠ Per poter eseguire GWC++ è necessario [.NET Framework 4.8 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48). Su Windows 10 e 11 è sempre installato mentre su Windows 7 e 8.1 potrebbe essere necessaria un'installazione manuale.
+> ⚠ Entrambe le versioni di GWC++ richiedono Windows 7 o superiori e [.NET Framework 4.8 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48). Sui sistemi operativi Windows 10 e 11 è sempre installato mentre su i sistemi operativi Windows 7 e 8.1 potrebbe essere necessaria un'installazione manuale.
+
+## MGWC (Managed GWC) e UGWC (Unmanaged GWC)
+
+GWC++ offre la classe `MGWC` (Managed GWC) per le applicazioni console .NET e `UGWC` (Unmanaged GWC) per le applicazioni console C++ compilate con MSVC. Utilizzare la classe adatta al tipo di linguaggio e applicazione che si sta sviluppando. Nel caso di C++/CLI è possibile utilizzare entrambe le classi indistintamente.
+
+> ⚠ Se si vuole utilizzare la classe `UGWC` è necessario utilizzare la versione `STD` di GWC++ e aggiungere il file [hgwc++.h](./gwc++/hgwc++.h) all'interno del proprio progetto. Inserire `#include "hgwc++.h"` all'interno dei file di codice sorgente dove è necessario GWC++.
 
 
 
@@ -215,6 +223,14 @@ Window->CloseWindow();
     ```
 
 3. Aprire con Visual Studio il file `gwc++.sln` o eseguire lo script `build.cmd`.
+
+4. Selezionare il profilo di compilazione e l'architettura di destinazione.
+
+    | Opzione | Descrizione                                             |
+    | :------ | :------------------------------------------------------ |
+    | Debug   | Produce un'applicazione console con l'opzione `/clr`    |
+    | Release | Produce una libreria dinamica con l'opzione `/clr`      |
+    | Cil     | Produce una libreria dinamica con l'opzione `/clr:pure` |
 
 
 
