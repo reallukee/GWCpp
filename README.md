@@ -42,7 +42,7 @@
 
 #  Utilizzo
 
-## STD (Standard) e CIL (Command Line Interface)
+## STD (Standard) e CIL (Command Intermediate Language)
 
 GWC++ è disponibile in versione `STD` (Standard) e versione `CIL` (Command Intermediate Language).La prima è compilata con l'ozione `/clr` ed è utilizzabile in applicazioni console .NET e C++ mentre la seconda è compilata con l'ozione `/clr:pure` ed è utilizzabile solo in applicazioni console .NET.
 
@@ -224,19 +224,27 @@ Window->CloseWindow();
 
 3. Aprire con Visual Studio il file `gwc++.sln` o eseguire lo script `build.cmd`.
 
-4. Selezionare il profilo di compilazione e l'architettura di destinazione.
+4. **(Visual Studio)** Selezionare il profilo di compilazione e l'architettura di destinazione.
 
-    | Opzione | Descrizione                                             |
+    | Profilo | Descrizione                                             |
     | :------ | :------------------------------------------------------ |
     | Debug   | Produce un'applicazione console con l'opzione `/clr`    |
     | Release | Produce una libreria dinamica con l'opzione `/clr`      |
     | Cil     | Produce una libreria dinamica con l'opzione `/clr:pure` |
+
+    **(Script)** Digitare l'architettura di destinazione.
+
+    | Opzione | Descrizione                                        |
+    | :------ | :------------------------------------------------- |
+    | x64     | Esegue la compilazione a 64 bit di tutti i profili |
+    | x86     | Esegue la compilazione a 32 bit di tutti i profili |
 
 
 
 # Strumenti
 
 - [Visual Studio 2022](https://visualstudio.microsoft.com/it/vs/)
+- [Visual Studio Code](https://code.visualstudio.com/)
 - [MSVC v143](https://docs.microsoft.com/it-it/cpp/build/reference/compiling-a-c-cpp-program?view=msvc-170)
 - [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48)
 
