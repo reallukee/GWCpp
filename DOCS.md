@@ -2,7 +2,7 @@
 
 > ⚠ Il contenuto di questa pagina offre solo una visione di insieme dei metodi, delle proprietà, delle strutture e delle enumerazioni di GWC++.
 
-Alcuni dei metodi, delle proprietà sono presenti solo all'interno della classe `MGWC`, all'interno della classe `UGWC` oppure all'interno di entrambe. La lista sottostante fornisce degli indicatori visivi per vedere la disponibilità per classe.
+Alcuni dei metodi e delle proprietà sono presenti solo all'interno della classe `MGWC`, all'interno della classe `UGWC` oppure all'interno di entrambe. La lista sottostante fornisce degli indicatori visivi per vedere la disponibilità per classe.
 
 - 🟢 Solo in `MGWC`
 - 🟣 Solo in `UGWC`
