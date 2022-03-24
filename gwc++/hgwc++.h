@@ -7,7 +7,7 @@
 
 	ATUORE:			Realluke
 	DESCRIZIONE:	File di esposizione.
-	DATA:			20/03/22
+	DATA:			24/03/22
 */
 
 
@@ -130,7 +130,7 @@ namespace GWCpp
 		bool SaveCanvasState(std::string Name);
 		bool LoadCanvasState(std::string Name);
 		UGPoint RequestMouseDown(UGMouseButtons B);
-		UGPoint RequestMoudeDown();
+		UGPoint RequestMouseDown();
 		UGPoint RequestMouseUp(UGMouseButtons B);
 		UGPoint RequestMouseUp();
 		char RequestKeyDown(char C);

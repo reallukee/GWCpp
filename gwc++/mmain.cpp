@@ -7,7 +7,7 @@
 
     ATUORE:			Realluke
     DESCRIZIONE:	MMain (Managed Main)
-    DATA:			20/03/22
+    DATA:			24/03/22
 */
 
 
@@ -21,7 +21,7 @@
 void MMain()
 {
     // Utilizzo GWC.
-    GWCpp::GWC^ Window = gcnew GWCpp::GWC(850, 505, "MGWC++ Window", 50, 50);
+    GWCpp::MGWC^ Window = gcnew GWCpp::MGWC(850, 505, "MGWC++ Window", 50, 50);
 
     // Creo la finestra.
     Window->StartWindow();

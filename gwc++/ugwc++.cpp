@@ -7,7 +7,7 @@
 
     ATUORE:			Realluke
     DESCRIZIONE:	Classe UGWC
-    DATA:			20/03/22
+    DATA:			24/03/22
 */
 
 
@@ -303,7 +303,7 @@ namespace GWCpp
         return UGPoint{ T->RequestMouseDown((GWCpp::MGMouseButtons)B).X, T->RequestMouseDown((GWCpp::MGMouseButtons)B).Y };
     }
 
-    UGPoint UGWC::RequestMoudeDown()
+    UGPoint UGWC::RequestMouseDown()
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
