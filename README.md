@@ -31,7 +31,7 @@
 
 ## Binari
 
-> ⚠ I file binari non sono disponibili per il download ma possono essere otteniti tramite la [compilazione](#compilazione) locale di GWC++. Vedere la sezione [tag](https://github.com/reallukee/GWCpp/tags) per le versioni di GWC++.
+> ⚠ I file binari non sono disponibili per il download e possono essere ottenuti solo tramite la [compilazione](#compilazione) locale della repository di GWC++. Vedere la sezione [tag](https://github.com/reallukee/GWCpp/tags) per le versioni di GWC++.
 
 ## Template
 
@@ -63,7 +63,7 @@ GWC++ offre la classe `MGWC` (Managed GWC) per le applicazioni console .NET e `U
 
 ![Oh no! Anyway...](./assets/example.png "Tux")
 
-> *"Tux su prato con cielo azzurro.".*
+> *"Tux su un prato con un cielo azzurro.".*
 
 ## Applicazione console C++
 
