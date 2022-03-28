@@ -29,22 +29,25 @@
 
 # Rilasci
 
-> 🎉 Una versione *"stabile"* di GWC++ è disponibile!
+## Binari
 
-| Architettura<br /> versione | Ultima versione<br/> (Stabile)                                     | Ultima versione<br/> (Anteprima)                                   |
-| :-------------------------: | :----------------------------------------------------------------: | :----------------------------------------------------------------: |
-| x64 (STD)                   | [Download](https://github.com/reallukee/GWCpp/releases/tag/v1.0.0) | [Download](https://github.com/reallukee/GWCpp/releases/tag/v1.0.0) |
-| x86 (STD)                   | [Download](https://github.com/reallukee/GWCpp/releases/tag/v1.0.0) | [Download](https://github.com/reallukee/GWCpp/releases/tag/v1.0.0) |
-| x64 (CIL)                   | [Download](https://github.com/reallukee/GWCpp/releases/tag/v1.0.0) | [Download](https://github.com/reallukee/GWCpp/releases/tag/v1.0.0) |
-| x86 (CIL)                   | [Download](https://github.com/reallukee/GWCpp/releases/tag/v1.0.0) | [Download](https://github.com/reallukee/GWCpp/releases/tag/v1.0.0) |
+> ⚠ I file binari non disponibili per il download ma possono essere ottenititramite la [compilazione](#compilazione) locale di GWC++. Vedere la sezione [tag](https://github.com/reallukee/GWCpp/tags) per le versioni di GWC++.
+
+## Template
+
+| Descrizione                        | Download                           |
+| :--------------------------------- | :--------------------------------: |
+| Progetto console C++ con GWC++     | [Download](./templates/cpp.zip)    |
+| Progetto console C# con GWC++      | [Download](./templates/csharp.zip) |
+| Progetto console VB .NET con GWC++ | [Download](./templates/vbnet.zip)  |
 
 
 
 #  Utilizzo
 
-## STD (Standard) e CIL (Command Intermediate Language)
+## STD (Standard) e CIL (Common Intermediate Language)
 
-GWC++ è disponibile in versione `STD` (Standard) e versione `CIL` (Command Intermediate Language).La prima è compilata con l'ozione `/clr` ed è utilizzabile in applicazioni console .NET e C++ mentre la seconda è compilata con l'ozione `/clr:pure` ed è utilizzabile solo in applicazioni console .NET.
+GWC++ è disponibile in edizione `STD` (Standard) e edizione `CIL` (Common Intermediate Language).La prima è compilata con l'ozione `/clr` ed è utilizzabile in applicazioni console .NET e C++ mentre la seconda è compilata con l'ozione `/clr:pure` ed è utilizzabile solo in applicazioni console .NET.
 
 > ⚠ Entrambe le versioni di GWC++ richiedono Windows 7 o superiori e [.NET Framework 4.8 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48). Sui sistemi operativi Windows 10 e 11 è sempre installato mentre su i sistemi operativi Windows 7 e 8.1 potrebbe essere necessaria un'installazione manuale.
 
@@ -52,13 +55,50 @@ GWC++ è disponibile in versione `STD` (Standard) e versione `CIL` (Command Inte
 
 GWC++ offre la classe `MGWC` (Managed GWC) per le applicazioni console .NET e `UGWC` (Unmanaged GWC) per le applicazioni console C++ compilate con MSVC. Utilizzare la classe adatta al tipo di linguaggio e applicazione che si sta sviluppando. Nel caso di C++/CLI è possibile utilizzare entrambe le classi indistintamente.
 
-> ⚠ Se si vuole utilizzare la classe `UGWC` è necessario utilizzare la versione `STD` di GWC++ e aggiungere il file [hgwc++.h](./gwc++/hgwc++.h) all'interno del proprio progetto. Inserire `#include "hgwc++.h"` all'interno dei file di codice sorgente dove è necessario GWC++.
+> ⚠ Se si vuole utilizzare la classe `UGWC` è necessario utilizzare la edizione `STD` di GWC++ e aggiungere il file [hgwc++.h](./gwc++/hgwc++.h) all'interno del proprio progetto. Inserire `#include "hgwc++.h"` all'interno dei file di codice sorgente dove è necessario `UGWC`.
 
 
 
 # Esempi
 
 ![Oh no! Anyway...](./assets/example.png "Tux")
+
+> *"Tux su prato con cielo azzurro.".*
+
+## Applicazione console C++
+
+```cpp
+// main.cpp
+
+// Importo lo spazio dei nomi.
+#include "ugwc++.h"
+
+// Codice ...
+
+// Istanza di UGWC.
+GWCpp::UGWC* Window = new GWCpp::UGWC(850, 505, "Tux", 50, 50);
+
+// Disegno il cielo.
+Window->SetFillColor(GWCpp::UGColor(64, 128, 255));
+Window->DrawFullRectangle(0, 0, 850, 430);
+
+// Disegno il prato.
+Window->SetFillColor(GWCpp::UGColor(128, 255, 64));
+Window->DrawFullRectangle(0, 430, 850, 75);
+
+for (int X = 0; X < 100; X++)
+{
+    Window->DrawImageFromFile("tux.png", X, 325);
+}
+
+// Richiedo la pressione di un tasto per terminare l'applicazione.
+system("pause");
+
+// Chiudo la finestra.
+Window->CloseWindow();
+
+// Codice ...
+```
 
 ## Applicazione console C#
 
@@ -135,76 +175,6 @@ Window.CloseWindow()
 ' Codice ...
 ```
 
-## Applicazione console C++/CLI
-
-```cpp
-// main.cpp
-
-// Importo lo spazio dei nomi.
-using namespace GWCpp;
-
-// Codice ...
-
-// Istanza di MGWC.
-MGWC^ Window = gcnew MGWC(850, 505, "Tux", 50, 50);
-
-// Disegno il cielo.
-Window->FillColor = MGColor(64, 128, 255);
-Window->DrawFullRectangle(0, 0, 850, 430);
-
-// Disegno il prato.
-Window->FillColor = MGColor(128, 255, 64);
-Window->DrawFullRectangle(0, 430, 850, 75);
-
-for (int X = 0; X < 100; X++)
-{
-    Window->DrawImageFromFile("tux.png", X, 325);
-}
-
-// Richiedo la pressione di un tasto per terminare l'applicazione.
-Console::ReadKey();
-
-// Chiudo la finestra.
-Window->CloseWindow();
-
-// Codice ...
-```
-
-## Applicazione console C++
-
-```cpp
-// main.cpp
-
-// Importo lo spazio dei nomi.
-#include "ugwc++.h"
-
-// Codice ...
-
-// Istanza di UGWC.
-GWCpp::UGWC* Window = new GWCpp::UGWC(850, 505, "Tux", 50, 50);
-
-// Disegno il cielo.
-Window->SetFillColor(GWCpp::UGColor(64, 128, 255));
-Window->DrawFullRectangle(0, 0, 850, 430);
-
-// Disegno il prato.
-Window->SetFillColor(GWCpp::UGColor(128, 255, 64));
-Window->DrawFullRectangle(0, 430, 850, 75);
-
-for (int X = 0; X < 100; X++)
-{
-    Window->DrawImageFromFile("tux.png", X, 325);
-}
-
-// Richiedo la pressione di un tasto per terminare l'applicazione.
-system("pause");
-
-// Chiudo la finestra.
-Window->CloseWindow();
-
-// Codice ...
-```
-
 
 
 # Compilazione
@@ -224,20 +194,22 @@ Window->CloseWindow();
 
 3. Aprire con Visual Studio il file `gwc++.sln` o eseguire lo script `build.cmd`.
 
-4. **(Visual Studio)** Selezionare il profilo di compilazione e l'architettura di destinazione.
+    - **(Visual Studio)** Selezionare il profilo di compilazione e l'architettura di destinazione.
 
-    | Profilo | Descrizione                                             |
-    | :------ | :------------------------------------------------------ |
-    | Debug   | Produce un'applicazione console con l'opzione `/clr`    |
-    | Release | Produce una libreria dinamica con l'opzione `/clr`      |
-    | Cil     | Produce una libreria dinamica con l'opzione `/clr:pure` |
+        | Profilo | Descrizione                                             |
+        | :------ | :------------------------------------------------------ |
+        | Debug   | Produce un'applicazione console con l'opzione `/clr`    |
+        | Release | Produce una libreria dinamica con l'opzione `/clr`      |
+        | Cil     | Produce una libreria dinamica con l'opzione `/clr:pure` |
 
-    **(Script)** Digitare l'architettura di destinazione.
+    - **(Script)** Digitare l'architettura di destinazione.
 
-    | Opzione | Descrizione                                        |
-    | :------ | :------------------------------------------------- |
-    | x64     | Esegue la compilazione a 64 bit di tutti i profili |
-    | x86     | Esegue la compilazione a 32 bit di tutti i profili |
+        | Opzione | Descrizione                                        |
+        | :------ | :------------------------------------------------- |
+        | x64     | Esegue la compilazione a 64 bit di tutti i profili |
+        | x86     | Esegue la compilazione a 32 bit di tutti i profili |
+
+4. Dopo la compilazione i file binari possono essere trovati nella cartella `<Architettura>\<Profilo>`.
 
 
 
