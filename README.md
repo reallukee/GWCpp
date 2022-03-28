@@ -31,7 +31,7 @@
 
 ## Binari
 
-> ⚠ I file binari non disponibili per il download ma possono essere ottenititramite la [compilazione](#compilazione) locale di GWC++. Vedere la sezione [tag](https://github.com/reallukee/GWCpp/tags) per le versioni di GWC++.
+> ⚠ I file binari non sono disponibili per il download ma possono essere otteniti tramite la [compilazione](#compilazione) locale di GWC++. Vedere la sezione [tag](https://github.com/reallukee/GWCpp/tags) per le versioni di GWC++.
 
 ## Template
 
