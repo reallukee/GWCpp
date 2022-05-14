@@ -5,39 +5,47 @@
 	- Questo progetto è disponibile su GitHub (https://github.com/reallukee/GWCpp)
 	- Maggiori informazioni sono diponibili nel file README.md
 
-	ATUORE:			Realluke
-	DESCRIZIONE:	File di esposizione.
-	DATA:			24/03/22
+
+	ATUORE:			Realluke | Aka Luca Pollicino
+	DESCRIZIONE:	Classe UGWC
+	DATA:			24/04/22
+	VERSIONE:		1.1.0
 */
 
-
-// NON MODIFICARE QUESTO FILE!
-
-
 #pragma once
-
+#pragma unmanaged
 
 #include <string>
-#include "windows.h"
+#include <Windows.h>
 
+#ifdef TONATIVE
+#define DECLSPECIFIER __declspec(dllexport)
+#define EXPIMP_TEMPLATE
+#else
+#define DECLSPECIFIER __declspec(dllimport)
+#define EXPIMP_TEMPLATE extern
+#endif
+
+using namespace std;
 
 namespace GWCpp
 {
-	struct UGPoint
+
+	struct UPoint
 	{
 		int X;
 		int Y;
 	};
 
 
-	struct UGSize
+	struct USize
 	{
 		int Width;
 		int Height;
 	};
 
 
-	struct UGColor
+	struct UColor
 	{
 		int R;
 		int G;
@@ -45,7 +53,7 @@ namespace GWCpp
 	};
 
 
-	enum UGMouseButtons
+	enum UMouseButtons
 	{
 		None = 0,
 		Left = 1048576,
@@ -54,7 +62,7 @@ namespace GWCpp
 	};
 
 
-	enum UGWindowState
+	enum UWindowState
 	{
 		Normal = 0,
 		Minimized = 1,
@@ -62,7 +70,7 @@ namespace GWCpp
 	};
 
 
-	enum UGOutputBoxStyle
+	enum UOutputBoxStyle
 	{
 		ApplicationModal = 0,
 		DefaultButton1 = 0,
@@ -86,7 +94,7 @@ namespace GWCpp
 	};
 
 
-	enum UGOutputBoxResult
+	enum UOutputBoxResult
 	{
 		OK = 1,
 		Cancel = 2,
@@ -98,41 +106,51 @@ namespace GWCpp
 	};
 
 
-	class UGWC
+	enum UStringAlignment
 	{
+		Near = 0,
+		Center = 1,
+		Far = 2
+	};
+
+
+	class DECLSPECIFIER UGWC
+	{
+
+	private:
+
+		void* GWCAdress;
 
 	public:
 
 		UGWC();
-		UGWC(int Width, int Height);
-		UGWC(int Width, int Height, std::string);
-		UGWC(int Width, int Height, std::string Title, int X, int Y);
+		UGWC(int, int);
+		UGWC(int, int, string);
+		UGWC(int, int, string, int, int);
 		~UGWC();
-		std::string InputBox(std::string Prompt, std::string Title, std::string DefaultResponse, int X, int Y);
-		UGOutputBoxResult OutputBox(std::string Prompt, UGOutputBoxStyle Style, std::string Title);
+		string InputBox(string, string, string, int, int);
+		UOutputBoxResult OutputBox(string, UOutputBoxStyle, string);
 		bool StartWindow();
 		bool CloseWindow();
 		bool SuspendWindow();
 		bool ResumeWindow();
-		bool PauseWindow(int Time);
+		bool PauseWindow(int);
+		bool RedrawWindow(int, int, int, int);
+		bool RedrawWindow();
 		bool ShowWindow();
 		bool HideWindow();
 		int GetWindowMaxX();
-		int GetWindowRealMaxX();
 		int GetWindowMaxY();
+		int GetWindowRealMaxX();
 		int GetWindowRealMaxY();
 		int GetScreenMaxX();
-		int GetScreenRealMaxX();
 		int GetScreenMaxY();
+		int GetScreenRealMaxX();
 		int GetScreenRealMaxY();
-		bool CreateCanvasState(std::string Name);
-		bool DeleteCanvasState(std::string Name);
-		bool SaveCanvasState(std::string Name);
-		bool LoadCanvasState(std::string Name);
-		UGPoint RequestMouseDown(UGMouseButtons B);
-		UGPoint RequestMouseDown();
-		UGPoint RequestMouseUp(UGMouseButtons B);
-		UGPoint RequestMouseUp();
+		UPoint RequestMouseDown(UMouseButtons);
+		UPoint RequestMouseDown();
+		UPoint RequestMouseUp(UMouseButtons);
+		UPoint RequestMouseUp();
 		char RequestKeyDown(char C);
 		char RequestKeyDown();
 		char RequestKeyUp(char C);
@@ -140,122 +158,168 @@ namespace GWCpp
 		bool GetWindowStarted();
 		bool GetWindowClosed();
 		bool GetWindowSuspended();
-		UGPoint GetMouseLocation();
-		void SetMouseLocation(UGPoint Value);
+		bool GetWindowVisible();
+		UPoint GetMouseLocation();
+		void SetMouseLocation(UPoint);
 		int GetMouseX();
-		void SetMouseX(int Value);
+		void SetMouseX(int);
 		int GetMouseY();
-		void SetMouseY(int Value);
-		std::string GetWindowTitle();
-		void SetWindowTitle(std::string Value);
+		void SetMouseY(int);
+		string GetWindowTitle();
+		void SetWindowTitle(string);
 		void DefaultWindowTitle();
-		// Icon^ GetWindowIcon();
-		// void SetWindowIcon(Icon^ Value);
-		// void DefaultWindowIcon();
+		HICON GetWindowIcon();
+		void SetWindowIcon(HICON);
+		void DefaultWindowIcon();
 		bool GetWindowIconVisible();
-		void SetWindowIconVisible(bool Value);
+		void SetWindowIconVisible(bool);
 		void DefaultWindowIconVisible();
-		UGPoint GetWindowLocation();
-		void SetWindowLocation(UGPoint Value);
+		UPoint GetWindowLocation();
+		void SetWindowLocation(UPoint);
 		int GetWindowX();
-		void SetWindowX(int Value);
+		void SetWindowX(int);
 		int GetWindowY();
-		void SetWindowY(int Value);
+		void SetWindowY(int);
 		void DefaultWindowLocation();
 		void DefaultWindowX();
 		void DefaultWindowY();
-		UGColor GetWindowColor();
-		void SetWindowColor(UGColor Value);
+		UColor GetWindowColor();
+		void SetWindowColor(UColor);
 		void DefaultWindowColor();
-		// Image^ GetWindowImage();
-		// void SetWindowImage(Image^ Value);
-		// void DefaultWindowImage();
-		UGSize GetWindowSize();
-		void SetWindowSize(UGSize Value);
+		HBITMAP GetWindowImage();
+		void SetWindowImage(HBITMAP);
+		void DefaultWindowImage();
+		USize GetWindowSize();
+		void SetWindowSize(USize);
 		int GetWindowWidth();
-		void SetWindowWidth(int Value);
+		void SetWindowWidth(int);
 		int GetWindowHeight();
-		void SetWindowHeight(int Value);
+		void SetWindowHeight(int);
 		void DefaultWindowSize();
 		void DefaultWindowWidth();
 		void DefaultWindowHeight();
-		UGSize GetWindowRealSize();
-		void SetWindowRealSize(UGSize Value);
+		USize GetWindowRealSize();
+		void SetWindowRealSize(USize);
 		int GetWindowRealWidth();
-		void SetWindowRealWidth(int Value);
+		void SetWindowRealWidth(int);
 		int GetWindowRealHeight();
-		void SetWindowRealHeight(int Value);
+		void SetWindowRealHeight(int);
 		void DefaultWindowRealSize();
 		void DefaultWindowRealWidth();
 		void DefaultWindowRealHeight();
-		UGWindowState GetWindowSizeState();
-		void SetWindowSizeState(UGWindowState Value);
+		UWindowState GetWindowSizeState();
+		void SetWindowSizeState(UWindowState);
 		void DefaultWindowSizeState();
-		UGSize GetWindowMinimumSize();
-		void SetWindowMinimumSize(UGSize Value);
+		USize GetWindowMinimumSize();
+		void SetWindowMinimumSize(USize);
 		void DefaultWindowMinimumSize();
-		UGSize GetWindowMaximumSize();
-		void SetWindowMaximumSize(UGSize Value);
+		USize GetWindowMaximumSize();
+		void SetWindowMaximumSize(USize);
 		void DefaultWindowMaximumSize();
 		double GetWindowOpacity();
-		void SetWindowOpacity(double Value);
+		void SetWindowOpacity(double);
 		void DefaultWindowOpacity();
 		bool GetWindowAlwaysOnTop();
-		void SetWindowAlwaysOnTop(bool Value);
+		void SetWindowAlwaysOnTop(bool);
 		void DefaultWindowAlwaysOnTop();
 		bool GetWindowInTaskbar();
-		void SetWindowInTaskbar(bool Value);
+		void SetWindowInTaskbar(bool);
 		void DefaultWindowInTaskBar();
 		bool GetWindowButtons();
-		void SetWindowButtons(bool Value);
+		void SetWindowButtons(bool);
 		void DefaultWindowButtons();
 		bool GetWindowMinimizeButton();
-		void SetWindowMinimizeButton(bool Value);
+		void SetWindowMinimizeButton(bool);
 		void DefaultWindowMinimizeButton();
 		bool GetWindowMaximizeButton();
-		void SetWindowMaximizeButton(bool Value);
+		void SetWindowMaximizeButton(bool);
 		void DefaultWindowMaximizeButton();
-		UGColor GetPenColor();
-		void SetPenColor(UGColor Value);
+		void SaveCanvas();
+		void SaveCanvasWoP();
+		void RestoreCanvas();
+		void RestoreCanvasWoP();
+		void ClearWindow(UColor);
+		void ClearWindow();
+		void ClearWindowWoP(UColor);
+		void ClearWindowWoP();
+		void DrawLine(int, int, int, int);
+		void DrawLineWoP(int, int, int, int);
+		void DrawArc(int, int, int, int, int, int);
+		void DrawArcWoP(int, int, int, int, int, int);
+		void DrawBezier(float, float, float, float, float, float, float, float);
+		void DrawBezierWoP(float, float, float, float, float, float, float, float);
+		void DrawPixel(int, int);
+		void DrawPixelWoP(int, int);
+		void DrawString(string, int, int);
+		void DrawString(string, int, int, int, int);
+		void DrawStringWoP(string, int, int);
+		void DrawStringWoP(string, int, int, int, int);
+		void DrawImage(HBITMAP, int, int);
+		void DrawImage(HBITMAP, int, int, int, int);
+		void DrawImage(string, int, int);
+		void DrawImage(string, int, int, int, int);
+		void DrawImageWoP(HBITMAP, int, int);
+		void DrawImageWoP(HBITMAP, int, int, int, int);
+		void DrawImageWoP(string, int, int);
+		void DrawImageWoP(string, int, int, int, int);
+		void DrawIcon(HICON, int, int);
+		void DrawIcon(HICON, int, int, int, int);
+		void DrawIcon(string, int, int);
+		void DrawIcon(string, int, int, int, int);
+		void DrawIconWoP(HICON, int, int);
+		void DrawIconWoP(HICON, int, int, int, int);
+		void DrawIconWoP(string, int, int);
+		void DrawIconWoP(string, int, int, int, int);
+		void DrawSquare(int, int, int);
+		void DrawFullSquare(int, int, int);
+		void DrawSquareWoP(int, int, int);
+		void DrawFullSquareWoP(int, int, int);
+		void DrawRectangle(int, int, int, int);
+		void DrawFullRectangle(int, int, int, int);
+		void DrawRectangleWoP(int, int, int, int);
+		void DrawFullRectangleWoP(int, int, int, int);
+		void DrawEllipse(int, int, int, int);
+		void DrawFullEllipse(int, int, int, int);
+		void DrawEllipseWoP(int, int, int, int);
+		void DrawFullEllipseWoP(int, int, int, int);
+		void DrawCircle(int, int, int);
+		void DrawFullCircle(int, int, int);
+		void DrawCircleWoP(int, int, int);
+		void DrawFullCircleWoP(int, int, int);
+		UColor GetPenColor();
+		void SetPenColor(UColor);
 		void DefaultPenColor();
 		float GetPenWidth();
-		void SetPenWidth(float Value);
+		void SetPenWidth(float);
 		void DefaultPenWidth();
-		UGColor GetFillColor();
-		void SetFillColor(UGColor Value);
+		UColor GetFillColor();
+		void SetFillColor(UColor);
 		void DefaultFillColor();
-		std::string GetFontName();
-		void SetFontName(std::string Value);
+		UStringAlignment GetHStringAlignment();
+		void SetHStringAlignment(UStringAlignment);
+		void DefaultHStringAlignment();
+		UStringAlignment GetVStringAlignment();
+		void SetVStringAlignment(UStringAlignment);
+		void DefaultVStringAlignment();
+		string GetFontName();
+		void SetFontName(string);
 		void DefaultFontName();
 		float GetFontSize();
-		void SetFontSize(float Value);
+		void SetFontSize(float);
 		void DefaultFontSize();
-		void ClearWindow(UGColor Color);
-		void SaveCanvas();
-		void RestoreCanvas();
-		void DrawPixel(int X, int Y);
-		void DrawLine(int X1, int Y1, int X2, int Y2);
-		void DrawArc(int X, int Y, int Width, int Height, int A, int B);
-		void DrawBezier(float X1, float Y1, float X2, float Y2, float X3, float Y3, float X4, float Y4);
-		void DrawString(std::string S, int X, int Y);
-		// void DrawImage(Image^ Image, int X, int Y);
-		void DrawImageFromFile(std::string FileName, int X, int Y);
-		// void DrawIcon(Icon^ Icon, int X, int Y);
-		void DrawIconFromFile(std::string FileName, int X, int Y);
-		void DrawRectangle(int X, int Y, int Width, int Height);
-		void DrawSquare(int X, int Y, int L);
-		void DrawFullSquare(int X, int Y, int L);
-		void DrawFullRectangle(int X, int Y, int Width, int Height);
-		void DrawEllipse(int X, int Y, int Width, int Height);
-		void DrawFullEllipse(int X, int Y, int Width, int Height);
-		void DrawCircle(int X, int Y, int R);
-		void DrawFullCircle(int X, int Y, int R);
-		// void DrawCurve(array<UGPoint>^ P);
-		// DrawClosedCurve(array<UGPoint>^ P);
-		// void DrawPolygon(array<UGPoint>^ P);
-		// void DrawFullPolygon(array<UGPoint>^ P);
-		void DrawPie(int X, int Y, int Width, int Height, int A, int B);
-		void DrawFullPie(int X, int Y, int Width, int Height, int A, int B);
 
 	};
 }
+
+#pragma region Costanti
+
+#define UBlack UColor{ 0, 0, 0 }
+#define URed UColor{ 255, 0, 0 }
+#define UGreen UColor{ 0, 255, 0 }
+#define UBlue UColor{ 0, 0, 255 }
+#define UYellow UColor{ 255, 255, 0 }
+#define UMagenta UColor{ 255, 0, 255 }
+#define UCyan UColor{ 0, 255, 255 }
+#define UWhite UColor{ 255, 255, 255 }
+
+#pragma endregion

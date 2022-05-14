@@ -5,1165 +5,1531 @@
     - Questo progetto è disponibile su GitHub (https://github.com/reallukee/GWCpp)
     - Maggiori informazioni sono diponibili nel file README.md
 
-    ATUORE:			Realluke
-    DESCRIZIONE:	Classe UGWC
-    DATA:			24/03/22
-*/
 
+    ATUORE:			Realluke | Aka Luca Pollicino
+    DESCRIZIONE:	Classe UGWC
+    DATA:			24/04/22
+    VERSIONE:		1.1.0
+*/
 
 #include "pch.h"
 #include "ugwc++.h"
 #include "gwc++.h"
 #include <msclr\marshal_cppstd.h>
 
-
 #pragma managed
-
 
 namespace GWCpp
 {
 
     /*
-        Costruttori e distruttori.
+        ### Costruttori e distruttori
+        Costruttori e distruttori
     */
 
-    // Costruttori.
+    #pragma region Costruttori
+
     UGWC::UGWC()
     {
         GWCpp::GWC^ T = gcnew GWCpp::GWC(850, 505, "GWC++ Window", 50, 50);
-        UGWCAdress = GCHandle::ToIntPtr(GCHandle::Alloc(T)).ToPointer();
+        GWCAdress = GCHandle::ToIntPtr(GCHandle::Alloc(T)).ToPointer();
     }
 
     UGWC::UGWC(int Width, int Height)
     {
         GWCpp::GWC^ T = gcnew GWCpp::GWC(Width, Height, "GWC++ Window", 50, 50);
-        UGWCAdress = GCHandle::ToIntPtr(GCHandle::Alloc(T)).ToPointer();
+        GWCAdress = GCHandle::ToIntPtr(GCHandle::Alloc(T)).ToPointer();
     }
 
-    UGWC::UGWC(int Width, int Height, std::string Title)
+    UGWC::UGWC(int Width, int Height, string Title)
     {
         GWCpp::GWC^ T = gcnew GWCpp::GWC(Width, Height, gcnew String(Title.c_str()), 50, 50);
-        UGWCAdress = GCHandle::ToIntPtr(GCHandle::Alloc(T)).ToPointer();
+        GWCAdress = GCHandle::ToIntPtr(GCHandle::Alloc(T)).ToPointer();
     }
 
-    UGWC::UGWC(int Width, int Height, std::string Title, int X, int Y)
+    UGWC::UGWC(int Width, int Height, string Title, int X, int Y)
     {
         GWCpp::GWC^ T = gcnew GWCpp::GWC(Width, Height, gcnew String(Title.c_str()), X, Y);
-        UGWCAdress = GCHandle::ToIntPtr(GCHandle::Alloc(T)).ToPointer();
+        GWCAdress = GCHandle::ToIntPtr(GCHandle::Alloc(T)).ToPointer();
     }
 
-    // Distruttore.
     UGWC::~UGWC()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         Handle.Free();
     }
 
+    #pragma endregion
+
 
 
     /*
-        Metodi di conversione.
+        ### Metodi conversione
+        Metodi di conversione
     */
+    
+    #pragma region MetodiConversione
 
-    // UString To MString.
-    String^ UStringToMString(std::string Str)
-    {
-        String^ Context = gcnew String(Str.c_str());
-        return Context;
-    }
-
-    // MString To UString.
-    std::string MStringToUString(String^ Str)
+    // MString <=> UString.
+    String^ UStringToMString(string Str)
     {
         msclr::interop::marshal_context Context;
-        return Context.marshal_as<std::string>(Str);
+        return Context.marshal_as<String^>(Str);
     }
 
-    // UGPoint To MGPoint.
-    MGPoint UGPointToMGPoint(UGPoint Value)
+    string MStringToUString(String^ Str)
     {
-        return MGPoint(Value.X, Value.Y);
+        msclr::interop::marshal_context Context;
+        return Context.marshal_as<string>(Str);
     }
 
-    // MGPoint To UGPoint.
-    UGPoint MGPointToUGPoint(MGPoint Value)
+    // MPoint <=> UPoint.
+    MPoint UPointToMPoint(UPoint Value)
     {
-        return UGPoint{ Value.X, Value.Y };
+        return MPoint(Value.X, Value.Y);
     }
 
-    // UGColor To MGColor.
-    MGColor UGColorToMGColor(UGColor Value)
+    UPoint MPointToUPoint(MPoint Value)
     {
-        return MGColor(Value.R, Value.G, Value.B);
+        return UPoint{ Value.X, Value.Y };
     }
 
-    // MGColor To UGColor.
-    UGColor MGColorToUGColor(MGColor Value)
+    // MColor <=> UColor.
+    MColor UColorToMColor(UColor Value)
     {
-        return UGColor{ Value.R, Value.G, Value.B };
+        return MColor(Value.R, Value.G, Value.B);
     }
 
-    // UGSize To MGSize.
-    MGSize UGSizeToMGSize(UGSize Value)
+    UColor MColorToUColor(MColor Value)
     {
-        return MGSize(Value.Width, Value.Height);
+        return UColor{ Value.R, Value.G, Value.B };
     }
 
-    // MGSize To UGSize.
-    UGSize MGSizeToUGSize(MGSize Value)
+    // MSize <=> USize.
+    MSize USizeToMSize(USize Value)
     {
-        return UGSize{ Value.Width, Value.Height };
+        return MSize(Value.Width, Value.Height);
     }
+
+    USize MSizeToUSize(MSize Value)
+    {
+        return USize{ Value.Width, Value.Height };
+    }
+    
+    #pragma endregion
 
 
 
     /*
-        Interazioni.
+        ### Metodi Interattivi
+        Metodi di interazione I/O
     */
 
-    // Input Box.
-    std::string UGWC::InputBox(std::string Prompt, std::string Title, std::string DefaultResponse, int X, int Y)
+    #pragma region MetodiInterattivi
+
+    string UGWC::InputBox(string Prompt, string Title, string DefaultResponse, int X, int Y)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return MStringToUString(T->InputBox(UStringToMString(Prompt), UStringToMString(Title), UStringToMString(DefaultResponse), X, Y));
     }
 
-    // Message Box.
-    UGOutputBoxResult UGWC::OutputBox(std::string Prompt, UGOutputBoxStyle Style, std::string Title)
+    UOutputBoxResult UGWC::OutputBox(string Prompt, UOutputBoxStyle Style, string Title)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return (UGOutputBoxResult)T->OutputBox(UStringToMString(Prompt), (MGOutputBoxStyle)Style, UStringToMString(Title));
+        return (UOutputBoxResult)T->OutputBox(UStringToMString(Prompt), (MOutputBoxStyle)Style, UStringToMString(Title));
     }
+
+    #pragma endregion
 
 
 
     /*
-        Metodi finestra.
+        ### Metodi Finestra
+        Metodi della finestra.
     */
 
-    // Start Window.
+    #pragma region MetodiFinestra
+
     bool UGWC::StartWindow()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->StartWindow();
     }
 
-    // Close Window.
+
+
     bool UGWC::CloseWindow()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->CloseWindow();
     }
 
-    // Suspend Window.
+
+
     bool UGWC::SuspendWindow()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->SuspendWindow();
     }
 
-    // Resume Window.
+
+
     bool UGWC::ResumeWindow()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->ResumeWindow();
     }
 
-    // Pause Window.
+
+
     bool UGWC::PauseWindow(int Time)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->PauseWindow(Time);
     }
 
-    // Show Window.
+
+
+    bool UGWC::RedrawWindow(int X, int Y, int Width, int Height)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        return T->RedrawWindow(X, Y, Width, Height);
+    }
+
+    bool UGWC::RedrawWindow()
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        return T->RedrawWindow();
+    }
+
+
+
     bool UGWC::ShowWindow()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->ShowWindow();
     }
 
-    // Hide Window.
+
+
     bool UGWC::HideWindow()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->HideWindow();
     }
 
-    // Get Window Max X.
+
+
     int UGWC::GetWindowMaxX()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->GetWindowMaxX();
     }
 
-    // Get Window Real Max X.
     int UGWC::GetWindowRealMaxX()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->GetWindowRealMaxX();
     }
 
-    // Get Window Max Y.
     int UGWC::GetWindowMaxY()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->GetWindowMaxY();
     }
 
-    // Get Window Real Max Y.
     int UGWC::GetWindowRealMaxY()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->GetWindowRealMaxY();
     }
 
-    // Get Screen Max X.
+
+
     int UGWC::GetScreenMaxX()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->GetScreenMaxX();
     }
 
-    // Get Screen Real Max X.
     int UGWC::GetScreenRealMaxX()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->GetScreenRealMaxX();
     }
 
-    // Get Screen Max Y.
     int UGWC::GetScreenMaxY()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->GetScreenMaxY();
     }
 
-    // Get Screen Real Max Y.
     int UGWC::GetScreenRealMaxY()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->GetScreenRealMaxY();
     }
 
-    // Create Canvas State.
-    bool UGWC::CreateCanvasState(std::string Name)
+
+
+    UPoint UGWC::RequestMouseDown(UMouseButtons B)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return T->CreateCanvasState(UStringToMString(Name));
+        return UPoint{ T->RequestMouseDown((GWCpp::MMouseButtons)B).X, T->RequestMouseDown((GWCpp::MMouseButtons)B).Y };
     }
 
-    // Delete Canvas State.
-    bool UGWC::DeleteCanvasState(std::string Name)
+    UPoint UGWC::RequestMouseDown()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return T->DeleteCanvasState(UStringToMString(Name));
+        return UPoint{ T->RequestMouseDown().X, T->RequestMouseDown().Y };
     }
 
-    // Save Canvas State.
-    bool UGWC::SaveCanvasState(std::string Name)
+
+
+    UPoint UGWC::RequestMouseUp(UMouseButtons B)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return T->SaveCanvasState(UStringToMString(Name));
+        return UPoint{ T->RequestMouseUp((GWCpp::MMouseButtons)B).X, T->RequestMouseUp((GWCpp::MMouseButtons)B).Y };
     }
 
-    // Load Canvas State.
-    bool UGWC::LoadCanvasState(std::string Name)
+    UPoint UGWC::RequestMouseUp()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return T->LoadCanvasState(UStringToMString(Name));
+        return UPoint{ T->RequestMouseUp().X, T->RequestMouseUp().Y };
     }
 
-    // Mouse Down.
-    UGPoint UGWC::RequestMouseDown(UGMouseButtons B)
-    {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
-        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return UGPoint{ T->RequestMouseDown((GWCpp::MGMouseButtons)B).X, T->RequestMouseDown((GWCpp::MGMouseButtons)B).Y };
-    }
 
-    UGPoint UGWC::RequestMouseDown()
-    {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
-        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return UGPoint{ T->RequestMouseDown().X, T->RequestMouseDown().Y };
-    }
 
-    // Mouse Up.
-    UGPoint UGWC::RequestMouseUp(UGMouseButtons B)
-    {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
-        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return UGPoint{ T->RequestMouseUp((GWCpp::MGMouseButtons)B).X, T->RequestMouseUp((GWCpp::MGMouseButtons)B).Y };
-    }
-
-    UGPoint UGWC::RequestMouseUp()
-    {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
-        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return UGPoint{ T->RequestMouseUp().X, T->RequestMouseUp().Y };
-    }
-
-    // key Down.
     char UGWC::RequestKeyDown(char C)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->RequestKeyUp(C);
     }
 
     char UGWC::RequestKeyDown()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->RequestKeyUp();
     }
 
-    // Key Up.
+
+
     char UGWC::RequestKeyUp(char C)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->RequestKeyUp(C);
     }
 
     char UGWC::RequestKeyUp()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->RequestKeyUp();
     }
 
+    #pragma endregion
+
     
 
     /*
-        Proprietà finestra.
+        ### Proprietà finestra.
+        Proprietà della finestra
     */
 
-    // Window Started.
+    #pragma region ProprietàFinestra
+
     bool UGWC::GetWindowStarted()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->WindowStarted;
     }
 
-    // Window Closed.
+
+
     bool UGWC::GetWindowClosed()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->WindowClosed;
     }
 
-    // Window Suspended.
+
+
     bool UGWC::GetWindowSuspended()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->WindowSuspended;
     }
 
-    // Mouse Location.
-    UGPoint UGWC::GetMouseLocation()
+
+
+    bool UGWC::GetWindowVisible()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return MGPointToUGPoint(T->MouseLocation);
+        return T->WindowVisible;
     }
 
-    void UGWC::SetMouseLocation(UGPoint Value)
+
+
+    UPoint UGWC::GetMouseLocation()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        T->MouseLocation = UGPointToMGPoint(Value);
+        return MPointToUPoint(T->MouseLocation);
+    }
+
+    void UGWC::SetMouseLocation(UPoint Value)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->MouseLocation = UPointToMPoint(Value);
     }
 
     int UGWC::GetMouseX()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->MouseX;
     }
 
     void UGWC::SetMouseX(int Value)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->MouseX = Value;
     }
 
     int UGWC::GetMouseY()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->MouseY;
     }
 
     void UGWC::SetMouseY(int Value) 
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->MouseY = Value;
     }
 
-    // Window Title.
-    std::string UGWC::GetWindowTitle()
+
+
+    string UGWC::GetWindowTitle()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return MStringToUString(T->WindowTitle);
     }
 
-    void UGWC::SetWindowTitle(std::string Value)
+    void UGWC::SetWindowTitle(string Value)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->WindowTitle = UStringToMString(Value);
     }
 
     void UGWC::DefaultWindowTitle()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DefaultWindowTitle();
     }
 
-    // Window Icon Visible.
+
+
+    HICON UGWC::GetWindowIcon()
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        return NULL;
+    }
+
+    void UGWC::SetWindowIcon(HICON Value)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->WindowIcon = Icon::FromHandle((IntPtr)Value);
+    }
+
+    void UGWC::DefaultWindowIcon()
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->DefaultWindowIcon();
+    }
+    
+
+
     bool UGWC::GetWindowIconVisible()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->WindowIconVisible;
     }
 
     void UGWC::SetWindowIconVisible(bool Value)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->WindowIconVisible = Value;
     }
 
     void UGWC::DefaultWindowIconVisible()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DefaultWindowIconVisible();
     }
 
-    // Window Location.
-    UGPoint UGWC::GetWindowLocation()
+
+
+    UPoint UGWC::GetWindowLocation()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return UGPoint{ T->WindowLocation.X, T->WindowLocation.Y };
+        return UPoint{ T->WindowLocation.X, T->WindowLocation.Y };
     }
 
-    void UGWC::SetWindowLocation(UGPoint Value)
+    void UGWC::SetWindowLocation(UPoint Value)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        T->WindowLocation = GWCpp::MGPoint(Value.X, Value.Y);
+        T->WindowLocation = GWCpp::MPoint(Value.X, Value.Y);
     }
 
     int UGWC::GetWindowX()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->WindowX;
     }
 
     void UGWC::SetWindowX(int Value)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->WindowX = Value;
     }
 
     int UGWC::GetWindowY()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->WindowY;
     }
 
     void UGWC::SetWindowY(int Value)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->WindowY = Value;
     }
 
     void UGWC::DefaultWindowLocation()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DefaultWindowLocation();
     }
 
     void UGWC::DefaultWindowX()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DefaultWindowX();
     }
 
     void UGWC::DefaultWindowY()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DefaultWindowY();
     }
 
-    // Window Color.
-    UGColor UGWC::GetWindowColor()
+
+
+    UColor UGWC::GetWindowColor()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return UGColor{ T->WindowColor.R, T->WindowColor.G, T->WindowColor.B };
+        return UColor{ T->WindowColor.R, T->WindowColor.G, T->WindowColor.B };
     }
 
-    void UGWC::SetWindowColor(UGColor Value)
+    void UGWC::SetWindowColor(UColor Value)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        T->WindowColor = GWCpp::MGColor(Value.R, Value.G, Value.B);
+        T->WindowColor = GWCpp::MColor(Value.R, Value.G, Value.B);
     }
 
     void UGWC::DefaultWindowColor()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DefaultWindowColor();
     }
 
-    // Window Size.
-    UGSize UGWC::GetWindowSize()
+
+
+    HBITMAP UGWC::GetWindowImage()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return UGSize{ T->WindowSize.Width, T->WindowSize.Height };
+        return NULL;
     }
 
-    void UGWC::SetWindowSize(UGSize Value)
+    void UGWC::SetWindowImage(HBITMAP Value)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        T->WindowSize = GWCpp::MGSize(Value.Width, Value.Height);
+        return;
+    }
+
+    void UGWC::DefaultWindowImage()
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->DefaultWindowImage();
+    }
+    
+
+
+    USize UGWC::GetWindowSize()
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        return USize{ T->WindowSize.Width, T->WindowSize.Height };
+    }
+
+    void UGWC::SetWindowSize(USize Value)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->WindowSize = GWCpp::MSize(Value.Width, Value.Height);
     }
 
     int UGWC::GetWindowWidth()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->WindowWidth;
     }
 
     void UGWC::SetWindowWidth(int Value)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->WindowWidth = Value;
     }
 
     int UGWC::GetWindowHeight()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->WindowHeight;
     }
 
     void UGWC::SetWindowHeight(int Value)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->WindowHeight = Value;
     }
 
     void UGWC::DefaultWindowSize()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DefaultWindowSize();
     }
 
     void UGWC::DefaultWindowWidth()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DefaultWindowWidth();
     }
 
     void UGWC::DefaultWindowHeight()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DefaultWindowHeight();
     }
 
-    // Window Real Size.
-    UGSize UGWC::GetWindowRealSize()
+
+
+    USize UGWC::GetWindowRealSize()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return UGSize{ T->WindowRealSize.Width, T->WindowRealSize.Height };
+        return USize{ T->WindowRealSize.Width, T->WindowRealSize.Height };
     }
 
-    void UGWC::SetWindowRealSize(UGSize Value)
+    void UGWC::SetWindowRealSize(USize Value)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        T->WindowRealSize = GWCpp::MGSize(Value.Width, Value.Height);
+        T->WindowRealSize = GWCpp::MSize(Value.Width, Value.Height);
     }
 
     int UGWC::GetWindowRealWidth()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->WindowRealWidth;
     }
 
     void UGWC::SetWindowRealWidth(int Value)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->WindowRealWidth = Value;
     }
 
     int UGWC::GetWindowRealHeight()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->WindowRealHeight;
     }
 
     void UGWC::SetWindowRealHeight(int Value)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->WindowRealHeight = Value;
     }
 
     void UGWC::DefaultWindowRealSize()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DefaultWindowRealSize();
     }
 
     void UGWC::DefaultWindowRealWidth()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DefaultWindowRealWidth();
     }
 
     void UGWC::DefaultWindowRealHeight()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DefaultWindowRealHeight();
     }
 
-    // Window Size State.
-    UGWindowState UGWC::GetWindowSizeState()
+
+
+    UWindowState UGWC::GetWindowSizeState()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return (UGWindowState)T->WindowSizeState;
+        return (UWindowState)T->WindowSizeState;
     }
 
-    void UGWC::SetWindowSizeState(UGWindowState Value)
+    void UGWC::SetWindowSizeState(UWindowState Value)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        T->WindowSizeState = (GWCpp::MGWindowState)Value;
+        T->WindowSizeState = (GWCpp::MWindowState)Value;
     }
 
     void UGWC::DefaultWindowSizeState()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DefaultWindowSizeState();
     }
 
-    // Window Minimum Size.
-    UGSize UGWC::GetWindowMinimumSize()
+
+
+    USize UGWC::GetWindowMinimumSize()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return UGSize{ T->WindowMinimumSize.Width, T->WindowMinimumSize.Height };
+        return USize{ T->WindowMinimumSize.Width, T->WindowMinimumSize.Height };
     }
 
-    void UGWC::SetWindowMinimumSize(UGSize Value)
+    void UGWC::SetWindowMinimumSize(USize Value)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        T->WindowMinimumSize = GWCpp::MGSize(Value.Width, Value.Height);
+        T->WindowMinimumSize = GWCpp::MSize(Value.Width, Value.Height);
     }
 
     void UGWC::DefaultWindowMinimumSize()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DefaultWindowMinimumSize();
     }
 
-    // Window Maximum Size.
-    UGSize UGWC::GetWindowMaximumSize()
+
+
+    USize UGWC::GetWindowMaximumSize()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return UGSize{ T->WindowMaximumSize.Width, T->WindowMaximumSize.Height };
+        return USize{ T->WindowMaximumSize.Width, T->WindowMaximumSize.Height };
     }
 
-    void UGWC::SetWindowMaximumSize(UGSize Value)
+    void UGWC::SetWindowMaximumSize(USize Value)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        T->WindowMaximumSize = GWCpp::MGSize(Value.Width, Value.Height);
+        T->WindowMaximumSize = GWCpp::MSize(Value.Width, Value.Height);
     }
 
     void UGWC::DefaultWindowMaximumSize()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DefaultWindowMaximumSize();
     }
 
-    // Window Opacity.
+
+
     double UGWC::GetWindowOpacity()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->WindowOpacity;
     }
 
     void UGWC::SetWindowOpacity(double Value)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->WindowOpacity = Value;
     }
 
     void UGWC::DefaultWindowOpacity()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DefaultWindowOpacity();
     }
 
-    // Window Always On Top.
+
+
     bool UGWC::GetWindowAlwaysOnTop()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->WindowAlwaysOnTop;
     }
 
     void UGWC::SetWindowAlwaysOnTop(bool Value)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->WindowAlwaysOnTop = Value;
     }
 
     void UGWC::DefaultWindowAlwaysOnTop()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DefaultWindowAlwaysOnTop();
     }
 
-    // Window In Taskbar.
+
+
     bool UGWC::GetWindowInTaskbar()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->WindowInTaskbar;
     }
 
     void UGWC::SetWindowInTaskbar(bool Value)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->WindowInTaskbar = Value;
     }
 
     void UGWC::DefaultWindowInTaskBar()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DefaultWindowInTaskbar();
     }
 
-    // Window Buttons.
+
+    
     bool UGWC::GetWindowButtons()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->WindowButtons;
     }
 
     void UGWC::SetWindowButtons(bool Value)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->WindowButtons = Value;
     }
 
     void UGWC::DefaultWindowButtons()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DefaultWindowButtons();
     }
 
-    // Window Minimize Button.
+
+
     bool UGWC::GetWindowMinimizeButton()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->WindowMinimizeButton;
     }
 
     void UGWC::SetWindowMinimizeButton(bool Value)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->WindowMinimizeButton = Value;
     }
 
     void UGWC::DefaultWindowMinimizeButton()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DefaultWindowMinimizeButton();
     }
 
-    // Window Maximize Button.
+
+
     bool UGWC::GetWindowMaximizeButton()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->WindowMaximizeButton;
     }
 
     void UGWC::SetWindowMaximizeButton(bool Value)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->WindowMaximizeButton = Value;
     }
 
     void UGWC::DefaultWindowMaximizeButton()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DefaultWindowMaximizeButton();
     }
     
+    #pragma endregion
+
 
 
     /*
-        Metodo disegno.
+        ### Metodi disegno
+        Metodi del disegno
     */
 
-    // Clear Window.
-    void UGWC::ClearWindow(UGColor Color)
-    {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
-        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        T->ClearWindow(UGColorToMGColor(Color));
-    }
+    #pragma region MetodiDisegno
 
-    // Save Canvas.
     void UGWC::SaveCanvas()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->SaveCanvas();
     }
 
-    // Restore Canvas.
+    void UGWC::SaveCanvasWoP()
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->SaveCanvasWoP();
+    }
+
+
+
     void UGWC::RestoreCanvas()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->RestoreCanvas();
     }
 
-    // Draw Pixel.
-    void UGWC::DrawPixel(int X, int Y)
+    void UGWC::RestoreCanvasWoP()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        T->DrawPixel(X, Y);
+        T->RestoreCanvasWoP();
     }
 
-    // Draw Line.
+
+
+    void UGWC::ClearWindow(UColor Color)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->ClearWindow(UColorToMColor(Color));
+    }
+
+    void UGWC::ClearWindow()
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->ClearWindow();
+    }
+
+    void UGWC::ClearWindowWoP(UColor Color)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->ClearWindowWoP(UColorToMColor(Color));
+    }
+
+    void UGWC::ClearWindowWoP()
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->ClearWindowWoP();
+    }
+
+
+
     void UGWC::DrawLine(int X1, int Y1, int X2, int Y2)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DrawLine(X1, Y1, X2, Y2);
     }
 
-    // Draw Arc.
+    void UGWC::DrawLineWoP(int X1, int Y1, int X2, int Y2)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->DrawLineWoP(X1, Y1, X2, Y2);
+    }
+
+
+
     void UGWC::DrawArc(int X, int Y, int Width, int Height, int A, int B)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DrawArc(X, Y, Width, Height, A, B);
     }
 
-    // Draw Bezier.
+    void UGWC::DrawArcWoP(int X, int Y, int Width, int Height, int A, int B)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->DrawArcWoP(X, Y, Width, Height, A, B);
+    }
+
+
+
     void UGWC::DrawBezier(float X1, float Y1, float X2, float Y2, float X3, float Y3, float X4, float Y4)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DrawBezier(X1, Y1, X2, Y2, X3, Y3, X4, Y4);
     }
 
-    // Draw String.
-    void UGWC::DrawString(std::string S, int X, int Y)
+    void UGWC::DrawBezierWoP(float X1, float Y1, float X2, float Y2, float X3, float Y3, float X4, float Y4)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        T->DrawString(gcnew String(S.c_str()), X, Y);
+        T->DrawBezierWoP(X1, Y1, X2, Y2, X3, Y3, X4, Y4);
     }
 
-    // Draw Image From File.
-    void UGWC::DrawImageFromFile(std::string FileName, int X, int Y)
+
+
+    void UGWC::DrawPixel(int X, int Y)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        T->DrawImageFromFile(gcnew String(FileName.c_str()), X, Y);
+        T->DrawPixel(X, Y);
     }
 
-    // Draw Icon From File.
-    void UGWC::DrawIconFromFile(std::string FileName, int X, int Y)
+    void UGWC::DrawPixelWoP(int X, int Y)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        T->DrawIconFromFile(gcnew String(FileName.c_str()), X, Y);
+        T->DrawPixelWoP(X, Y);
     }
 
-    // Draw Square.
+
+
+    void UGWC::DrawString(string Stringa, int X, int Y)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->DrawString(gcnew String(Stringa.c_str()), X, Y);
+    }
+
+    void UGWC::DrawString(string Stringa, int X, int Y, int Width, int Height)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->DrawString(gcnew String(Stringa.c_str()), X, Y, Width, Height);
+    }
+
+    void UGWC::DrawStringWoP(string Stringa, int X, int Y)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->DrawStringWoP(gcnew String(Stringa.c_str()), X, Y);
+    }
+
+    void UGWC::DrawStringWoP(string Stringa, int X, int Y, int Width, int Height)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->DrawStringWoP(gcnew String(Stringa.c_str()), X, Y, Width, Height);
+    }
+
+
+
+    void UGWC::DrawImage(HBITMAP Image, int X, int Y)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        return;
+    }
+
+    void UGWC::DrawImage(HBITMAP Image, int X, int Y, int Width, int Height)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        return;
+    }
+
+    void UGWC::DrawImage(string FileName, int X, int Y)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->DrawImage(gcnew String(FileName.c_str()), X, Y);
+    }
+
+    void UGWC::DrawImage(string FileName, int X, int Y, int Width, int Height)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->DrawImage(gcnew String(FileName.c_str()), X, Y, Width, Height);
+    }
+
+    void UGWC::DrawImageWoP(HBITMAP Image, int X, int Y)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        return;
+    }
+
+    void UGWC::DrawImageWoP(HBITMAP Image, int X, int Y, int Width, int Height)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        return;
+    }
+
+    void UGWC::DrawImageWoP(string FileName, int X, int Y)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->DrawImageWoP(gcnew String(FileName.c_str()), X, Y);
+    }
+
+    void UGWC::DrawImageWoP(string FileName, int X, int Y, int Width, int Height)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->DrawImageWoP(gcnew String(FileName.c_str()), X, Y, Width, Height);
+    }
+
+
+
+    void UGWC::DrawIcon(HICON Icon, int X, int Y)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->DrawIcon(System::Drawing::Icon::FromHandle((IntPtr)Icon), X, Y);
+    }
+
+    void UGWC::DrawIcon(HICON Icon, int X, int Y, int Width, int Height)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->DrawIcon(System::Drawing::Icon::FromHandle((IntPtr)Icon), X, Y, Width, Height);
+    }
+
+    void UGWC::DrawIcon(string FileName, int X, int Y)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->DrawIcon(gcnew String(FileName.c_str()), X, Y);
+    }
+
+    void UGWC::DrawIcon(string FileName, int X, int Y, int Width, int Height)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->DrawIcon(gcnew String(FileName.c_str()), X, Y, Width, Height);
+    }
+
+    void UGWC::DrawIconWoP(HICON Icon, int X, int Y)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->DrawIconWoP(System::Drawing::Icon::FromHandle((IntPtr)Icon), X, Y);
+    }
+
+    void UGWC::DrawIconWoP(HICON Icon, int X, int Y, int Width, int Height)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->DrawIconWoP(System::Drawing::Icon::FromHandle((IntPtr)Icon), X, Y, Width, Height);
+    }
+
+    void UGWC::DrawIconWoP(string FileName, int X, int Y)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->DrawIconWoP(gcnew String(FileName.c_str()), X, Y);
+    }
+
+    void UGWC::DrawIconWoP(string FileName, int X, int Y, int Width, int Height)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->DrawIconWoP(gcnew String(FileName.c_str()), X, Y, Width, Height);
+    }
+
+
+
     void UGWC::DrawSquare(int X, int Y, int L)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DrawSquare(X, Y, L);
     }
 
-    // Draw Fill Square.
     void UGWC::DrawFullSquare(int X, int Y, int L)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DrawFullSquare(X, Y, L);
     }
 
-    // Draw Rectangle.
+    void UGWC::DrawSquareWoP(int X, int Y, int L)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->DrawSquareWoP(X, Y, L);
+    }
+
+    void UGWC::DrawFullSquareWoP(int X, int Y, int L)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->DrawFullSquareWoP(X, Y, L);
+    }
+
+
+
     void UGWC::DrawRectangle(int X, int Y, int Width, int Height)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DrawRectangle(X, Y, Width, Height);
     }
 
-    // Draw Fill Rectangle.
     void UGWC::DrawFullRectangle(int X, int Y, int Width, int Height)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DrawFullRectangle(X, Y, Width, Height);
     }
 
-    // Draw Ellipse.
+    void UGWC::DrawRectangleWoP(int X, int Y, int Width, int Height)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->DrawRectangleWoP(X, Y, Width, Height);
+    }
+
+    void UGWC::DrawFullRectangleWoP(int X, int Y, int Width, int Height)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->DrawFullRectangleWoP(X, Y, Width, Height);
+    }
+
+
+
     void UGWC::DrawEllipse(int X, int Y, int Width, int Height)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DrawEllipse(X, Y, Width, Height);
     }
 
-    // Draw Fill Ellipse.
     void UGWC::DrawFullEllipse(int X, int Y, int Width, int Height)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DrawFullEllipse(X, Y, Width, Height);
     }
 
-    // Draw Circle.
+    void UGWC::DrawEllipseWoP(int X, int Y, int Width, int Height)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->DrawEllipseWoP(X, Y, Width, Height);
+    }
+
+    void UGWC::DrawFullEllipseWoP(int X, int Y, int Width, int Height)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->DrawFullEllipseWoP(X, Y, Width, Height);
+    }
+
+
+
     void UGWC::DrawCircle(int X, int Y, int R)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DrawCircle(X, Y, R);
     }
 
-    // Draw Fill Circle.
     void UGWC::DrawFullCircle(int X, int Y, int R)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DrawFullCircle(X, Y, R);
     }
 
-    // Draw Pie.
-    void UGWC::DrawPie(int X, int Y, int Width, int Height, int A, int B)
+    void UGWC::DrawCircleWoP(int X, int Y, int R)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        T->DrawPie(X, Y, Width, Height, A, B);
+        T->DrawCircleWoP(X, Y, R);
     }
 
-    // Draw Fill Pie.
-    void UGWC::DrawFullPie(int X, int Y, int Width, int Height, int A, int B)
+    void UGWC::DrawFullCircleWoP(int X, int Y, int R)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        T->DrawFullPie(X, Y, Width, Height, A, B);
+        T->DrawFullCircleWoP(X, Y, R);
     }
+
+    #pragma endregion
 
 
 
     /*
-        Proprietà disegno.
+        ### Proprietà disegno
+        Proprietà del disegno
     */
 
-    // Pen Color.
-    UGColor UGWC::GetPenColor()
+    #pragma region ProprietàDisegno
+    
+    UColor UGWC::GetPenColor()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return UGColor{ T->PenColor.R, T->PenColor.G, T->PenColor.B };
+        return UColor{ T->PenColor.R, T->PenColor.G, T->PenColor.B };
     }
 
-    void UGWC::SetPenColor(UGColor Value)
+    void UGWC::SetPenColor(UColor Value)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        T->PenColor = GWCpp::MGColor(Value.R, Value.G, Value.B);
+        T->PenColor = GWCpp::MColor(Value.R, Value.G, Value.B);
     }
 
     void UGWC::DefaultPenColor()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DefaultPenColor();
     }
 
-    // Pen Width.
+
+
     float UGWC::GetPenWidth()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->PenWidth;
     }
 
     void UGWC::SetPenWidth(float Value)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->PenWidth = Value;
     }
 
     void UGWC::DefaultPenWidth()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DefaultPenWidth();
     }
 
-    // Fill Color.
-    UGColor UGWC::GetFillColor()
+
+
+    UColor UGWC::GetFillColor()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return UGColor{ T->FillColor.R, T->FillColor.G, T->FillColor.B };
+        return UColor{ T->FillColor.R, T->FillColor.G, T->FillColor.B };
     }
 
-    void UGWC::SetFillColor(UGColor Value)
+    void UGWC::SetFillColor(UColor Value)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        T->FillColor = GWCpp::MGColor(Value.R, Value.G, Value.B);
+        T->FillColor = GWCpp::MColor(Value.R, Value.G, Value.B);
     }
 
     void UGWC::DefaultFillColor()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DefaultFillColor();
     }
 
-    // Font Name.
-    std::string UGWC::GetFontName()
+
+
+    UStringAlignment UGWC::GetHStringAlignment()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        return (UStringAlignment)T->HStringAlignment;
+    }
+
+    void UGWC::SetHStringAlignment(UStringAlignment Value)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->HStringAlignment = (MStringAlignment)Value;
+    }
+
+    void UGWC::DefaultHStringAlignment()
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->DefaultHStringAlignment();
+    }
+
+
+
+    UStringAlignment UGWC::GetVStringAlignment()
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        return (UStringAlignment)T->VStringAlignment;
+    }
+
+    void UGWC::SetVStringAlignment(UStringAlignment Value)
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->VStringAlignment = (MStringAlignment)Value;
+    }
+
+    void UGWC::DefaultVStringAlignment()
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
+        GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
+        T->DefaultVStringAlignment();
+    }
+
+
+
+    string UGWC::GetFontName()
+    {
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return MStringToUString(T->FontName);
     }
 
-    void UGWC::SetFontName(std::string Value)
+    void UGWC::SetFontName(string Value)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->FontName = UStringToMString(Value);
     }
 
     void UGWC::DefaultFontName()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DefaultFontName();
     }
 
-    // Font Size.
+
+
     float UGWC::GetFontSize()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         return T->FontSize;
     }
 
     void UGWC::SetFontSize(float Value)
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->FontSize = Value;
     }
     
     void UGWC::DefaultFontSize()
     {
-        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(UGWCAdress));
+        GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
         T->DefaultFontSize();
     }
+
+    #pragma endregion
 
 }

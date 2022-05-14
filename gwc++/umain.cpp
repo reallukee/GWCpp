@@ -5,39 +5,40 @@
     - Questo progetto è disponibile su GitHub (https://github.com/reallukee/GWCpp)
     - Maggiori informazioni sono diponibili nel file README.md
 
-    ATUORE:			Realluke
-    DESCRIZIONE:	UMani (Unmanaged Main)
-    DATA:			20/03/22
-*/
 
+    ATUORE:			Realluke | Aka Luca Pollicino
+    DESCRIZIONE:	UMain (Unmanaged Main)
+    DATA:			05/04/22
+    VERSIONE:		1.1.0
+*/
 
 #include "pch.h"
 #pragma unmanaged
 
-// Includo NGWC++
+// Includo UGWC++.
 #include "ugwc++.h"
 
 void UMain()
 {
-    // Istanza di NGWC
-    GWCpp::UGWC* Window = new GWCpp::UGWC(850, 505, "UGWC++ Window", 50, 50);
+    // Istanza di UGWC.
+    GWCpp::UGWC* Wd = new GWCpp::UGWC(850, 505, "GWC++ Window", 50, 50);
 
-    // Creo la finestra
-    Window->StartWindow();
+    // Creo la finestra.
+    Wd->StartWindow();
 
-    // Cambio le impostazioni di disegno
-    Window->SetPenColor(GWCpp::UGColor{ 255, 0, 0 });
-    Window->SetFontName("Comic Sans");
-    Window->SetFontSize(25.0F);
+    // Cambio le impostazioni di disegno.
+    Wd->SetFillColor(URed);
+    Wd->SetFontName("MS Comic Sans");
+    Wd->SetFontSize(25.0F);
 
-    // Scrivo del testo
-    Window->DrawString("UGWC++", 250, 100);
+    // Scrivo del testo.
+    Wd->DrawString("GWC++", 32, 32);
 
     system("pause");
 
-    // Chiudo la finestra
-    Window->CloseWindow();
+    // Chiudo la finestra.
+    Wd->CloseWindow();
 
-    // Elimino l'istanza
-    delete Window;
+    // Elimino l'istanza.
+    delete Wd;
 }

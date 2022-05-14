@@ -5,18 +5,17 @@
 	- Questo progetto è disponibile su GitHub (https://github.com/reallukee/GWCpp)
 	- Maggiori informazioni sono diponibili nel file README.md
 
-	ATUORE:			Realluke
-	DESCRIZIONE:	Classe MGWC
-	DATA:			20/03/22
-*/
 
+	ATUORE:			Realluke | Aka Luca Pollicino
+	DESCRIZIONE:	Classe MGWC
+	DATA:			24/04/22
+	VERSIONE:		1.1.0
+*/
 
 #pragma once
 #pragma managed
 
-
 #include "gwc++.h"
-
 
 namespace GWCpp
 {
@@ -30,1026 +29,485 @@ namespace GWCpp
 	public:
 
 		/*
-			Costruttori e distruttore.
+			### Costruttori
+			Costruttori
 		*/
+
+		#pragma region Costruttori
 		
-		// Costruttore.
-		MGWC()
-		{
-			GWC = gcnew GWCpp::GWC();
-		}
+		MGWC() { GWC = gcnew GWCpp::GWC(); }
+		MGWC(int Width, int Height) { GWC = gcnew GWCpp::GWC(Width, Height); }
+		MGWC(int Width, int Height, String^ Title) { GWC = gcnew GWCpp::GWC(Width, Height, Title); }
+		MGWC(int Width, int Height, String^ Title, int X, int Y){ GWC = gcnew GWCpp::GWC(Width, Height, Title, X, Y); }
 
-		MGWC(int Width, int Height)
-		{
-			GWC = gcnew GWCpp::GWC(Width, Height);
-		}
-
-		MGWC(int Width, int Height, String^ Title)
-		{
-			GWC = gcnew GWCpp::GWC(Width, Height, Title);
-		}
-
-		MGWC(int Width, int Height, String^ Title, int X, int Y)
-		{
-			GWC = gcnew GWCpp::GWC(Width, Height, Title, X, Y);
-		}
-
-		// Distruttore.
-		~MGWC()
-		{
-			// ~GWC();
-		}
+		#pragma endregion
 
 
 
 		/*
-			Metodi di conversione.
+			### Metodi conversione
+			Metodi di conversione
 		*/
 
-		// Point To MGPoint.
-		MGPoint PointToGPoint(Point Value)
-		{
-			return GWC->PointToMGPoint(Value);
-		}
+		#pragma region MetodiConversione
 
-		// MGPoint To Point.
-		Point GPointToPoint(MGPoint Value)
-		{
-			return GWC->MGPointToPoint(Value);
-		}
+		MPoint PointToMPoint(Point Value) { return GWC->PointToMPoint(Value); }
+		Point MPointToPoint(MPoint Value) { return GWC->MPointToPoint(Value); }
+		MColor ColorToMColor(Color Value) { return GWC->ColorToMColor(Value); }
+		Color MColorToColor(MColor Value) { return GWC->MColorToColor(Value); }
+		MSize SizeToMSize(System::Drawing::Size Value) { return GWC->SizeToMSize(Value); }
+		System::Drawing::Size MSizeToSize(MSize Value) { return GWC->MSizeToSize(Value); }
 
-		// Color To MGColor.
-		MGColor ColorToGColor(Color Value)
-		{
-			return GWC->ColorToMGColor(Value);
-		}
-
-		// MGColor To Color.
-		Color GColorToColor(MGColor Value)
-		{
-			return GWC->MGColorToColor(Value);
-		}
-
-		// Size To MGSize.
-		MGSize SizeToGSize(System::Drawing::Size Value)
-		{
-			return GWC->SizeToMGSize(Value);
-		}
-
-		// MGSize To Size.
-		System::Drawing::Size GSizeToSize(MGSize Value)
-		{
-			return GWC->MGSizeToSize(Value);
-		}
+		#pragma endregion
 
 
 
 		/*
-			Interazioni.
+			### Metodi Interattivi
+			Metodi di interazione I/O
 		*/
 
-		// Input Box.
-		String^ InputBox(String^ Prompt, String^ Title, String^ DefaultResponse, int X, int Y)
-		{
-			return GWC->InputBox(Prompt, Title, DefaultResponse, X, Y);
-		}
+		#pragma region MetodiInterattivi
 
-		// Message Box.
-		MGOutputBoxResult OutputBox(String^ Prompt, MGOutputBoxStyle Style, String^ Title)
-		{
-			return GWC->OutputBox(Prompt, Style, Title);
-		}
+		String^ InputBox(String^ Prompt, String^ Title, String^ DefaultResponse, int X, int Y) { return GWC->InputBox(Prompt, Title, DefaultResponse, X, Y); }
+		MOutputBoxResult OutputBox(String^ Prompt, MOutputBoxStyle Style, String^ Title) { return GWC->OutputBox(Prompt, Style, Title); }
+
+		#pragma endregion
 
 
 
 		/*
-			Metodi finestra.
+			### Metodi Finestra
+			Metodi della finestra
 		*/
 
-		// Start Window.
-		bool StartWindow()
-		{
-			return GWC->StartWindow();
-		}
+		#pragma region MetodiFinestra
 
-		// Close Window.
-		bool CloseWindow()
-		{		
-			return GWC->CloseWindow();
-		}
+		bool StartWindow() { return GWC->StartWindow(); }
+		bool CloseWindow() { return GWC->CloseWindow(); }
+		bool SuspendWindow() { return GWC->SuspendWindow(); }
+		bool ResumeWindow() { return GWC->ResumeWindow(); }
+		bool PauseWindow(int Time) { return GWC->PauseWindow(Time); }
+		bool RedrawWindow(int X, int Y, int Width, int Height) { return GWC->RedrawWindow(X, Y, Width, Height); }
+		bool RedrawWindow() { return GWC->RedrawWindow(); }
+		bool ShowWindow() { return GWC->ShowWindow(); }
+		bool HideWindow() { return GWC->HideWindow(); }
+		int GetWindowMaxX() { return GWC->GetWindowMaxX(); }
+		int GetWindowRealMaxX() { return GWC->GetWindowRealMaxX(); }
+		int GetWindowMaxY() { return GWC->GetWindowMaxY(); }
+		int GetWindowRealMaxY() { return GWC->GetWindowRealMaxY(); }
+		int GetScreenMaxX() { return GWC->GetScreenMaxX(); }
+		int GetScreenRealMaxX() { return GWC->GetScreenRealMaxX(); }
+		int GetScreenMaxY() { return GWC->GetScreenMaxY(); }
+		int GetScreenRealMaxY() { return GWC->GetScreenRealMaxY(); }
+		MPoint RequestMouseDown(MMouseButtons B) { return GWC->RequestMouseDown(B); }
+		MPoint RequestMouseDown() { return GWC->RequestMouseDown(); }
+		MPoint RequestMouseUp(MMouseButtons B) { return GWC->RequestMouseUp(B); }
+		MPoint RequestMouseUp() { return GWC->RequestMouseUp(); }
+		Char RequestKeyDown(char C) { return GWC->RequestKeyDown(C); }
+		Char RequestKeyDown() { return GWC->RequestKeyDown(); }
+		Char RequestKeyUp(char C) { return GWC->RequestKeyUp(C); }
+		Char RequestKeyUp() { return GWC->RequestKeyUp(); }
 
-		// Suspend Window.
-		bool SuspendWindow()
-		{
-			return GWC->SuspendWindow();
-		}
-
-		// Resume Window.
-		bool ResumeWindow()
-		{
-			return GWC->ResumeWindow();
-		}
-
-		// Pause Window.
-		bool PauseWindow(int Time)
-		{
-			return GWC->PauseWindow(Time);
-		}
-
-		// Show Window.
-		bool ShowWindow()
-		{
-			return GWC->ShowWindow();
-		}
-
-		// Hide Window.
-		bool HideWindow()
-		{
-			return GWC->HideWindow();
-		}
-
-		// Get Window Max X.
-		int GetWindowMaxX()
-		{
-			return GWC->GetWindowMaxX();
-		}
-
-		// Get Window Real Max X.
-		int GetWindowRealMaxX()
-		{
-			return GWC->GetWindowRealMaxX();
-		}
-
-		// Get Window Max Y.
-		int GetWindowMaxY()
-		{
-			return GWC->GetWindowMaxY();
-		}
-
-		// Get Window Real Max Y.
-		int GetWindowRealMaxY()
-		{
-			return GWC->GetWindowRealMaxY();
-		}
-
-		// Get Screen Max X.
-		int GetScreenMaxX()
-		{
-			return GWC->GetScreenMaxX();
-		}
-
-		// Get Screen Real Max X.
-		int GetScreenRealMaxX()
-		{
-			return GWC->GetScreenRealMaxX();
-		}
-
-		// Get Screen Max Y.
-		int GetScreenMaxY()
-		{
-			return GWC->GetScreenMaxY();
-		}
-
-		// Get Screen Real Max Y.
-		int GetScreenRealMaxY()
-		{
-			return GWC->GetScreenRealMaxY();
-		}
-
-		// Create Canvas State.
-		bool CreateCanvasState(String^ Name)
-		{
-			return GWC->CreateCanvasState(Name);
-		}
-
-		// Delete Canvas State.
-		bool DeleteCanvasState(String^ Name)
-		{
-			return GWC->DeleteCanvasState(Name);
-		}
-
-		// Save Canvas State.
-		bool SaveCanvasState(String^ Name)
-		{
-			return GWC->SaveCanvasState(Name);
-		}
-
-		// Load Canvas State.
-		bool LoadCanvasState(String^ Name)
-		{
-			return GWC->LoadCanvasState(Name);
-		}
-		
-		// Mouse Down.
-		MGPoint RequestMouseDown(MGMouseButtons B)
-		{
-			return GWC->RequestMouseDown(B);
-		}
-
-		MGPoint RequestMoudeDown()
-		{
-			return GWC->RequestMouseDown();
-		}
-
-		// Mouse Up.
-		MGPoint RequestMouseUp(MGMouseButtons B)
-		{
-			return GWC->RequestMouseUp(B);
-		}
-
-		MGPoint RequestMouseUp()
-		{
-			return GWC->RequestMouseUp();
-		}
-
-		// key Down.
-		Char RequestKeyDown(char C)
-		{
-			return GWC->RequestKeyDown(C);
-		}
-
-		Char RequestKeyDown()
-		{
-			return GWC->RequestKeyDown();
-		}
-
-		// Key Up.
-		Char RequestKeyUp(char C)
-		{
-			return GWC->RequestKeyUp(C);
-		}
-
-		Char RequestKeyUp()
-		{
-			return GWC->RequestKeyUp();
-		}
+		#pragma endregion
 
 
 
 		/*
-			Proprietà finestra.
+			### Proprietà finestra.
+			Proprietà della finestra
 		*/
 
-		// Window Started.
+		#pragma region ProprietàFinestra
+
 		property bool WindowStarted
 		{
-			bool get()
-			{
-				return GWC->WindowStarted;
-			}
+			bool get() { return GWC->WindowStarted; }
 		}
 
-		// Window Closed.
+
+
 		property bool WindowClosed
 		{
-			bool get()
-			{
-				return GWC->WindowClosed;
-			}
+			bool get() { return GWC->WindowClosed; }
 		}
 
-		// Window Suspended.
+
+
 		property bool WindowSuspended
 		{
-			bool get()
-			{
-				return GWC->WindowSuspended;
-			}
+			bool get() { return GWC->WindowSuspended; }
 		}
 
-		// Mouse Location.
-		property MGPoint MouseLocation
-		{
-			MGPoint get()
-			{
-				return GWC->MouseLocation;
-			}
 
-			void set(MGPoint Value)
-			{
-				GWC->MouseLocation = Value;
-			}
+
+		property bool WindowVisible
+		{
+			bool get() { return GWC->WindowVisible; }
+		}
+
+
+
+		property MPoint MouseLocation
+		{
+			MPoint get() { return GWC->MouseLocation; }
+			void set(MPoint Value) { GWC->MouseLocation = Value; }
 		}
 
 		property int MouseX
 		{
-			int get()
-			{
-				return GWC->MouseLocation.X;
-			}
-
-			void set(int Value)
-			{
-				GWC->MouseLocation = MGPoint(Value, MouseLocation.Y);
-			}
+			int get() { return GWC->MouseLocation.X; }
+			void set(int Value) { GWC->MouseLocation = MPoint(Value, MouseLocation.Y); }
 		}
 
 		property int MouseY
 		{
-			int get()
-			{
-				return GWC->MouseLocation.Y;
-			}
-
-			void set(int Value)
-			{
-				GWC->MouseLocation = MGPoint(MouseLocation.X, Value);
-			}
+			int get() { return GWC->MouseLocation.Y; }
+			void set(int Value) { GWC->MouseLocation = MPoint(MouseLocation.X, Value); }
 		}
 		
-		// Window Title.
+
+
 		property String^ WindowTitle
 		{
-			String^ get()
-			{
-				return GWC->WindowTitle;
-			}
-
-			void set(String^ Value)
-			{
-				GWC->WindowTitle = Value;
-			}
+			String^ get() { return GWC->WindowTitle; }
+			void set(String^ Value) { GWC->WindowTitle = Value; }
 		}
 
-		void DefaultWindwTitle()
-		{
-			GWC->DefaultWindowTitle();
-		}
+		void DefaultWindwTitle() { GWC->DefaultWindowTitle(); }
 
-		// Window Icon Visible.
+
+
 		property bool WindowIconVisible
 		{
-			bool get()
-			{
-				return GWC->WindowIconVisible;
-			}
-
-			void set(bool Value)
-			{
-				GWC->WindowIconVisible = Value;
-			}
+			bool get() { return GWC->WindowIconVisible; }
+			void set(bool Value) { GWC->WindowIconVisible = Value; }
 		}
 
-		void DefaultWindowIconVisible()
-		{
-			GWC->DefaultWindowIconVisible();
-		}
+		void DefaultWindowIconVisible() { GWC->DefaultWindowIconVisible(); }
 
-		// Window Icon.
+
+
 		property Icon^ WindowIcon
 		{
-			Icon^ get()
-			{
-				return GWC->WindowIcon;
-			}
-
-			void set(Icon^ Value)
-			{
-				GWC->WindowIcon = Value;
-			}
+			Icon^ get() { return GWC->WindowIcon; }
+			void set(Icon^ Value) { GWC->WindowIcon = Value; }
 		}
 
-		void DefaultWindowIcon()
-		{
-			GWC->DefaultWindowIcon();
-		}
+		void DefaultWindowIcon() { GWC->DefaultWindowIcon(); }
 
-		// Window Location.
-		property MGPoint WindowLocation
-		{
-			MGPoint get()
-			{
-				return GWC->WindowLocation;
-			}
 
-			void set(MGPoint Value)
-			{
-				GWC->WindowLocation = Value;
-			}
+
+		property MPoint WindowLocation
+		{
+			MPoint get() { return GWC->WindowLocation; }
+			void set(MPoint Value) { GWC->WindowLocation = Value; }
 		}
 
 		property int WindowX
 		{
-			int get()
-			{
-				return GWC->WindowX;
-			}
-
-			void set(int Value)
-			{
-				GWC->WindowX = Value;
-			}
+			int get() { return GWC->WindowX; }
+			void set(int Value) { GWC->WindowX = Value; }
 		}
 
 		property int WindowY
 		{
-			int get()
-			{
-				return GWC->WindowY;
-			}
-
-			void set(int Value)
-			{
-				GWC->WindowY = Value;
-			}
+			int get() { return GWC->WindowY; }
+			void set(int Value) { GWC->WindowY = Value; }
 		}
 
-		void DefaultWindowLocation()
+		void DefaultWindowLocation() { GWC->DefaultWindowLocation(); }
+		void DefaultWindowX() { GWC->DefaultWindowX(); }
+		void DefaultWindowY() { GWC->DefaultWindowY(); }
+
+
+
+		property MColor WindowColor
 		{
-			GWC->DefaultWindowLocation();
+			MColor get() { return GWC->WindowColor; }
+			void set(MColor Value) { GWC->WindowColor = Value; }
 		}
 
-		void DefaultWindowX()
-		{
-			GWC->DefaultWindowX();
-		}
+		void DefaultWindowColor() { GWC->DefaultWindowColor(); }
 
-		void DefaultWindowY()
-		{
-			GWC->DefaultWindowY();
-		}
 
-		// Window Color.
-		property MGColor WindowColor
-		{
-			MGColor get()
-			{
-				return GWC->WindowColor;
-			}
 
-			void set(MGColor Value)
-			{
-				GWC->WindowColor = Value;
-			}
-		}
-
-		void DefaultWindowColor()
-		{
-			GWC->DefaultWindowColor();
-		}
-
-		// Window Image.
 		property Image^ WindowImage
 		{
-			Image^ get()
-			{
-				return GWC->WindowImage;
-			}
-
-			void set(Image^ Value)
-			{
-				GWC->WindowImage = Value;
-			}
+			Image^ get() { return GWC->WindowImage; }
+			void set(Image^ Value) { GWC->WindowImage = Value; }
 		}
 
-		void DefaultWindowImage()
-		{
-			GWC->DefaultWindowImage();
-		}
+		void DefaultWindowImage() { GWC->DefaultWindowImage(); }
 
-		// Window Size.
-		property MGSize WindowSize
-		{
-			MGSize get()
-			{
-				return GWC->WindowSize;
-			}
 
-			void set(MGSize Value)
-			{
-				GWC->WindowSize = Value;
-			}
+
+		property MSize WindowSize
+		{
+			MSize get() { return GWC->WindowSize; }
+			void set(MSize Value) { GWC->WindowSize = Value; }
 		}
 
 		property int WindowWidth
 		{
-			int get()
-			{
-				return GWC->WindowWidth;
-			}
-
-			void set(int Value)
-			{
-				GWC->WindowWidth = Value;
-			}
+			int get() { return GWC->WindowWidth; }
+			void set(int Value) { GWC->WindowWidth = Value; }
 		}
 
 		property int WindowHeight
 		{
-			int get()
-			{
-				return GWC->WindowHeight;
-			}
-
-			void set(int Value)
-			{
-				GWC->WindowHeight = Value;
-			}
+			int get() { return GWC->WindowHeight; }
+			void set(int Value) { GWC->WindowHeight = Value; }
 		}
 
-		void DefaultWindowSize()
-		{
-			GWC->DefaultWindowSize();
-		}
+		void DefaultWindowSize() { GWC->DefaultWindowSize(); }
+		void DefaultWindowWidth() { GWC->DefaultWindowWidth(); }
+		void DefaultWindowHeight() { GWC->DefaultWindowHeight(); }
 
-		void DefaultWindowWidth()
-		{
-			GWC->DefaultWindowWidth();
-		}
 
-		void DefaultWindowHeight()
-		{
-			GWC->DefaultWindowHeight();
-		}
 
-		// Window Real Size.
-		property MGSize WindowRealSize
+		property MSize WindowRealSize
 		{
-			MGSize get()
-			{
-				return GWC->WindowRealSize;
-			}
-
-			void set(MGSize Value)
-			{
-				GWC->WindowRealSize = Value;
-			}
+			MSize get() { return GWC->WindowRealSize; }
+			void set(MSize Value) { GWC->WindowRealSize = Value; }
 		}
 
 		property int WindowRealWidth
 		{
-			int get()
-			{
-				return GWC->WindowRealWidth;
-			}
-
-			void set(int Value)
-			{
-				GWC->WindowRealWidth = Value;
-			}
+			int get() { return GWC->WindowRealWidth; }
+			void set(int Value) { GWC->WindowRealWidth = Value; }
 		}
 
 		property int WindowRealHeight
 		{
-			int get()
-			{
-				return GWC->WindowRealHeight;
-			}
-
-			void set(int Value)
-			{
-				GWC->WindowRealHeight = Value;
-			}
+			int get() { return GWC->WindowRealHeight; }
+			void set(int Value) { GWC->WindowRealHeight = Value; }
 		}
 
-		void DefaultWindowRealSize()
+		void DefaultWindowRealSize() { GWC->DefaultWindowRealSize(); }
+		void DefaultWindowRealWidth() { GWC->DefaultWindowRealWidth(); }
+		void DefaultWindowRealHeight() { GWC->DefaultWindowRealHeight(); }
+
+		property MWindowState WindowSizeState
 		{
-			GWC->DefaultWindowRealSize();
+			MWindowState get() { return GWC->WindowSizeState; }
+			void set(MWindowState Value) { GWC->WindowSizeState = Value; }
 		}
 
-		void DefaultWindowRealWidth()
+		void DefaultWindowSizeState() { GWC->DefaultWindowSizeState(); }
+
+
+
+		property MSize WindowMinimumSize
 		{
-			GWC->DefaultWindowRealWidth();
+			MSize get() { return GWC->WindowMinimumSize; }
+			void set(MSize Value) { GWC->WindowMinimumSize = Value; }
 		}
 
-		void DefaultWindowRealHeight()
+		void DefaultWindowMinimumSize() { GWC->DefaultWindowMinimumSize(); }
+
+
+
+		property MSize WindowMaximumSize
 		{
-			GWC->DefaultWindowRealHeight();
+			MSize get() { return GWC->WindowMaximumSize; }
+			void set(MSize Value) { GWC->WindowMaximumSize = Value; }
 		}
 
-		// Window Size State.
-		property MGWindowState WindowSizeState
-		{
-			MGWindowState get()
-			{
-				return GWC->WindowSizeState;
-			}
+		void DefaultWindowMaximumSize() { GWC->DefaultWindowMaximumSize(); }
 
-			void set(MGWindowState Value)
-			{
-				GWC->WindowSizeState = Value;
-			}
-		}
 
-		void DefaultWindowSizeState()
-		{
-			GWC->DefaultWindowSizeState();
-		}
 
-		// Window Minimum Size.
-		property MGSize WindowMinimumSize
-		{
-			MGSize get()
-			{
-				return GWC->WindowMinimumSize;
-			}
-
-			void set(MGSize Value)
-			{
-				GWC->WindowMinimumSize = Value;
-			}
-		}
-
-		void DefaultWindowMinimumSize()
-		{
-			GWC->DefaultWindowMinimumSize();
-		}
-
-		// Window Maximum Size.
-		property MGSize WindowMaximumSize
-		{
-			MGSize get()
-			{
-				return GWC->WindowMaximumSize;
-			}
-
-			void set(MGSize Value)
-			{
-				GWC->WindowMaximumSize = Value;
-			}
-		}
-
-		void DefaultWindowMaximumSize()
-		{
-			GWC->DefaultWindowMaximumSize();
-		}
-
-		// Window Opacity.
 		property double WindowOpacity
 		{
-			double get()
-			{
-				return GWC->WindowOpacity;
-			}
-
-			void set(Double Value)
-			{
-				GWC->WindowOpacity = Value;
-			}
+			double get() { return GWC->WindowOpacity; }
+			void set(Double Value) { GWC->WindowOpacity = Value; }
 		}
 
-		void DefaultWindowOpacity()
-		{
-			GWC->DefaultWindowOpacity();
-		}
+		void DefaultWindowOpacity() { GWC->DefaultWindowOpacity(); }
 
-		// Window Always On Top.
+
+
 		property bool WindowAlwaysOnTop
 		{
-			bool get()
-			{
-				return GWC->WindowAlwaysOnTop;
-			}
-
-			void set(bool Value)
-			{
-				GWC->WindowAlwaysOnTop = Value;
-			}
+			bool get() { return GWC->WindowAlwaysOnTop; }
+			void set(bool Value) { GWC->WindowAlwaysOnTop = Value; }
 		}
 
-		void DefaultWindowAlwaysOnTop()
-		{
-			GWC->DefaultWindowAlwaysOnTop();
-		}
+		void DefaultWindowAlwaysOnTop() { GWC->DefaultWindowAlwaysOnTop(); }
 
-		// Window In Taskbar.
+
+
 		property bool WindowInTaskbar
 		{
-			bool get()
-			{
-				return GWC->WindowInTaskbar;
-			}
-
-			void set(bool Value)
-			{
-				GWC->WindowInTaskbar = Value;
-			}
+			bool get() { return GWC->WindowInTaskbar; }
+			void set(bool Value) { GWC->WindowInTaskbar = Value; }
 		}
 
-		void DefaultWindowInTaskbar()
-		{
-			GWC->DefaultWindowInTaskbar();
-		}
+		void DefaultWindowInTaskbar() { GWC->DefaultWindowInTaskbar(); }
 
-		// Window Buttons.
+
+
 		property bool WindowButtons
 		{
-			bool get()
-			{
-				return GWC->WindowButtons;
-			}
-
-			void set(bool Value)
-			{
-				GWC->WindowButtons = Value;
-			}
+			bool get() { return GWC->WindowButtons; }
+			void set(bool Value) { GWC->WindowButtons = Value; }
 		}
 
-		void DefaultWindowButtons()
-		{
-			GWC->DefaultWindowButtons();
-		}
+		void DefaultWindowButtons() { GWC->DefaultWindowButtons(); }
 
-		// Window Minimize Button.
+
+
 		property bool WindowMinimizeButton
 		{
-			bool get()
-			{
-				return GWC->WindowMinimizeButton;
-			}
-
-			void set(bool Value)
-			{
-				GWC->WindowMinimizeButton = Value;
-			}
+			bool get() { return GWC->WindowMinimizeButton; }
+			void set(bool Value) { GWC->WindowMinimizeButton = Value; }
 		}
 
-		void DefaultWindowMinimizeButton()
-		{
-			GWC->DefaultWindowMinimizeButton();
-		}
+		void DefaultWindowMinimizeButton() { GWC->DefaultWindowMinimizeButton(); }
 
-		// Window Maximize Button.
+
+
 		property bool WindowMaximizeButton
 		{
-			bool get()
-			{
-				return GWC->WindowMaximizeButton;
-			}
-
-			void set(bool Value)
-			{
-				GWC->WindowMaximizeButton = Value;
-			}
+			bool get() { return GWC->WindowMaximizeButton; }
+			void set(bool Value) { GWC->WindowMaximizeButton = Value; }
 		}
 
-		void DefaultWindowMaximizeButton()
-		{
-			GWC->DefaultWindowMaximizeButton();
-		}
+		void DefaultWindowMaximizeButton() { GWC->DefaultWindowMaximizeButton(); }
+
+		#pragma endregion
 
 
 
 		/*
-			Metodo disegno.
+			### Metodi disegno
+			Metodi del disegno
 		*/
 
-		// Clear Window.
-		void ClearWindow(MGColor Color)
-		{
-			GWC->ClearWindow(Color);
-		}
+		#pragma region MetodiDisegno
 
-		// Save Canvas.
-		void SaveCanvas()
-		{
-			GWC->SaveCanvas();
-		}
-
-		// Restore Canvas.
-		void RestoreCanvas()
-		{
-			GWC->RestoreCanvas();
-		}
-
-		// Draw Pixel.
-		void DrawPixel(int X, int Y)
-		{
-			GWC->DrawPixel(X, Y);
-		}
-
-		// Draw Line.
-		void DrawLine(int X1, int Y1, int X2, int Y2)
-		{
-			GWC->DrawLine(X1, Y1, X2, Y2);
-		}
-
-		// Draw Arc.
-		void DrawArc(int X, int Y, int Width, int Height, int A, int B)
-		{
-			GWC->DrawArc(X, Y, Width, Height, A, B);
-		}
-
-		// Draw Bezier.
-		void DrawBezier(float X1, float Y1, float X2, float Y2, float X3, float Y3, float X4, float Y4)
-		{
-			GWC->DrawBezier(X1, Y1, X2, Y2, X3, Y3, X4, Y4);
-		}
-
-		// Draw String.
-		void DrawString(String^ S, int X, int Y)
-		{
-			GWC->DrawString(S, X, Y);
-		}
-
-		// Draw Image.
-		void DrawImage(Image^ Image, int X, int Y)
-		{
-			GWC->DrawImage(Image, X, Y);
-		}
-
-		// Draw Image From File.
-		void DrawImageFromFile(String^ FileName, int X, int Y)
-		{
-			GWC->DrawImageFromFile(FileName, X, Y);
-		}
-
-		// Draw Icon.
-		void DrawIcon(Icon^ Icon, int X, int Y)
-		{
-			GWC->DrawIcon(Icon, X, Y);
-		}
-
-		// Draw Icon From File.
-		void DrawIconFromFile(String^ FileName, int X, int Y)
-		{
-			GWC->DrawIconFromFile(FileName, X, Y);
-		}
-
-		// Draw Square.
-		void DrawSquare(int X, int Y, int L)
-		{
-			GWC->DrawSquare(X, Y, L);
-		}
-
-		// Draw Full Square.
-		void DrawFullSquare(int X, int Y, int L)
-		{
-			GWC->DrawFullSquare(X, Y, L);
-		}
-
-		// Draw Rectangle.
-		void DrawRectangle(int X, int Y, int Width, int Height)
-		{
-			GWC->DrawRectangle(X, Y, Width, Height);
-		}
-
-		// Draw Full Rectangle.
-		void DrawFullRectangle(int X, int Y, int Width, int Height)
-		{
-			GWC->DrawFullRectangle(X, Y, Width, Height);
-		}
-
-		// Draw Ellipse.
-		void DrawEllipse(int X, int Y, int Width, int Height)
-		{
-			GWC->DrawEllipse(X, Y, Width, Height);
-		}
-
-		// Draw Full Ellipse.
-		void DrawFullEllipse(int X, int Y, int Width, int Height)
-		{
-			GWC->DrawFullEllipse(X, Y, Width, Height);
-		}
-
-		// Draw Circle.
-		void DrawCircle(int X, int Y, int R)
-		{
-			GWC->DrawCircle(X, Y, R);
-		}
-
-		// Draw Full Circle.
-		void DrawFullCircle(int X, int Y, int R)
-		{
-			GWC->DrawFullCircle(X, Y, R);
-		}
-
-		// Draw Curve.
-		void DrawCurve(array<MGPoint>^ Points)
-		{
-			GWC->DrawCurve(Points);
-		}
-
-		// Draw Closed Curve.
-		void DrawClosedCurve(array<MGPoint>^ Points)
-		{
-			GWC->DrawClosedCurve(Points);
-		}
-
-		// Draw Polygon.
-		void DrawPolygon(array<MGPoint>^ Points)
-		{
-			GWC->DrawPolygon(Points);
-		}
-
-		// Draw Full Polygon.
-		void DrawFullPolygon(array<MGPoint>^ Points)
-		{
-			GWC->DrawFullPolygon(Points);
-		}
-
-		// Draw Pie.
-		void DrawPie(int X, int Y, int Width, int Height, int A, int B)
-		{
-			GWC->DrawPie(X, Y, Width, Height, A, B);
-		}
-
-		// Draw Full Pie.
-		void DrawFullPie(int X, int Y, int Width, int Height, int A, int B)
-		{
-			GWC->DrawFullPie(X, Y, Width, Height, A, B);
-		}
+		void SaveCanvas() { GWC->SaveCanvas(); }
+		void SaveCanvasWoP() { GWC->SaveCanvasWoP(); }
+		void RestoreCanvas() { GWC->RestoreCanvas(); }
+		void RestoreCanvasWoP() { GWC->RestoreCanvasWoP(); }
+		void ClearWindow(MColor C) { GWC->ClearWindow(C); }
+		void ClearWindow() { GWC->ClearWindow(); }
+		void ClearWindowWoP(MColor C) { GWC->ClearWindowWoP(C); }
+		void ClearWindowWoP() { GWC->ClearWindowWoP(); }
+		void DrawLine(int X1, int Y1, int X2, int Y2) { GWC->DrawLine(X1, Y1, X2, Y2); }
+		void DrawLineWoP(int X1, int Y1, int X2, int Y2) { GWC->DrawLineWoP(X1, Y1, X2, Y2); }
+		void DrawArc(int X, int Y, int Width, int Height, int A, int B) { GWC->DrawArc(X, Y, Width, Height, A, B); }
+		void DrawArcWoP(int X, int Y, int Width, int Height, int A, int B) { GWC->DrawArcWoP(X, Y, Width, Height, A, B); }
+		void DrawBezier(float X1, float Y1, float X2, float Y2, float X3, float Y3, float X4, float Y4) { GWC->DrawBezier(X1, Y1, X2, Y2, X3, Y3, X4, Y4); }
+		void DrawBezierWoP(float X1, float Y1, float X2, float Y2, float X3, float Y3, float X4, float Y4) { GWC->DrawBezierWoP(X1, Y1, X2, Y2, X3, Y3, X4, Y4); }
+		void DrawPixel(int X, int Y) { GWC->DrawPixel(X, Y); }
+		void DrawPixelWoP(int X, int Y) { GWC->DrawPixelWoP(X, Y); }
+		void DrawString(String^ Stringa, int X, int Y) { GWC->DrawString(Stringa, X, Y); }
+		void DrawString(String^ Stringa, int X, int Y, int Width, int Height) { GWC->DrawString(Stringa, X, Y, Width, Height); }
+		void DrawStringWoP(String^ Stringa, int X, int Y) { GWC->DrawStringWoP(Stringa, X, Y); }
+		void DrawStringWoP(String^ Stringa, int X, int Y, int Width, int Height) { GWC->DrawStringWoP(Stringa, X, Y, Width, Height); }
+		void DrawImage(Image^ Image, int X, int Y) { GWC->DrawImage(Image, X, Y); }
+		void DrawImage(Image^ Image, int X, int Y, int Width, int Height) { GWC->DrawImage(Image, X, Y, Width, Height); }
+		void DrawImage(String^ FileName, int X, int Y) { GWC->DrawImage(FileName, X, Y); }
+		void DrawImage(String^ FileName, int X, int Y, int Width, int Height) { GWC->DrawImage(FileName, X, Y, Width, Height); }
+		void DrawImageWoP(Image^ Image, int X, int Y) { GWC->DrawImageWoP(Image, X, Y); }
+		void DrawImageWoP(Image^ Image, int X, int Y, int Width, int Height) { GWC->DrawImageWoP(Image, X, Y, Width, Height); }
+		void DrawImageWoP(String^ FileName, int X, int Y) { GWC->DrawImageWoP(FileName, X, Y); }
+		void DrawImageWoP(String^ FileName, int X, int Y, int Width, int Height) { GWC->DrawImageWoP(FileName, X, Y, Width, Height); }
+		void DrawIcon(Icon^ Icon, int X, int Y) { GWC->DrawIcon(Icon, X, Y); }
+		void DrawIcon(Icon^ Icon, int X, int Y, int Width, int Height) { GWC->DrawIcon(Icon, X, Y, Width, Height); }
+		void DrawIcon(String^ FileName, int X, int Y) { GWC->DrawIcon(FileName, X, Y); }
+		void DrawIcon(String^ FileName, int X, int Y, int Width, int Height) { GWC->DrawIcon(FileName, X, Y, Width, Height); }
+		void DrawIconWoP(Icon^ Icon, int X, int Y) { GWC->DrawIconWoP(Icon, X, Y); }
+		void DrawIconWoP(Icon^ Icon, int X, int Y, int Width, int Height) { GWC->DrawIconWoP(Icon, X, Y, Width, Height); }
+		void DrawIconWoP(String^ FileName, int X, int Y) { GWC->DrawIconWoP(FileName, X, Y); }
+		void DrawIconWoP(String^ FileName, int X, int Y, int Width, int Height) { GWC->DrawIconWoP(FileName, X, Y, Width, Height); }
+		void DrawSquare(int X, int Y, int L) { GWC->DrawSquare(X, Y, L); }
+		void DrawFullSquare(int X, int Y, int L) { GWC->DrawFullSquare(X, Y, L); }
+		void DrawSquareWoP(int X, int Y, int L) { GWC->DrawSquareWoP(X, Y, L); }
+		void DrawFullSquareWoP(int X, int Y, int L) { GWC->DrawFullSquareWoP(X, Y, L); }
+		void DrawRectangle(int X, int Y, int Width, int Height) { GWC->DrawRectangle(X, Y, Width, Height); }
+		void DrawFullRectangle(int X, int Y, int Width, int Height) { GWC->DrawFullRectangle(X, Y, Width, Height); }
+		void DrawRectangleWoP(int X, int Y, int Width, int Height) { GWC->DrawRectangleWoP(X, Y, Width, Height); }
+		void DrawFullRectangleWoP(int X, int Y, int Width, int Height) { GWC->DrawFullRectangleWoP(X, Y, Width, Height); }
+		void DrawEllipse(int X, int Y, int Width, int Height) { GWC->DrawEllipse(X, Y, Width, Height); }
+		void DrawFullEllipse(int X, int Y, int Width, int Height) { GWC->DrawFullEllipse(X, Y, Width, Height); }
+		void DrawEllipseWoP(int X, int Y, int Width, int Height) { GWC->DrawEllipseWoP(X, Y, Width, Height); }
+		void DrawFullEllipseWoP(int X, int Y, int Width, int Height) { GWC->DrawFullEllipseWoP(X, Y, Width, Height); }
+		void DrawCircle(int X, int Y, int R) { GWC->DrawCircle(X, Y, R); }
+		void DrawFullCircle(int X, int Y, int R) { GWC->DrawFullCircle(X, Y, R); }
+		void DrawCircleWoP(int X, int Y, int R) { GWC->DrawCircleWoP(X, Y, R); }
+		void DrawFullCircleWoP(int X, int Y, int R) { GWC->DrawFullCircleWoP(X, Y, R); }
+		
+		#pragma endregion
 
 
 
 		/*
-			Proprietà disegno.
+			### Proprietà disegno
+			Proprietà del disegno
 		*/
 
-		// Pen Color.
-		property MGColor PenColor
-		{
-			MGColor get()
-			{
-				return GWC->PenColor;
-			}
+		#pragma region ProprietàDisegno
 
-			void set(MGColor Value)
-			{
-				GWC->PenColor = Value;
-			}
+		property MColor PenColor
+		{
+			MColor get() { return GWC->PenColor; }
+			void set(MColor Value) { GWC->PenColor = Value; }
 		}
 
-		void DefaultPenColor()
-		{
-			GWC->DefaultPenColor();
-		}
+		void DefaultPenColor() { GWC->DefaultPenColor(); }
 
-		// Pen Width.
 		property float PenWidth
 		{
-			float get()
-			{
-				return GWC->PenWidth;
-			}
-
-			void set(float Value)
-			{
-				GWC->PenWidth = Value;
-			}
+			float get() { return GWC->PenWidth; }
+			void set(float Value) { GWC->PenWidth = Value; }
 		}
 
-		void DefaultPenWidth()
+		void DefaultPenWidth() { GWC->DefaultPenWidth(); }
+
+		property MColor FillColor
 		{
-			GWC->DefaultPenWidth();
+			MColor get() { return GWC->FillColor; }
+			void set(MColor Value) { GWC->FillColor = Value; }
 		}
 
-		// Fill Color.
-		property MGColor FillColor
+		void DefaultFillColor() { GWC->DefaultFillColor(); }
+
+		property MStringAlignment HStringAlignment
 		{
-			MGColor get()
-			{
-				return GWC->FillColor;
-			}
-
-			void set(MGColor Value)
-			{
-				GWC->FillColor = Value;
-			}
+			MStringAlignment get() { return GWC->HStringAlignment; }
+			void set(MStringAlignment Value) { GWC->HStringAlignment = Value; }
 		}
 
-		void DefaultFillColor()
+		void DefaultHStringAlignment() { GWC->DefaultHStringAlignment(); }
+
+		property MStringAlignment VStringAlignment
 		{
-			GWC->DefaultFillColor();
+			MStringAlignment get() { return GWC->VStringAlignment; }
+			void set(MStringAlignment Value) { GWC->VStringAlignment = Value; }
 		}
 
-		// Font Name.
+		void DefaultVStringAlignment() { GWC->DefaultVStringAlignment(); }
+
 		property String^ FontName
 		{
-			String^ get()
-			{
-				return GWC->FontName;
-			}
-
-			void set(String^ Value)
-			{
-				GWC->FontName = Value;
-			}
+			String^ get() { return GWC->FontName; }
+			void set(String^ Value) { GWC->FontName = Value; }
 		}
 
-		void DefaultFontName()
-		{
-			GWC->DefaultFontName();
-		}
+		void DefaultFontName() { GWC->DefaultFontName(); }
 
-		// Font Size.
 		property float FontSize
 		{
-			float get()
-			{
-				return GWC->FontSize;
-			}
-
-			void set(float Value)
-			{
-				GWC->FontSize = Value;
-			}
+			float get() { return GWC->FontSize; }
+			void set(float Value) { GWC->FontSize = Value; }
 		}
 
-		void DefaultFontSize()
-		{
-			GWC->DefaultFontSize();
-		}
+		void DefaultFontSize() { GWC->DefaultFontSize(); }
+
+		#pragma endregion
 
 	};
 }

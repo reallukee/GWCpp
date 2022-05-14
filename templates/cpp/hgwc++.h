@@ -98,6 +98,14 @@ namespace GWCpp
 	};
 
 
+	enum UGStringAlignment
+	{
+		Near = 0,
+		Center = 1,
+		Far = 2
+	};
+
+
 	class UGWC
 	{
 
@@ -140,6 +148,7 @@ namespace GWCpp
 		bool GetWindowStarted();
 		bool GetWindowClosed();
 		bool GetWindowSuspended();
+		bool GetWindowVisible();
 		UGPoint GetMouseLocation();
 		void SetMouseLocation(UGPoint Value);
 		int GetMouseX();
@@ -224,6 +233,9 @@ namespace GWCpp
 		UGColor GetFillColor();
 		void SetFillColor(UGColor Value);
 		void DefaultFillColor();
+		UGStringAlignment GetStringAlignment();
+		void SetStringAlignment(UGStringAlignment Value);
+		void DefaultStringAlignment();
 		std::string GetFontName();
 		void SetFontName(std::string Value);
 		void DefaultFontName();

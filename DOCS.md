@@ -11,7 +11,7 @@
 
 ## STD (Standard) e CIL (Common Intermediate Language)
 
-GWC++ è disponibile in edizione `STD` (Standard) e edizione `CIL` (Common Intermediate Language).La prima è compilata con l'ozione `/clr` ed è utilizzabile in applicazioni console .NET e C++ mentre la seconda è compilata con l'ozione `/clr:pure` ed è utilizzabile solo in applicazioni console .NET.
+GWC++ è disponibile in edizione `STD` (Standard) e edizione `CIL` (Common Intermediate Language). La prima è compilata con l'opzione `/clr` ed è utilizzabile in applicazioni console .NET e C++ mentre la seconda è compilata con l'opzione `/clr:pure` ed è utilizzabile solo in applicazioni console .NET.
 
 > ⚠ Entrambe le versioni di GWC++ richiedono Windows 7 o superiori e [.NET Framework 4.8 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48) e [Pacchetto di ridistribuzione MVC++ 2015-2022](https://docs.microsoft.com/it-IT/cpp/windows/latest-supported-vc-redist?view=msvc-170#visual-studio-2015-2017-2019-and-2022). Solitamente sono installati ma potrebbe essere necessaria un'installazione manuale.
 
@@ -27,7 +27,7 @@ GWC++ offre la classe `MGWC` (Managed GWC) per le applicazioni console .NET e `U
 
 ## WP (With Paint) e WoP (Without Paint)
 
-GWC++ offre due metodologie di disegno. Il metodo `WP` (With Paint) utilizza l'evento `Paint` mentre il metodo `WoP` (Without Paint) non utilizza nessuno evento. La prima metodologia è la migliore in quanto assicura che gli oggetti grafici disegnati rimangano dopo un ridisegno della finestra mentre la seconda metodologia non da questa opportunità. E' quindi possibile vedere i metodi WoP come temporanei mentre i metodi WP come permanenti.
+GWC++ offre due metodologie di disegno. Il metodo `WP` (With Paint) utilizza l'evento `Paint` mentre il metodo `WoP` (Without Paint) non utilizza nessuno evento. La prima metodologia è la migliore in quanto assicura che gli oggetti grafici disegnati rimangano dopo un ridisegno della finestra mentre la seconda metodologia non da questa opportunità. È quindi possibile vedere i metodi WoP come temporanei mentre i metodi WP come permanenti.
 
 
 
@@ -165,7 +165,7 @@ Alcuni dei metodi e delle proprietà sono presenti solo all'interno della classe
 
 ## Proprietà
 
-> ⚠ In C++ non esisteno le proprietà per questo motivo all'interno di `UGWC` è necessario chiamare le funzioni `Get<Nome proprietà>` per ottenere il valore della proprietà e `Set<Nome Proprietà>` per impostare il valore della proprietà.
+> ⚠ In C++ non esistono le proprietà per questo motivo all'interno di `UGWC` è necessario chiamare le funzioni `Get<Nome proprietà>` per ottenere il valore della proprietà e `Set<Nome Proprietà>` per impostare il valore della proprietà.
 
 ```cpp
 // C++/CLI

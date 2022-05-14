@@ -5,37 +5,37 @@
     - Questo progetto è disponibile su GitHub (https://github.com/reallukee/GWCpp)
     - Maggiori informazioni sono diponibili nel file README.md
 
-    ATUORE:			Realluke
-    DESCRIZIONE:	MMain (Managed Main)
-    DATA:			24/03/22
-*/
 
+    ATUORE:			Realluke | Aka Luca Pollicino
+    DESCRIZIONE:	MMain (Managed Main)
+    DATA:			05/04/22
+    VERSIONE:		1.1.0
+*/
 
 #include "pch.h"
 #pragma managed
 
-// Includo GWC++.
-#include "gwc++.h"
+// Includo MGWC++.
 #include "mgwc++.h"
 
 void MMain()
 {
-    // Utilizzo GWC.
-    GWCpp::MGWC^ Window = gcnew GWCpp::MGWC(850, 505, "MGWC++ Window", 50, 50);
+    // Utilizzo MGWC.
+    GWCpp::MGWC^ Wd = gcnew GWCpp::MGWC(850, 505, "GWC++ Window", 50, 50);
 
     // Creo la finestra.
-    Window->StartWindow();
+    Wd->StartWindow();
 
     // Cambio le impostazioni di disegno.
-    Window->PenColor = GWCpp::MGColor(255, 0, 0);
-    Window->FontName = "Comic Sans";
-    Window->FontSize = 25.0F;
+    Wd->FillColor = MRed;
+    Wd->FontName = "MS Comic Sans";
+    Wd->FontSize = 25.0F;
 
     // Scrivo del testo.
-    Window->DrawString("MGWC++", 250, 100);
+    Wd->DrawString("GWC++", 32, 32);
 
     Console::ReadKey();
 
     // Chiudo la finestra.
-    Window->CloseWindow();
+    Wd->CloseWindow();
 }
