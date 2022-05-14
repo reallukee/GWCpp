@@ -13,13 +13,12 @@
 **Contenuti interni**
 
 - [Rilasci](#rilasci)
-- [Utilizzo](#utilizzo)
+- [Struttura](#struttura)
 - [Esempi](#esempi)
 - [Compilazione](#compilazione)
 - [Strumenti](#strumenti)
 - [Autore](#autore)
 - [Licenza](#licenza)
-
 
 **Contenuti esterni**
 
@@ -31,7 +30,7 @@
 
 ## Binari
 
-> ⚠ I file binari non disponibili per il download ma possono essere ottenititramite la [compilazione](#compilazione) locale di GWC++. Vedere la sezione [tag](https://github.com/reallukee/GWCpp/tags) per le versioni di GWC++.
+> ⚠ I file binari non sono disponibili per il download ma possono essere otteniti tramite la [compilazione](#compilazione) locale di GWC++. Vedere la sezione [tag](https://github.com/reallukee/GWCpp/tags) per le versioni di GWC++.
 
 ## Template
 
@@ -43,23 +42,36 @@
 
 
 
-#  Utilizzo
+# Struttura
 
-## STD (Standard) e CIL (Common Intermediate Language)
-
-GWC++ è disponibile in edizione `STD` (Standard) e edizione `CIL` (Common Intermediate Language).La prima è compilata con l'ozione `/clr` ed è utilizzabile in applicazioni console .NET e C++ mentre la seconda è compilata con l'ozione `/clr:pure` ed è utilizzabile solo in applicazioni console .NET.
-
-> ⚠ Entrambe le versioni di GWC++ richiedono Windows 7 o superiori e [.NET Framework 4.8 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48). Sui sistemi operativi Windows 10 e 11 è sempre installato mentre su i sistemi operativi Windows 7 e 8.1 potrebbe essere necessaria un'installazione manuale.
-
-## MGWC (Managed GWC) e UGWC (Unmanaged GWC)
-
-GWC++ offre la classe `MGWC` (Managed GWC) per le applicazioni console .NET e `UGWC` (Unmanaged GWC) per le applicazioni console C++ compilate con MSVC. Utilizzare la classe adatta al tipo di linguaggio e applicazione che si sta sviluppando. Nel caso di C++/CLI è possibile utilizzare entrambe le classi indistintamente.
-
-> ⚠ Se si vuole utilizzare la classe `UGWC` è necessario utilizzare la edizione `STD` di GWC++ e aggiungere il file [hgwc++.h](./gwc++/hgwc++.h) all'interno del proprio progetto. Inserire `#include "hgwc++.h"` all'interno dei file di codice sorgente dove è necessario `UGWC`.
+- `examples` Esempi
+- `gwc++`
+    - `core`
+        - `gwc` Base
+        - `mcomp` Strutture, costanti, enumerazioni gestite
+    - `managed`
+        - `mgwc` GWC++ per applicazioni gestite
+    - `unmanaged`
+        - `ugwc` GWC++ per applicazioni non gestite
+        - `ucomp` Strutture, costanti, enumerazioni non gestite
+    - `test`
+        - `mmain` Test MGWC
+        - `umain` Test UGWC
+- `templates` Template
 
 
 
 # Esempi
+
+## Progetti
+
+- Mastermind
+
+![Oh no! Anyway...](./assets/mastermind.png "Mastermind")
+
+Clicca [qui](./examples/mastermind/) per vedere l'implementazione di Mastermind con GWC++ e C++.
+
+## Panoramica
 
 ![Oh no! Anyway...](./assets/example.png "Tux")
 

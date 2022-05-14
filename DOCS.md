@@ -1,52 +1,64 @@
 # Documentazione
 
+# Indice
+
+- [Concetti teorici](#concetti-teorici)
+- [Funzionalità](#funzionalità)
+
+
+
+# Concetti teorici
+
+## STD (Standard) e CIL (Common Intermediate Language)
+
+GWC++ è disponibile in edizione `STD` (Standard) e edizione `CIL` (Common Intermediate Language).La prima è compilata con l'ozione `/clr` ed è utilizzabile in applicazioni console .NET e C++ mentre la seconda è compilata con l'ozione `/clr:pure` ed è utilizzabile solo in applicazioni console .NET.
+
+> ⚠ Entrambe le versioni di GWC++ richiedono Windows 7 o superiori e [.NET Framework 4.8 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48) e [Pacchetto di ridistribuzione MVC++ 2015-2022](https://docs.microsoft.com/it-IT/cpp/windows/latest-supported-vc-redist?view=msvc-170#visual-studio-2015-2017-2019-and-2022). Solitamente sono installati ma potrebbe essere necessaria un'installazione manuale.
+
+
+
+## MGWC (Managed GWC) e UGWC (Unmanaged GWC)
+
+GWC++ offre la classe `MGWC` (Managed GWC) per le applicazioni console .NET e `UGWC` (Unmanaged GWC) per le applicazioni console C++ compilate con MSVC. Utilizzare la classe adatta al tipo di linguaggio e applicazione che si sta sviluppando. Nel caso di C++/CLI è possibile utilizzare entrambe le classi indistintamente.
+
+> ⚠ Se si vuole utilizzare la classe `UGWC` è necessario utilizzare la edizione `STD` di GWC++ e aggiungere il file [hgwc++.h](./gwc++/hgwc++.h) all'interno del proprio progetto. Inserire `#include "hgwc++.h"` all'interno dei file di codice sorgente dove è necessario `UGWC`.
+
+
+
+## WP (With Paint) e WoP (Without Paint)
+
+GWC++ offre due metodologie di disegno. Il metodo `WP` (With Paint) utilizza l'evento `Paint` mentre il metodo `WoP` (Without Paint) non utilizza nessuno evento. La prima metodologia è la migliore in quanto assicura che gli oggetti grafici disegnati rimangano dopo un ridisegno della finestra mentre la seconda metodologia non da questa opportunità. E' quindi possibile vedere i metodi WoP come temporanei mentre i metodi WP come permanenti.
+
+
+
+# Funzionalità
+
 > ⚠ Il contenuto di questa pagina offre solo una visione di insieme dei metodi, delle proprietà, delle strutture e delle enumerazioni di GWC++.
 
 Alcuni dei metodi e delle proprietà sono presenti solo all'interno della classe `MGWC`, all'interno della classe `UGWC` oppure all'interno di entrambe. La lista sottostante fornisce degli indicatori visivi per vedere la disponibilità per classe.
 
 - 🟢 Solo in `MGWC`
 - 🟣 Solo in `UGWC`
-- 🔵 In entrambe  
-
-
-
-# Indice
-
-- [Metodi](#metodi)
-    - [Conversione](#conversione)
-    - [Interazione](#interazione)
-    - [Finestra](#finestra)
-    - [Disegno](#disegno)
-- [Proprietà](#proprietà)
-    - [Finestra](#finestra-1)
-    - [Disegno](#disegno-1)
-- [Strutture](#strutture)
-    - [Gestite](#gestite)
-    - [Non gestite](#non-gestite)
-- [Enumerazioni](#enumerazioni)
-    - [Gestite](#gestite-1)
-    - [Non gestite](#non-gestite-1)
-
-
+- 🔵 In entrambe
 
 ## Metodi
 
 ### Conversione
 
-- 🟢 `PointToMGPoint`
-- 🟢 `MGPointToPoint`
-- 🟢 `ColorToMGColor`
-- 🟢 `MGColorToColor`
-- 🟢 `SizeToMGSize`
-- 🟢 `MGSizeToSize`
+- 🟢 `PointToMPoint`
+- 🟢 `MPointToPoint`
+- 🟢 `ColorToMColor`
+- 🟢 `MColorToColor`
+- 🟢 `SizeToMSize`
+- 🟢 `MSizeToSize`
 - 🟣 `UStringToMString`
 - 🟣 `MStringToUString`
-- 🟣 `UGPointToMGPoint`
-- 🟣 `MGPointToUGPoint`
-- 🟣 `UGColorToMGColor`
-- 🟣 `MGColorToUGColor`
-- 🟣 `UGSizeToMGSize`
-- 🟣 `MGSizeToUGSize`
+- 🟣 `UPointToMPoint`
+- 🟣 `MPointToUPoint`
+- 🟣 `UColorToMColor`
+- 🟣 `MColorToUColor`
+- 🟣 `USizeToMSize`
+- 🟣 `MSizeToUSize`
 
 ### Interazione
 
@@ -60,6 +72,7 @@ Alcuni dei metodi e delle proprietà sono presenti solo all'interno della classe
 - 🔵 `SuspendWindow`
 - 🔵 `ResumeWindow`
 - 🔵 `PauseWindow`
+- 🔵 `RedrawWindow`
 - 🔵 `ShowWindow`
 - 🔵 `HideWindow`
 - 🔵 `GetWindowMaxX`
@@ -80,12 +93,12 @@ Alcuni dei metodi e delle proprietà sono presenti solo all'interno della classe
 - 🔵 `RequestKeyUp`
 - 🔵 `DefaultWindowTitle`
 - 🔵 `DefaultWindowIconVisible`
-- 🟢 `DefaultWindowIcon`
+- 🔵 `DefaultWindowIcon`
 - 🔵 `DefaultWindowLocation`
 - 🔵 `DefaultWindowX`
 - 🔵 `DefaultWindowY`
 - 🔵 `DefaultWindowColor`
-- 🟢 `DefaultWindowImage`
+- 🔵 `DefaultWindowImage`
 - 🔵 `DefaultWindowSize`
 - 🔵 `DefaultWindowWidth`
 - 🔵 `DefaultWindowHeight`
@@ -105,34 +118,46 @@ Alcuni dei metodi e delle proprietà sono presenti solo all'interno della classe
 ### Disegno
 
 - 🔵 `ClearWindow`
+- 🔵 `ClearWindowWoP`
 - 🔵 `SaveCanvas`
+- 🔵 `SaveCanvasWoP`
 - 🔵 `RestoreCanvas`
+- 🔵 `RestoreCanvasWoP`
 - 🔵 `DrawPixel`
+- 🔵 `DrawPixelWoP`
 - 🔵 `DrawLine`
+- 🔵 `DrawLineWoP`
 - 🔵 `DrawArc`
+- 🔵 `DrawArcWoP`
 - 🔵 `DrawBezier`
+- 🔵 `DrawBezierWoP`
 - 🔵 `DrawString`
+- 🔵 `DrawStringWoP`
 - 🟢 `DrawImage`
-- 🔵 `DrawImageFromFile`
-- 🟢 `DrawIcon`
-- 🔵 `DrawIconFromFile`
+- 🟢 `DrawImageWoP`
+- 🔵 `DrawIcon`
+- 🔵 `DrawIconWoP`
 - 🔵 `DrawSquare`
+- 🔵 `DrawSquareWoP`
 - 🔵 `DrawFullSquare`
+- 🔵 `DrawFullSquareWoP`
 - 🔵 `DrawRectangle`
+- 🔵 `DrawRectangleWoP`
 - 🔵 `DrawFullRectangle`
+- 🔵 `DrawFullRectangleWoP`
 - 🔵 `DrawEllipse`
+- 🔵 `DrawEllipseWoP`
 - 🔵 `DrawFullEllipse`
+- 🔵 `DrawFullEllipseWoP`
 - 🔵 `DrawCircle`
+- 🔵 `DrawCircleWoP`
 - 🔵 `DrawFullCircle`
-- 🟢 `DrawCurve`
-- 🟢 `DrawClosedCurve`
-- 🟢 `DrawPolygon`
-- 🟢 `DrawFullPolygon`
-- 🔵 `DrawPie`
-- 🔵 `DrawFullPie`
+- 🔵 `DrawFullCircleWoP`
 - 🔵 `DefaultPenColor`
 - 🔵 `DefaultPenWidth`
 - 🔵 `DefaultFillColor`
+- 🔵 `DefaultHStringAlignment`
+- 🔵 `DefaultVStringAlignment`
 - 🔵 `DefaultFontName`
 - 🔵 `DefaultFontSize`
 
@@ -157,12 +182,13 @@ Window->SetWindowTitle("New Title");
 - 🔵 `WindowStarted`
 - 🔵 `WindowClosed`
 - 🔵 `WindowSuspended`
+- 🔵 `WindowVisible`
 - 🔵 `MouseLocation`
 - 🔵 `MouseX`
 - 🔵 `MouseY`
 - 🔵 `WindowTitle`
 - 🔵 `WindowIconVisible`
-- 🟢 `WindowIcon`
+- 🔵 `WindowIcon`
 - 🔵 `WindowLocation`
 - 🔵 `WindowX`
 - 🔵 `WindowY`
@@ -189,6 +215,8 @@ Window->SetWindowTitle("New Title");
 - 🔵 `PenColor`
 - 🔵 `PenWidth`
 - 🔵 `FillColor`
+- 🔵 `HStringAlignment`
+- 🔵 `VStringAlignment`
 - 🔵 `FontName`
 - 🔵 `FontSize`
 
@@ -198,15 +226,15 @@ Window->SetWindowTitle("New Title");
 
 ### Gestite
 
-- `MGPoint`
-- `MGSize`
-- `MGColor`
+- `MPoint`
+- `MSize`
+- `MColor`
 
 ### Non gestite
 
-- `UGPoint`
-- `UGSize`
-- `UGColor`
+- `UPoint`
+- `USize`
+- `UColor`
 
 
 
@@ -214,14 +242,16 @@ Window->SetWindowTitle("New Title");
 
 ### Gestite
 
-- `MGMouseButtons`
-- `MGWindowState`
-- `MGOutputBoxStyle`
-- `MGOutputBoxResult`
+- `MMouseButtons`
+- `MWindowState`
+- `MOutputBoxStyle`
+- `MOutputBoxResult`
+- `MStringAlignment`
 
 ### Non gestite
 
-- `UGMouseButtons`
-- `UGWindowState`
-- `UGOutputBoxStyle`
-- `UGOutputBoxResult`
+- `UMouseButtons`
+- `UWindowState`
+- `UOutputBoxStyle`
+- `UOutputBoxResult`
+- `UStringAlignment`
