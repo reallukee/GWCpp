@@ -8,8 +8,8 @@
 
     ATUORE:			Realluke | Aka Luca Pollicino
     DESCRIZIONE:	Classe UGWC
-    DATA:			24/04/22
-    VERSIONE:		1.1.0
+    DATA:			04/08/22
+    VERSIONE:		1.1.1
 */
 
 #include "pch.h"
@@ -471,7 +471,7 @@ namespace GWCpp
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return NULL;
+        return (HICON)T->WindowIcon->Handle.ToPointer();
     }
 
     void UGWC::SetWindowIcon(HICON Value)
@@ -605,14 +605,14 @@ namespace GWCpp
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return NULL;
+        return (HBITMAP)((Bitmap^)T->WindowImage)->GetHbitmap().ToPointer();
     }
 
     void UGWC::SetWindowImage(HBITMAP Value)
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return;
+        T->WindowImage = Image::FromHbitmap((IntPtr)Value);
     }
 
     void UGWC::DefaultWindowImage()
@@ -1130,14 +1130,14 @@ namespace GWCpp
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return;
+        T->DrawImage(Image::FromHbitmap((IntPtr)Image), X, Y);
     }
 
     void UGWC::DrawImage(HBITMAP Image, int X, int Y, int Width, int Height)
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return;
+        T->DrawImage(Image::FromHbitmap((IntPtr)Image), X, Y, Width, Height);
     }
 
     void UGWC::DrawImage(string FileName, int X, int Y)
@@ -1158,14 +1158,14 @@ namespace GWCpp
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return;
+        T->DrawImageWoP(Image::FromHbitmap((IntPtr)Image), X, Y);
     }
 
     void UGWC::DrawImageWoP(HBITMAP Image, int X, int Y, int Width, int Height)
     {
         GCHandle Handle = GCHandle::FromIntPtr(IntPtr(GWCAdress));
         GWCpp::GWC^ T = safe_cast<GWCpp::GWC^>(Handle.Target);
-        return;
+        T->DrawImageWoP(Image::FromHbitmap((IntPtr)Image), X, Y, Width, Height);
     }
 
     void UGWC::DrawImageWoP(string FileName, int X, int Y)

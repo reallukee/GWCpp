@@ -1,10 +1,12 @@
+> ⚠️️️ Gli obbiettivi previsti con GWC++ sono stati raggiunti. Non ci saranno nuovi rilasci con funzionalità.
+
 # GWC++
 
 ![Oh no! Anyway...](./assets/banner.png "GWC++")
 
 🧩 GWC++ o Graphic Window for Console Application è una libreria scritta in C++/CLI che mette a disposizione dei form personalizzati da utilizzare come tela da dipinto per applicazioni console .NET e C++ compilate con MSVC.
 
-> ⚠ GWC++ è **SOLO** un esperimento. L'utilizzo è consigliato solo per applicazioni semplici e non professionali.
+> ⚠️️ GWC++ è **SOLO** un esperimento. L'utilizzo è consigliato solo per applicazioni semplici e non professionali.
 
 
 
@@ -30,7 +32,7 @@
 
 ## Binari
 
-> ⚠ I file binari non sono disponibili per il download e possono essere ottenuti solo tramite la [compilazione](#compilazione) locale della repository di GWC++. Vedere la sezione [tag](https://github.com/reallukee/GWCpp/tags) per le versioni di GWC++.
+> ⚠️️ I file binari non sono disponibili per il download e possono essere ottenuti solo tramite la [compilazione](#compilazione) locale della repository di GWC++. Vedere la sezione [tag](https://github.com/reallukee/GWCpp/tags) per le versioni di GWC++.
 
 ## Template
 
@@ -44,6 +46,7 @@
 
 # Struttura
 
+- `assets` Elementi garifici.
 - `examples` Esempi
 - `gwc++`
     - `core`
@@ -228,7 +231,6 @@ Window.CloseWindow()
 # Strumenti
 
 - [Visual Studio 2022](https://visualstudio.microsoft.com/it/vs/)
-- [Visual Studio Code](https://code.visualstudio.com/)
 - [MSVC v143](https://docs.microsoft.com/it-it/cpp/build/reference/compiling-a-c-cpp-program?view=msvc-170)
 - [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48)
 

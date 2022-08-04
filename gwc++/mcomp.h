@@ -9,7 +9,7 @@
 	ATUORE:			Realluke | Aka Luca Pollicino
 	DESCRIZIONE:	MCOMP (Managed Companion)
 	DATA:			05/04/22
-	VERSIONE:		1.1.0
+	VERSIONE:		1.1.1
 */
 
 #pragma once

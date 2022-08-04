@@ -9,7 +9,7 @@
 	ATUORE:			Realluke | Aka Luca Pollicino
 	DESCRIZIONE:	Classe GWC (Formalmente GWC 3.0) Nucleo di GWC++.
 	DATA:			24/04/22
-	VERSIONE:		1.1.0
+	VERSIONE:		1.1.1
 */
 
 #pragma once

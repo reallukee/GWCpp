@@ -33,6 +33,8 @@ GWC++ offre due metodologie di disegno. Il metodo `WP` (With Paint) utilizza l'e
 
 # Funzionalità
 
+> ## 🎉 MGWC e UGWC presentano ora le stesse funzionalità!
+
 > ⚠ Il contenuto di questa pagina offre solo una visione di insieme dei metodi, delle proprietà, delle strutture e delle enumerazioni di GWC++.
 
 Alcuni dei metodi e delle proprietà sono presenti solo all'interno della classe `MGWC`, all'interno della classe `UGWC` oppure all'interno di entrambe. La lista sottostante fornisce degli indicatori visivi per vedere la disponibilità per classe.
@@ -133,8 +135,8 @@ Alcuni dei metodi e delle proprietà sono presenti solo all'interno della classe
 - 🔵 `DrawBezierWoP`
 - 🔵 `DrawString`
 - 🔵 `DrawStringWoP`
-- 🟢 `DrawImage`
-- 🟢 `DrawImageWoP`
+- 🔵 `DrawImage`
+- 🔵 `DrawImageWoP`
 - 🔵 `DrawIcon`
 - 🔵 `DrawIconWoP`
 - 🔵 `DrawSquare`
@@ -193,7 +195,7 @@ Window->SetWindowTitle("New Title");
 - 🔵 `WindowX`
 - 🔵 `WindowY`
 - 🔵 `WindowColor`
-- 🟢 `WindowImage`
+- 🔵 `WindowImage`
 - 🔵 `WindowSize`
 - 🔵 `WindowWidth`
 - 🔵 `WindowHeight`
