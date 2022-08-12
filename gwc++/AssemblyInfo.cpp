@@ -15,5 +15,5 @@ using namespace System::Security::Permissions;
 [assembly:AssemblyCopyrightAttribute(L"Realluke")];
 [assembly:AssemblyTrademarkAttribute(L"")];
 [assembly:AssemblyCultureAttribute(L"")];
-[assembly:AssemblyVersionAttribute(L"1.1.1")];
+[assembly:AssemblyVersionAttribute(L"1.2.0")];
 [assembly:ComVisible(false)];

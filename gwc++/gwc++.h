@@ -179,11 +179,11 @@ namespace GWCpp
 
 
 		/*
-			### Metodi conversione
+			### Metodi Conversione
 			Metodi di conversione
 		*/
 
-		#pragma region MetodiConversione
+		#pragma region Metodi Conversione
 
 	public:
 
@@ -232,11 +232,11 @@ namespace GWCpp
 
 
 		/*
-			### Metodi evento
+			### Metodi Evento
 			Metodi di evento
 		*/
 
-		#pragma region MetodiEvento
+		#pragma region Metodi Evento
 
 	private:
 
@@ -297,7 +297,7 @@ namespace GWCpp
 			Metodi di interazione I/O
 		*/
 
-		#pragma region MetodiInterattivi
+		#pragma region Metodi Interattivi
 
 	public:
 
@@ -316,11 +316,11 @@ namespace GWCpp
 
 
 		/*
-			### Metodi finestra
+			### Metodi Finestra
 			Metodi della finestra
 		*/
 
-		#pragma region MetodiFinestra
+		#pragma region Metodi Finestra
 
 	public:
 
@@ -1089,11 +1089,11 @@ namespace GWCpp
 
 
 		/*
-			### Proprietà finestra
+			### Proprietà Finestra
 			Proprietà della finestra
 		*/
 
-		#pragma region ProprietàFinestra
+		#pragma region Proprietà Finestra
 
 		/*
 			### Window Started
@@ -2357,7 +2357,7 @@ namespace GWCpp
 
 
 		/*
-			### Metodi disegno
+			### Metodi Disegno
 			Metodi del disegno
 
 			WP Vs. WoP
@@ -2367,7 +2367,7 @@ namespace GWCpp
 			utilizzando la funzione 'CreateGraphics()'. I metodi WoP rimangono per compaitibilità.
 		*/
 		
-		#pragma region MetodiDisegno
+		#pragma region Metodi Disegno
 
 	private:
 
@@ -2384,19 +2384,25 @@ namespace GWCpp
 
 		void SaveCanvas()
 		{
-			while (IsDrawing());
-			Graphics^ G = Graphics::FromImage(Canvas);
-			CanvasState = G->Save();
-			delete G;
+			if (WindowStarted && WindowClosed == false)
+			{
+				while (IsDrawing());
+				Graphics^ G = Graphics::FromImage(Canvas);
+				CanvasState = G->Save();
+				delete G;
+			}
 		}
 
 
 
 		void SaveCanvasWoP()
 		{
-			Graphics^ G = this->CreateGraphics();
-			CanvasState = G->Save();	
-			delete G;
+			if (WindowStarted && WindowClosed == false)
+			{
+				Graphics^ G = this->CreateGraphics();
+				CanvasState = G->Save();
+				delete G;
+			}
 		}
 
 
@@ -2407,19 +2413,95 @@ namespace GWCpp
 
 		void RestoreCanvas()
 		{
-			while (IsDrawing());
-			Graphics^ G = Graphics::FromImage(Canvas);
-			G->Restore(CanvasState);
-			delete G;
+			if (WindowStarted && WindowClosed == false)
+			{
+				while (IsDrawing());
+				Graphics^ G = Graphics::FromImage(Canvas);
+				G->Restore(CanvasState);
+				delete G;
+			}
 		}
 
 
 
 		void RestoreCanvasWoP()
 		{
-			Graphics^ G = this->CreateGraphics();
-			G->Restore(CanvasState);
-			delete G;
+			if (WindowStarted && WindowClosed == false)
+			{
+				Graphics^ G = this->CreateGraphics();
+				G->Restore(CanvasState);
+				delete G;
+			}
+		}
+
+
+
+		/*
+			### Ex Flood Fill
+		*/
+
+		bool ExFloodFill(int X, int Y, MColor NewColor, MColor ExColor)
+		{
+			if (WindowStarted && WindowClosed == false)
+			{
+				while (IsDrawing());
+
+				try
+				{
+					if (Canvas->GetPixel(X, Y) != MColorToColor(ExColor) && Canvas->GetPixel(X, Y) != MColorToColor(NewColor))
+					{
+						Canvas->SetPixel(X, Y, MColorToColor(NewColor));
+						ExFloodFill(X + 1, Y, NewColor, ExColor);
+						ExFloodFill(X - 1, Y, NewColor, ExColor);
+						ExFloodFill(X, Y + 1, NewColor, ExColor);
+						ExFloodFill(X, Y - 1, NewColor, ExColor);
+					}
+
+					return true;
+				}
+				catch (Exception^ Ex)
+				{
+					Interaction::MsgBox(Ex->Message, MsgBoxStyle::OkOnly | MsgBoxStyle::Critical, "GWC++");
+					throw Ex;
+				}
+			}
+			
+			return false;
+		}
+
+
+
+		/*
+			### In Flood Fill
+		*/
+
+		bool ExFloodFill(int X, int Y, MColor NewColor, MColor InColor)
+		{
+			if (WindowStarted && WindowClosed == false)
+			{
+				while (IsDrawing());
+
+				try
+				{
+					if (Canvas->GetPixel(X, Y) == MColorToColor(InColor) && Canvas->GetPixel(X, Y) != MColorToColor(NewColor))
+					{
+						Canvas->SetPixel(X, Y, MColorToColor(NewColor));
+						ExFloodFill(X + 1, Y, NewColor, InColor);
+						ExFloodFill(X - 1, Y, NewColor, InColor);
+						ExFloodFill(X, Y + 1, NewColor, InColor);
+						ExFloodFill(X, Y - 1, NewColor, InColor);
+					}
+
+					return true;
+				}
+				catch (Exception^ Ex)
+				{
+					Interaction::MsgBox(Ex->Message, MsgBoxStyle::OkOnly | MsgBoxStyle::Critical, "GWC++");
+					throw Ex;
+				}
+			}
+
+			return false;
 		}
 
 
@@ -2430,36 +2512,48 @@ namespace GWCpp
 
 		void ClearWindow(MColor C)
 		{
-			while (IsDrawing());
-			Graphics^ G = Graphics::FromImage(Canvas);
-			G->Clear(MColorToColor(C));
-			delete G;
-			RedrawWindow();
+			if (WindowStarted && WindowClosed == false)
+			{
+				while (IsDrawing());
+				Graphics^ G = Graphics::FromImage(Canvas);
+				G->Clear(MColorToColor(C));
+				delete G;
+				RedrawWindow();
+			}
 		}
 
 		void ClearWindow()
 		{
-			while (IsDrawing());
-			Graphics^ G = Graphics::FromImage(Canvas);
-			G->Clear(MColorToColor(WindowColor));
-			delete G;
-			RedrawWindow();
+			if (WindowStarted && WindowClosed == false)
+			{
+				while (IsDrawing());
+				Graphics^ G = Graphics::FromImage(Canvas);
+				G->Clear(MColorToColor(WindowColor));
+				delete G;
+				RedrawWindow();
+			}
 		}
 
 
 
 		void ClearWindowWoP(MColor C)
 		{
-			Graphics^ G = this->CreateGraphics();
-			G->Clear(MColorToColor(C));
-			delete G;
+			if (WindowStarted && WindowClosed == false)
+			{
+				Graphics^ G = this->CreateGraphics();
+				G->Clear(MColorToColor(C));
+				delete G;
+			}
 		}
 
 		void ClearWindowWoP()
 		{
-			Graphics^ G = this->CreateGraphics();
-			G->Clear(MColorToColor(WindowColor));
-			delete G;
+			if (WindowStarted && WindowClosed == false)
+			{
+				Graphics^ G = this->CreateGraphics();
+				G->Clear(MColorToColor(WindowColor));
+				delete G;
+			}
 		}
 
 
@@ -2470,21 +2564,27 @@ namespace GWCpp
 
 		void DrawLine(int X1, int Y1, int X2, int Y2)
 		{
-			while (IsDrawing());
-			Graphics^ G = Graphics::FromImage(Canvas);
-			G->DrawLine(GWCPen, X1, Y1, X2, Y2);
-			delete G;
-			RedrawWindow(X1, Y1, X2 - X1, Y2 - Y1);
+			if (WindowStarted && WindowClosed == false)
+			{
+				while (IsDrawing());
+				Graphics^ G = Graphics::FromImage(Canvas);
+				G->DrawLine(GWCPen, X1, Y1, X2, Y2);
+				delete G;
+				RedrawWindow(X1, Y1, X2 - X1, Y2 - Y1);
+			}
 		}
 
 
 
 		void DrawLineWoP(int X1, int Y1, int X2, int Y2)
 		{
-			while (IsDrawing());
-			Graphics^ G = this->CreateGraphics();
-			G->DrawLine(GWCPen, X1, Y1, X2, Y2);
-			delete G;
+			if (WindowStarted && WindowClosed == false)
+			{
+				while (IsDrawing());
+				Graphics^ G = this->CreateGraphics();
+				G->DrawLine(GWCPen, X1, Y1, X2, Y2);
+				delete G;
+			}
 		}
 
 
@@ -2495,20 +2595,26 @@ namespace GWCpp
 
 		void DrawArc(int X, int Y, int Width, int Height, int A, int B)
 		{
-			while (IsDrawing());
-			Graphics^ G = Graphics::FromImage(Canvas);
-			G->DrawArc(GWCPen, X, Y, Width, Height, A, B);
-			delete G;
-			RedrawWindow(X, Y, Width, Height);
+			if (WindowStarted && WindowClosed == false)
+			{
+				while (IsDrawing());
+				Graphics^ G = Graphics::FromImage(Canvas);
+				G->DrawArc(GWCPen, X, Y, Width, Height, A, B);
+				delete G;
+				RedrawWindow(X, Y, Width, Height);
+			}
 		}
 
 
 
 		void DrawArcWoP(int X, int Y, int Width, int Height, int A, int B)
 		{
-			Graphics^ G = this->CreateGraphics();
-			G->DrawArc(GWCPen, X, Y, Width, Height, A, B);
-			delete G;
+			if (WindowStarted && WindowClosed == false)
+			{
+				Graphics^ G = this->CreateGraphics();
+				G->DrawArc(GWCPen, X, Y, Width, Height, A, B);
+				delete G;
+			}
 		}
 
 
@@ -2519,20 +2625,26 @@ namespace GWCpp
 
 		void DrawBezier(float X1, float Y1, float X2, float Y2, float X3, float Y3, float X4, float Y4)
 		{
-			while (IsDrawing());
-			Graphics^ G = Graphics::FromImage(Canvas);
-			G->DrawBezier(GWCPen, X1, Y1, X2, Y2, X3, Y3, X4, Y4);
-			delete G;
-			RedrawWindow();
+			if (WindowStarted && WindowClosed == false)
+			{
+				while (IsDrawing());
+				Graphics^ G = Graphics::FromImage(Canvas);
+				G->DrawBezier(GWCPen, X1, Y1, X2, Y2, X3, Y3, X4, Y4);
+				delete G;
+				RedrawWindow();
+			}
 		}
 
 
 
 		void DrawBezierWoP(float X1, float Y1, float X2, float Y2, float X3, float Y3, float X4, float Y4)
 		{
-			Graphics^ G = this->CreateGraphics();
-			G->DrawBezier(GWCPen, X1, Y1, X2, Y2, X3, Y3, X4, Y4);
-			delete G;
+			if (WindowStarted && WindowClosed == false)
+			{
+				Graphics^ G = this->CreateGraphics();
+				G->DrawBezier(GWCPen, X1, Y1, X2, Y2, X3, Y3, X4, Y4);
+				delete G;
+			}
 		}
 
 
@@ -2543,20 +2655,26 @@ namespace GWCpp
 
 		void DrawPixel(int X, int Y)
 		{
-			while (IsDrawing());
-			Graphics^ G = Graphics::FromImage(Canvas);
-			G->FillRectangle(GWCBrush, X, Y, 1, 1);
-			delete G;
-			RedrawWindow(X, Y, 1, 1);
+			if (WindowStarted && WindowClosed == false)
+			{
+				while (IsDrawing());
+				Graphics^ G = Graphics::FromImage(Canvas);
+				G->FillRectangle(GWCBrush, X, Y, 1, 1);
+				delete G;
+				RedrawWindow(X, Y, 1, 1);
+			}
 		}
 
 
 
 		void DrawPixelWoP(int X, int Y)
 		{
-			Graphics^ G = this->CreateGraphics();
-			G->FillRectangle(GWCBrush, X, Y, 1, 1);
-			delete G;
+			if (WindowStarted && WindowClosed == false)
+			{
+				Graphics^ G = this->CreateGraphics();
+				G->FillRectangle(GWCBrush, X, Y, 1, 1);
+				delete G;
+			}
 		}
 
 
@@ -2567,48 +2685,60 @@ namespace GWCpp
 
 		void DrawString(String^ Str, int X, int Y)
 		{
-			while (IsDrawing());
-			Graphics^ G = Graphics::FromImage(Canvas);
-			StringFormat^ GWCStringFormat = gcnew StringFormat();
-			GWCStringFormat->Alignment = (StringAlignment)HStringAlignment;
-			GWCStringFormat->LineAlignment = (StringAlignment)VStringAlignment;
-			G->DrawString(Str, GWCFont, GWCBrush, X, Y, GWCStringFormat);
-			delete G;
-			RedrawWindow();
+			if (WindowStarted && WindowClosed == false)
+			{
+				while (IsDrawing());
+				Graphics^ G = Graphics::FromImage(Canvas);
+				StringFormat^ GWCStringFormat = gcnew StringFormat();
+				GWCStringFormat->Alignment = (StringAlignment)HStringAlignment;
+				GWCStringFormat->LineAlignment = (StringAlignment)VStringAlignment;
+				G->DrawString(Str, GWCFont, GWCBrush, X, Y, GWCStringFormat);
+				delete G;
+				RedrawWindow();
+			}
 		}
 
 		void DrawString(String^ Str, int X, int Y, int Width, int Height)
 		{
-			while (IsDrawing());
-			Graphics^ G = Graphics::FromImage(Canvas);
-			StringFormat^ GWCStringFormat = gcnew StringFormat();
-			GWCStringFormat->Alignment = (StringAlignment)HStringAlignment;
-			GWCStringFormat->LineAlignment = (StringAlignment)VStringAlignment;
-			G->DrawString(Str, GWCFont, GWCBrush, RectangleF(X, Y, Width, Height), GWCStringFormat);
-			delete G;
-			RedrawWindow(X, Y, Width, Height);
+			if (WindowStarted && WindowClosed == false)
+			{
+				while (IsDrawing());
+				Graphics^ G = Graphics::FromImage(Canvas);
+				StringFormat^ GWCStringFormat = gcnew StringFormat();
+				GWCStringFormat->Alignment = (StringAlignment)HStringAlignment;
+				GWCStringFormat->LineAlignment = (StringAlignment)VStringAlignment;
+				G->DrawString(Str, GWCFont, GWCBrush, RectangleF(X, Y, Width, Height), GWCStringFormat);
+				delete G;
+				RedrawWindow(X, Y, Width, Height);
+			}
 		}
 
 
 
 		void DrawStringWoP(String^ Str, int X, int Y)
 		{
-			Graphics^ G = this->CreateGraphics();
-			StringFormat^ GWCStringFormat = gcnew StringFormat();
-			GWCStringFormat->Alignment = (StringAlignment)HStringAlignment;
-			GWCStringFormat->LineAlignment = (StringAlignment)VStringAlignment;
-			G->DrawString(Str, GWCFont, GWCBrush, X, Y, GWCStringFormat);
-			delete G;
+			if (WindowStarted && WindowClosed == false)
+			{
+				Graphics^ G = this->CreateGraphics();
+				StringFormat^ GWCStringFormat = gcnew StringFormat();
+				GWCStringFormat->Alignment = (StringAlignment)HStringAlignment;
+				GWCStringFormat->LineAlignment = (StringAlignment)VStringAlignment;
+				G->DrawString(Str, GWCFont, GWCBrush, X, Y, GWCStringFormat);
+				delete G;
+			}
 		}
 
 		void DrawStringWoP(String^ Str, int X, int Y, int Width, int Height)
 		{
-			Graphics^ G = this->CreateGraphics();
-			StringFormat^ GWCStringFormat = gcnew StringFormat();
-			GWCStringFormat->Alignment = (StringAlignment)HStringAlignment;
-			GWCStringFormat->LineAlignment = (StringAlignment)VStringAlignment;
-			G->DrawString(Str, GWCFont, GWCBrush, RectangleF(X, Y, Width, Height), GWCStringFormat);
-			delete G;
+			if (WindowStarted && WindowClosed == false)
+			{
+				Graphics^ G = this->CreateGraphics();
+				StringFormat^ GWCStringFormat = gcnew StringFormat();
+				GWCStringFormat->Alignment = (StringAlignment)HStringAlignment;
+				GWCStringFormat->LineAlignment = (StringAlignment)VStringAlignment;
+				G->DrawString(Str, GWCFont, GWCBrush, RectangleF(X, Y, Width, Height), GWCStringFormat);
+				delete G;
+			}
 		}
 
 
@@ -2619,59 +2749,71 @@ namespace GWCpp
 
 		void DrawImage(Image^ Image, int X, int Y)
 		{
-			while (IsDrawing());
-			Graphics^ G = Graphics::FromImage(Canvas);
-			G->DrawImage(Image, X, Y);
-			delete G;
-			RedrawWindow(X, Y, Image->Width, Image->Height);
-		}
-
-		void DrawImage(Image^ Image, int X, int Y, int Width, int Height)
-		{
-			while (IsDrawing());
-			Graphics^ G = Graphics::FromImage(Canvas);
-			G->DrawImage(Image, X, Y, Width, Height);
-			delete G;
-			RedrawWindow(X, Y, Width, Height);
-		}
-
-		void DrawImage(String^ FileName, int X, int Y)
-		{
-			while (IsDrawing());
-			
-			try
+			if (WindowStarted && WindowClosed == false)
 			{
-				Image^ Image = Image::FromFile(FileName);
+				while (IsDrawing());
 				Graphics^ G = Graphics::FromImage(Canvas);
 				G->DrawImage(Image, X, Y);
 				delete G;
 				RedrawWindow(X, Y, Image->Width, Image->Height);
 			}
-			catch (Exception^ Ex)
-			{
-				Interaction::MsgBox(Ex->Message, MsgBoxStyle::OkOnly | MsgBoxStyle::Critical, "GWC++");
-				throw Ex;
-				return;
-			}
 		}
 
-		void DrawImage(String^ FileName, int X, int Y, int Width, int Height)
+		void DrawImage(Image^ Image, int X, int Y, int Width, int Height)
 		{
-			while (IsDrawing());
-			
-			try
+			if (WindowStarted && WindowClosed == false)
 			{
-				Image^ Image = Image::FromFile(FileName);
+				while (IsDrawing());
 				Graphics^ G = Graphics::FromImage(Canvas);
 				G->DrawImage(Image, X, Y, Width, Height);
 				delete G;
 				RedrawWindow(X, Y, Width, Height);
 			}
-			catch (Exception^ Ex)
+		}
+
+		void DrawImage(String^ FileName, int X, int Y)
+		{
+			if (WindowStarted && WindowClosed == false)
 			{
-				Interaction::MsgBox(Ex->Message, MsgBoxStyle::OkOnly | MsgBoxStyle::Critical, "GWC++");
-				throw Ex;
-				return;
+				while (IsDrawing());
+
+				try
+				{
+					Image^ Image = Image::FromFile(FileName);
+					Graphics^ G = Graphics::FromImage(Canvas);
+					G->DrawImage(Image, X, Y);
+					delete G;
+					RedrawWindow(X, Y, Image->Width, Image->Height);
+				}
+				catch (Exception^ Ex)
+				{
+					Interaction::MsgBox(Ex->Message, MsgBoxStyle::OkOnly | MsgBoxStyle::Critical, "GWC++");
+					throw Ex;
+					return;
+				}
+			}
+		}
+
+		void DrawImage(String^ FileName, int X, int Y, int Width, int Height)
+		{
+			if (WindowStarted && WindowClosed == false)
+			{
+				while (IsDrawing());
+
+				try
+				{
+					Image^ Image = Image::FromFile(FileName);
+					Graphics^ G = Graphics::FromImage(Canvas);
+					G->DrawImage(Image, X, Y, Width, Height);
+					delete G;
+					RedrawWindow(X, Y, Width, Height);
+				}
+				catch (Exception^ Ex)
+				{
+					Interaction::MsgBox(Ex->Message, MsgBoxStyle::OkOnly | MsgBoxStyle::Critical, "GWC++");
+					throw Ex;
+					return;
+				}
 			}
 		}
 
@@ -2679,49 +2821,61 @@ namespace GWCpp
 
 		void DrawImageWoP(Image^ Image, int X, int Y)
 		{
-			Graphics^ G = this->CreateGraphics();
-			G->DrawImage(Image, X, Y);
-			delete G;
-		}
-
-		void DrawImageWoP(Image^ Image, int X, int Y, int Width, int Height)
-		{
-			Graphics^ G = this->CreateGraphics();
-			G->DrawImage(Image, X, Y, Width, Height);
-			delete G;
-		}
-
-		void DrawImageWoP(String^ FileName, int X, int Y)
-		{
-			try
+			if (WindowStarted && WindowClosed == false)
 			{
-				Image^ Image = Image::FromFile(FileName);
 				Graphics^ G = this->CreateGraphics();
 				G->DrawImage(Image, X, Y);
 				delete G;
 			}
-			catch (Exception^ Ex)
+		}
+
+		void DrawImageWoP(Image^ Image, int X, int Y, int Width, int Height)
+		{
+			if (WindowStarted && WindowClosed == false)
 			{
-				Interaction::MsgBox(Ex->Message, MsgBoxStyle::OkOnly | MsgBoxStyle::Critical, "GWC++");
-				throw Ex;
-				return;
+				Graphics^ G = this->CreateGraphics();
+				G->DrawImage(Image, X, Y, Width, Height);
+				delete G;
+			}
+		}
+
+		void DrawImageWoP(String^ FileName, int X, int Y)
+		{
+			if (WindowStarted && WindowClosed == false)
+			{
+				try
+				{
+					Image^ Image = Image::FromFile(FileName);
+					Graphics^ G = this->CreateGraphics();
+					G->DrawImage(Image, X, Y);
+					delete G;
+				}
+				catch (Exception^ Ex)
+				{
+					Interaction::MsgBox(Ex->Message, MsgBoxStyle::OkOnly | MsgBoxStyle::Critical, "GWC++");
+					throw Ex;
+					return;
+				}
 			}
 		}
 
 		void DrawImageWoP(String^ FileName, int X, int Y, int Width, int Height)
 		{
-			try
+			if (WindowStarted && WindowClosed == false)
 			{
-				Image^ Image = Image::FromFile(FileName);
-				Graphics^ G = this->CreateGraphics();
-				G->DrawImage(Image, X, Y, Width, Height);
-				delete G;
-			}
-			catch (Exception^ Ex)
-			{
-				Interaction::MsgBox(Ex->Message, MsgBoxStyle::OkOnly | MsgBoxStyle::Critical, "GWC++");
-				throw Ex;
-				return;
+				try
+				{
+					Image^ Image = Image::FromFile(FileName);
+					Graphics^ G = this->CreateGraphics();
+					G->DrawImage(Image, X, Y, Width, Height);
+					delete G;
+				}
+				catch (Exception^ Ex)
+				{
+					Interaction::MsgBox(Ex->Message, MsgBoxStyle::OkOnly | MsgBoxStyle::Critical, "GWC++");
+					throw Ex;
+					return;
+				}
 			}
 		}
 
@@ -2733,59 +2887,71 @@ namespace GWCpp
 
 		void DrawIcon(System::Drawing::Icon^ Icon, int X, int Y)
 		{
-			while (IsDrawing());
-			Graphics^ G = Graphics::FromImage(Canvas);
-			G->DrawIcon(Icon, X, Y);
-			delete G;
-			RedrawWindow(X, Y, Icon->Width, Icon->Height);
-		}
-
-		void DrawIcon(System::Drawing::Icon^ Icon, int X, int Y, int Width, int Height)
-		{
-			while (IsDrawing());
-			Graphics^ G = Graphics::FromImage(Canvas);
-			G->DrawIcon(Icon, System::Drawing::Rectangle(X, Y, Width, Height));
-			delete G;
-			RedrawWindow(X, Y, Width, Height);
-		}
-
-		void DrawIcon(String^ FileName, int X, int Y)
-		{
-			while (IsDrawing());
-			
-			try
+			if (WindowStarted && WindowClosed == false)
 			{
-				System::Drawing::Icon^ Icon = gcnew System::Drawing::Icon(FileName);
+				while (IsDrawing());
 				Graphics^ G = Graphics::FromImage(Canvas);
 				G->DrawIcon(Icon, X, Y);
 				delete G;
 				RedrawWindow(X, Y, Icon->Width, Icon->Height);
 			}
-			catch (Exception^ Ex)
-			{
-				Interaction::MsgBox(Ex->Message, MsgBoxStyle::OkOnly | MsgBoxStyle::Critical, "GWC++");
-				throw Ex;
-				return;
-			}
 		}
 
-		void DrawIcon(String^ FileName, int X, int Y, int Width, int Height)
+		void DrawIcon(System::Drawing::Icon^ Icon, int X, int Y, int Width, int Height)
 		{
-			while (IsDrawing());
-			
-			try
+			if (WindowStarted && WindowClosed == false)
 			{
-				System::Drawing::Icon^ Icon = gcnew System::Drawing::Icon(FileName);
+				while (IsDrawing());
 				Graphics^ G = Graphics::FromImage(Canvas);
 				G->DrawIcon(Icon, System::Drawing::Rectangle(X, Y, Width, Height));
 				delete G;
 				RedrawWindow(X, Y, Width, Height);
 			}
-			catch (Exception^ Ex)
+		}
+
+		void DrawIcon(String^ FileName, int X, int Y)
+		{
+			if (WindowStarted && WindowClosed == false)
 			{
-				Interaction::MsgBox(Ex->Message, MsgBoxStyle::OkOnly | MsgBoxStyle::Critical, "GWC++");
-				throw Ex;
-				return;
+				while (IsDrawing());
+
+				try
+				{
+					System::Drawing::Icon^ Icon = gcnew System::Drawing::Icon(FileName);
+					Graphics^ G = Graphics::FromImage(Canvas);
+					G->DrawIcon(Icon, X, Y);
+					delete G;
+					RedrawWindow(X, Y, Icon->Width, Icon->Height);
+				}
+				catch (Exception^ Ex)
+				{
+					Interaction::MsgBox(Ex->Message, MsgBoxStyle::OkOnly | MsgBoxStyle::Critical, "GWC++");
+					throw Ex;
+					return;
+				}
+			}
+		}
+
+		void DrawIcon(String^ FileName, int X, int Y, int Width, int Height)
+		{
+			if (WindowStarted && WindowClosed == false)
+			{
+				while (IsDrawing());
+
+				try
+				{
+					System::Drawing::Icon^ Icon = gcnew System::Drawing::Icon(FileName);
+					Graphics^ G = Graphics::FromImage(Canvas);
+					G->DrawIcon(Icon, System::Drawing::Rectangle(X, Y, Width, Height));
+					delete G;
+					RedrawWindow(X, Y, Width, Height);
+				}
+				catch (Exception^ Ex)
+				{
+					Interaction::MsgBox(Ex->Message, MsgBoxStyle::OkOnly | MsgBoxStyle::Critical, "GWC++");
+					throw Ex;
+					return;
+				}
 			}
 		}
 
@@ -2793,49 +2959,61 @@ namespace GWCpp
 
 		void DrawIconWoP(System::Drawing::Icon^ Icon, int X, int Y)
 		{
-			Graphics^ G = this->CreateGraphics();
-			G->DrawIcon(Icon, X, Y);
-			delete G;
-		}
-
-		void DrawIconWoP(System::Drawing::Icon^ Icon, int X, int Y, int Width, int Height)
-		{
-			Graphics^ G = this->CreateGraphics();
-			G->DrawIcon(Icon, System::Drawing::Rectangle(X, Y, Width, Height));
-			delete G;
-		}
-
-		void DrawIconWoP(String^ FileName, int X, int Y)
-		{
-			try
+			if (WindowStarted && WindowClosed == false)
 			{
-				System::Drawing::Icon^ Icon = gcnew System::Drawing::Icon(FileName);
 				Graphics^ G = this->CreateGraphics();
 				G->DrawIcon(Icon, X, Y);
 				delete G;
 			}
-			catch (Exception^ Ex)
+		}
+
+		void DrawIconWoP(System::Drawing::Icon^ Icon, int X, int Y, int Width, int Height)
+		{
+			if (WindowStarted && WindowClosed == false)
 			{
-				Interaction::MsgBox(Ex->Message, MsgBoxStyle::OkOnly | MsgBoxStyle::Critical, "GWC++");
-				throw Ex;
-				return;
+				Graphics^ G = this->CreateGraphics();
+				G->DrawIcon(Icon, System::Drawing::Rectangle(X, Y, Width, Height));
+				delete G;
+			}
+		}
+
+		void DrawIconWoP(String^ FileName, int X, int Y)
+		{
+			if (WindowStarted && WindowClosed == false)
+			{
+				try
+				{
+					System::Drawing::Icon^ Icon = gcnew System::Drawing::Icon(FileName);
+					Graphics^ G = this->CreateGraphics();
+					G->DrawIcon(Icon, X, Y);
+					delete G;
+				}
+				catch (Exception^ Ex)
+				{
+					Interaction::MsgBox(Ex->Message, MsgBoxStyle::OkOnly | MsgBoxStyle::Critical, "GWC++");
+					throw Ex;
+					return;
+				}
 			}
 		}
 
 		void DrawIconWoP(String^ FileName, int X, int Y, int Width, int Height)
 		{
-			try
+			if (WindowStarted && WindowClosed == false)
 			{
-				System::Drawing::Icon^ Icon = gcnew System::Drawing::Icon(FileName);
-				Graphics^ G = this->CreateGraphics();
-				G->DrawIcon(Icon, System::Drawing::Rectangle(X, Y, Width, Height));
-				delete G;
-			}
-			catch (Exception^ Ex)
-			{
-				Interaction::MsgBox(Ex->Message, MsgBoxStyle::OkOnly | MsgBoxStyle::Critical, "GWC++");
-				throw Ex;
-				return;
+				try
+				{
+					System::Drawing::Icon^ Icon = gcnew System::Drawing::Icon(FileName);
+					Graphics^ G = this->CreateGraphics();
+					G->DrawIcon(Icon, System::Drawing::Rectangle(X, Y, Width, Height));
+					delete G;
+				}
+				catch (Exception^ Ex)
+				{
+					Interaction::MsgBox(Ex->Message, MsgBoxStyle::OkOnly | MsgBoxStyle::Critical, "GWC++");
+					throw Ex;
+					return;
+				}
 			}
 		}
 
@@ -2847,36 +3025,48 @@ namespace GWCpp
 
 		void DrawSquare(int X, int Y, int L)
 		{
-			while (IsDrawing());
-			Graphics^ G = Graphics::FromImage(Canvas);
-			G->DrawRectangle(GWCPen, X, Y, L, L);
-			delete G;
-			RedrawWindow(X, Y, L, L);
+			if (WindowStarted && WindowClosed == false)
+			{
+				while (IsDrawing());
+				Graphics^ G = Graphics::FromImage(Canvas);
+				G->DrawRectangle(GWCPen, X, Y, L, L);
+				delete G;
+				RedrawWindow(X, Y, L, L);
+			}
 		}
 
 		void DrawFullSquare(int X, int Y, int L)
 		{
-			while (IsDrawing());
-			Graphics^ G = Graphics::FromImage(Canvas);
-			G->FillRectangle(GWCBrush, X, Y, L, L);
-			delete G;
-			RedrawWindow(X, Y, L, L);
+			if (WindowStarted && WindowClosed == false)
+			{
+				while (IsDrawing());
+				Graphics^ G = Graphics::FromImage(Canvas);
+				G->FillRectangle(GWCBrush, X, Y, L, L);
+				delete G;
+				RedrawWindow(X, Y, L, L);
+			}
 		}
 
 
 
 		void DrawSquareWoP(int X, int Y, int L)
 		{
-			Graphics^ G = this->CreateGraphics();
-			G->DrawRectangle(GWCPen, X, Y, L, L);
-			delete G;
+			if (WindowStarted && WindowClosed == false)
+			{
+				Graphics^ G = this->CreateGraphics();
+				G->DrawRectangle(GWCPen, X, Y, L, L);
+				delete G;
+			}
 		}
 
 		void DrawFullSquareWoP(int X, int Y, int L)
 		{
-			Graphics^ G = this->CreateGraphics();
-			G->FillRectangle(GWCBrush, X, Y, L, L);
-			delete G;
+			if (WindowStarted && WindowClosed == false)
+			{
+				Graphics^ G = this->CreateGraphics();
+				G->FillRectangle(GWCBrush, X, Y, L, L);
+				delete G;
+			}
 		}
 
 
@@ -2887,36 +3077,48 @@ namespace GWCpp
 
 		void DrawRectangle(int X, int Y, int Width, int Height)
 		{
-			while (IsDrawing());
-			Graphics^ G = Graphics::FromImage(Canvas);
-			G->DrawRectangle(GWCPen, X, Y, Width, Height);
-			delete G;
-			RedrawWindow(X, Y, Width, Height);
+			if (WindowStarted && WindowClosed == false)
+			{
+				while (IsDrawing());
+				Graphics^ G = Graphics::FromImage(Canvas);
+				G->DrawRectangle(GWCPen, X, Y, Width, Height);
+				delete G;
+				RedrawWindow(X, Y, Width, Height);
+			}
 		}
 
 		void DrawFullRectangle(int X, int Y, int Width, int Height)
 		{
-			while (IsDrawing());
-			Graphics^ G = Graphics::FromImage(Canvas);
-			G->FillRectangle(GWCBrush, X, Y, Width, Height);
-			delete G;
-			RedrawWindow(X, Y, Width, Height);
+			if (WindowStarted && WindowClosed == false)
+			{
+				while (IsDrawing());
+				Graphics^ G = Graphics::FromImage(Canvas);
+				G->FillRectangle(GWCBrush, X, Y, Width, Height);
+				delete G;
+				RedrawWindow(X, Y, Width, Height);
+			}
 		}
 
 
 
 		void DrawRectangleWoP(int X, int Y, int Width, int Height)
 		{
-			Graphics^ G = this->CreateGraphics();
-			G->DrawRectangle(GWCPen, X, Y, Width, Height);
-			delete G;
+			if (WindowStarted && WindowClosed == false)
+			{
+				Graphics^ G = this->CreateGraphics();
+				G->DrawRectangle(GWCPen, X, Y, Width, Height);
+				delete G;
+			}
 		}
 
 		void DrawFullRectangleWoP(int X, int Y, int Width, int Height)
 		{
-			Graphics^ G = this->CreateGraphics();
-			G->FillRectangle(GWCBrush, X, Y, Width, Height);
-			delete G;
+			if (WindowStarted && WindowClosed == false)
+			{
+				Graphics^ G = this->CreateGraphics();
+				G->FillRectangle(GWCBrush, X, Y, Width, Height);
+				delete G;
+			}
 		}
 
 
@@ -2927,36 +3129,48 @@ namespace GWCpp
 
 		void DrawEllipse(int X, int Y, int Width, int Height)
 		{
-			while (IsDrawing());
-			Graphics^ G = Graphics::FromImage(Canvas);
-			G->DrawEllipse(GWCPen, X, Y, Width, Height);
-			delete G;
-			RedrawWindow(X, Y, Width, Height);
+			if (WindowStarted && WindowClosed == false)
+			{
+				while (IsDrawing());
+				Graphics^ G = Graphics::FromImage(Canvas);
+				G->DrawEllipse(GWCPen, X, Y, Width, Height);
+				delete G;
+				RedrawWindow(X, Y, Width, Height);
+			}
 		}
 
 		void DrawFullEllipse(int X, int Y, int Width, int Height)
 		{
-			while (IsDrawing());
-			Graphics^ G = Graphics::FromImage(Canvas);
-			G->FillEllipse(GWCBrush, X, Y, Width, Height);
-			delete G;
-			RedrawWindow(X, Y, Width, Height);
+			if (WindowStarted && WindowClosed == false)
+			{
+				while (IsDrawing());
+				Graphics^ G = Graphics::FromImage(Canvas);
+				G->FillEllipse(GWCBrush, X, Y, Width, Height);
+				delete G;
+				RedrawWindow(X, Y, Width, Height);
+			}
 		}
 
 
 
 		void DrawEllipseWoP(int X, int Y, int Width, int Height)
 		{
-			Graphics^ G = this->CreateGraphics();
-			G->DrawEllipse(GWCPen, X, Y, Width, Height);
-			delete G;
+			if (WindowStarted && WindowClosed == false)
+			{
+				Graphics^ G = this->CreateGraphics();
+				G->DrawEllipse(GWCPen, X, Y, Width, Height);
+				delete G;
+			}
 		}
 
 		void DrawFullEllipseWoP(int X, int Y, int Width, int Height)
 		{
-			Graphics^ G = this->CreateGraphics();
-			G->FillEllipse(GWCBrush, X, Y, Width, Height);
-			delete G;
+			if (WindowStarted && WindowClosed == false)
+			{
+				Graphics^ G = this->CreateGraphics();
+				G->FillEllipse(GWCBrush, X, Y, Width, Height);
+				delete G;
+			}
 		}
 
 
@@ -2967,36 +3181,48 @@ namespace GWCpp
 
 		void DrawCircle(int X, int Y, int R)
 		{
-			while (IsDrawing());
-			Graphics^ G = Graphics::FromImage(Canvas);
-			G->DrawEllipse(GWCPen, X - R, Y - R, R * 2, R * 2);
-			delete G;
-			RedrawWindow(X - R, Y - R, R * 2, R * 2);
+			if (WindowStarted && WindowClosed == false)
+			{
+				while (IsDrawing());
+				Graphics^ G = Graphics::FromImage(Canvas);
+				G->DrawEllipse(GWCPen, X - R, Y - R, R * 2, R * 2);
+				delete G;
+				RedrawWindow(X - R, Y - R, R * 2, R * 2);
+			}
 		}
 
 		void DrawFullCircle(int X, int Y, int R)
 		{
-			while(IsDrawing());
-			Graphics^ G = Graphics::FromImage(Canvas);
-			G->FillEllipse(GWCBrush, X - R, Y - R, R * 2, R * 2);
-			delete G;
-			RedrawWindow(X - R, Y - R, R * 2, R * 2);
+			if (WindowStarted && WindowClosed == false)
+			{
+				while (IsDrawing());
+				Graphics^ G = Graphics::FromImage(Canvas);
+				G->FillEllipse(GWCBrush, X - R, Y - R, R * 2, R * 2);
+				delete G;
+				RedrawWindow(X - R, Y - R, R * 2, R * 2);
+			}
 		}
 
 
 
 		void DrawCircleWoP(int X, int Y, int R)
 		{
-			Graphics^ G = this->CreateGraphics();
-			G->DrawEllipse(GWCPen, X - R, Y - R, R * 2, R * 2);
-			delete G;
+			if (WindowStarted && WindowClosed == false)
+			{
+				Graphics^ G = this->CreateGraphics();
+				G->DrawEllipse(GWCPen, X - R, Y - R, R * 2, R * 2);
+				delete G;
+			}
 		}
 
 		void DrawFullCircleWoP(int X, int Y, int R)
 		{
-			Graphics^ G = this->CreateGraphics();
-			G->FillEllipse(GWCBrush, X - R, Y - R, R * 2, R * 2);
-			delete G;
+			if (WindowStarted && WindowClosed == false)
+			{
+				Graphics^ G = this->CreateGraphics();
+				G->FillEllipse(GWCBrush, X - R, Y - R, R * 2, R * 2);
+				delete G;
+			}
 		}
 
 		#pragma endregion
@@ -3004,11 +3230,11 @@ namespace GWCpp
 
 
 		/*
-			### Proprietà disegno
+			### Proprietà Disegno
 			Proprietà del disegno
 		*/
 
-		#pragma region ProprietàDisegno
+		#pragma region Proprietà Disegno
 
 		/*
 			### Pen Color
@@ -3024,13 +3250,19 @@ namespace GWCpp
 		{
 			MColor get()
 			{
-				return PenColor_;
+				if (WindowStarted && WindowClosed == false)
+				{
+					return PenColor_;
+				}
 			}
 
 			void set(MColor Value)
 			{
-				GWCPen = gcnew Pen(MColorToColor(Value), PenWidth);
-				PenColor_ = Value;
+				if (WindowStarted && WindowClosed == false)
+				{
+					GWCPen = gcnew Pen(MColorToColor(Value), PenWidth);
+					PenColor_ = Value;
+				}
 			}
 		}
 
@@ -3055,13 +3287,19 @@ namespace GWCpp
 		{
 			float get()
 			{
-				return PenWidth_;
+				if (WindowStarted && WindowClosed == false)
+				{
+					return PenWidth_;
+				}
 			}
 
 			void set(float Value)
 			{
-				GWCPen = gcnew Pen(MColorToColor(PenColor), Value);
-				PenWidth_ = Value;
+				if (WindowStarted && WindowClosed == false)
+				{
+					GWCPen = gcnew Pen(MColorToColor(PenColor), Value);
+					PenWidth_ = Value;
+				}
 			}
 		}
 
@@ -3086,13 +3324,19 @@ namespace GWCpp
 		{
 			MColor get()
 			{
-				return FillColor_;
+				if (WindowStarted && WindowClosed == false)
+				{
+					return FillColor_;
+				}
 			}
 
 			void set(MColor Value)
 			{
-				GWCBrush = gcnew SolidBrush(MColorToColor(Value));
-				FillColor_ = Value;
+				if (WindowStarted && WindowClosed == false)
+				{
+					GWCBrush = gcnew SolidBrush(MColorToColor(Value));
+					FillColor_ = Value;
+				}
 			}
 		}
 
@@ -3117,12 +3361,18 @@ namespace GWCpp
 		{
 			MStringAlignment get()
 			{
-				return HStringAlignment_;
+				if (WindowStarted && WindowClosed == false)
+				{
+					return HStringAlignment_;
+				}
 			}
 
 			void set(MStringAlignment Value)
 			{
-				HStringAlignment_ = Value;
+				if (WindowStarted && WindowClosed == false)
+				{
+					HStringAlignment_ = Value;
+				}
 			}
 		}
 
@@ -3147,12 +3397,18 @@ namespace GWCpp
 		{
 			MStringAlignment get()
 			{
-				return VStringAlignment_;
+				if (WindowStarted && WindowClosed == false)
+				{
+					return VStringAlignment_;
+				}
 			}
 			
 			void set(MStringAlignment Value)
 			{
-				VStringAlignment_ = Value;
+				if (WindowStarted && WindowClosed == false)
+				{
+					VStringAlignment_ = Value;
+				}
 			}
 		}
 
@@ -3177,13 +3433,19 @@ namespace GWCpp
 		{
 			String^ get()
 			{
-				return FontName_;
+				if (WindowStarted && WindowClosed == false)
+				{
+					return FontName_;
+				}
 			}
 
 			void set(String^ Value)
 			{
-				GWCFont = gcnew System::Drawing::Font(Value, FontSize);
-				FontName_ = Value;
+				if (WindowStarted && WindowClosed == false)
+				{
+					GWCFont = gcnew System::Drawing::Font(Value, FontSize);
+					FontName_ = Value;
+				}
 			}
 		}
 
@@ -3208,13 +3470,19 @@ namespace GWCpp
 		{
 			float get()
 			{
-				return FontSize_;
+				if (WindowStarted && WindowClosed == false)
+				{
+					return FontSize_;
+				}
 			}
 
 			void set(float Value)
 			{
-				GWCFont = gcnew System::Drawing::Font(FontName, Value);
-				FontSize_ = Value;
+				if (WindowStarted && WindowClosed == false)
+				{
+					GWCFont = gcnew System::Drawing::Font(FontName, Value);
+					FontSize_ = Value;
+				}
 			}
 		}
 
