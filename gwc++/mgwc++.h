@@ -9,7 +9,7 @@
 	ATUORE:			Realluke | Aka Luca Pollicino
 	DESCRIZIONE:	Classe MGWC
 	DATA:			24/04/22
-	VERSIONE:		1.1.1
+	VERSIONE:		1.1.2
 */
 
 #pragma once

@@ -9,7 +9,7 @@
     ATUORE:			Realluke | Aka Luca Pollicino
     DESCRIZIONE:	Classe UGWC
     DATA:			04/08/22
-    VERSIONE:		1.1.1
+    VERSIONE:		1.1.2
 */
 
 #include "pch.h"
